@@ -1,0 +1,132 @@
+--title begin--
+CrAuto Parse 数据解析帮助文档
+版本: 2022.03.03
+--title end--
+
+--all begin--
+--pretreatment begin--
+网络响应所返回的内容可能包含过多数据, 本程序提供方法对响应内容做预处理, 可缩小数据提取的范围
+若需要进行预处理, 将 Conf.json 配置文件中 pretreatment@enable 设置为 true
+预处理基于 bs4(BeautifulSoup)@find_all 方法
+参数字典:
+tagName(str):   需要得到的目标标签名
+    "tagName": "div"
+attrs(dict):    标签属性参数
+    attrs: {
+        "class": "item",
+        "id": "1234"
+    }
+--pretreatment end--
+
+--parse begin--
+对于网页端返回的数据, 本程序将其分为三个类型[普通文本, json 文本, 二进制数据]
+针对不同的数据类型, 程序提供了不同的针对性解析方法, 在 Conf.json@parseLogic 中设置
+每一项设置的键使用特定格式: number@name 例如: 1@bs4 表示每行第一列数据由 bs4 解析方法得到
+
+"parseLogic": {
+    "onUse": "text",                // 使用的解析模式
+    "text": {
+        "1@bs4": {                  // 基于 bs4@select 方法, 支持 CSS 选择器
+            "selector": "",
+            "attribute": "@text",   // 查找属性, @text 为包含的文本
+            "index": "@all",        // 查找结果如有多个, 返回第几个, "@all" 为返回全部
+            "sep": " "              // 多值时填充字符, 默认为空格
+        },
+        "2@re": {                   // 基于 re@findall 方法, 支持正则表达式
+            "regular": "",
+            "flags": 0,             // 标志位 [S I M L U X], 默认为0
+            "index": "@all",        // 查找结果如有多个, 返回第几个, "@all" 为返回全部
+            "sep": " "              // 多值时填充字符, 默认为空格
+        },
+        "3@xpath": {                // 基于 lxml@etree 支持 xPath 语法
+            "xpath": "",
+            "mode": "html"          // 解析模式, html 或 xml
+            "index": "@all",        // 查找结果如有多个, 返回第几个, "@all" 为返回全部
+            "sep": " "              // 多值时填充字符, 默认为空格
+        }
+    },
+    "json": {},
+    "bin": {}
+}
+
+--parse_text begin--
+[普通文本: text]
+针对普通文本, 程序提供三种解析方法[bs4, re, xpath]
+
+--parse_text_bs4 begin--
+[bs4] 基于 bs4@select 方法, 支持 CSS 选择器
+selector:                     --标签匹配语句, 不能为空
+*   selector: "span"           +通过标签名查找
+*   selector: ".title"         +通过 class 属性值查找, 找到 class = "title" 的所有结果
+*   selector: "#1234"          +通过 id 值查找, 找到 id = "1234" 的所有结果
+*   selector: "span.title#1234"+组合查找, 找到 span 标签中 class = "title" 且 id = "1234" 的所有结果
+                                不使用[]进行属性匹配时, 组合查找不需要使用空格
+*   selector: 'span[alt="..."]'+查找属性, 找到 span 标签中 alt 属性值为 ... 的所有结果
+*   selector: "span>p"         +查找 span 标签包含的所有 p 标签
+attribute:                    --返回匹配到的标签的内容, 默认为文本内容 @text
+*   attribute: xxx             +返回特定属性的值, 如: href 返回匹配到的标签中的 href 属性的值
+*   attribute: @text           +返回匹配到的标签中包含的文本
+index:                        --多内容选中项, 默认为全部 @all
+*   index: 1                   +若匹配到多个内容, 选择其中第1个
+*   index: @all                +选择匹配到的全部内容
+sep:                          --多内容间填充字符, 默认为空格
+*   sep: "+"                   +多内容之间以 + 分隔
+--parse_text_bs4 end--
+
+--parse_text_re begin--
+[re] 基于 re@findall 方法, 支持正则表达式匹配
+regular:          --正则表达式, 不能为空
+flags:            --标志位, 默认为0
+*   flags: "I"     +使匹配对大小写不敏感
+*   flags: "L"     +做本地化识别(locale-aware)匹配
+*   flags: "M"     +多行匹配
+*   flags: "S"     +使 . 匹配包括换行在内的所有字符
+*   flags: "U"     +根据 Unicode 字符集解析字符, 这个标志影响 \w, \W, \b, \B
+*   flags: "X"     +该标志通过给予你更灵活的格式以便你将正则表达式写得更易于理解
+index:            --多内容选中项, 默认为全部 @all
+*   index: 1       +若匹配到多个内容, 选择其中第1个
+*   index: @all    +选择匹配到的全部内容
+sep:              --多内容间填充字符, 默认为空格
+*   sep: "+"       +多内容之间以 + 分隔
+--parse_text_re end--
+
+--parse_text_xpath begin--
+[xpath] 基于 lxml@etree@xpath 方法, 支持 xPath 语法匹配
+xpath:            --xPath 语法, 不能为空, 末尾不加 /text() 或 /@... 的话视为 /text()
+mode:             --解析模式, ["html", "xml"]
+index:            --多内容选中项, 默认为全部 @all
+*   index: 1       +若匹配到多个内容, 选择其中第1个
+*   index: @all    +选择匹配到的全部内容
+sep:              --多内容间填充字符, 默认为空格
+*   sep: "+"       +多内容之间以 + 分隔
+[xPath: 用例]
+- *                 匹配任何一个节点
+- name              选择一个标签
+- /                 加在开头表示从根节点选取, 也用于元素之间的分割符
+- //                跳过多个层级选取一个节点, 不考虑其位置
+- .                 选择当前节点
+- ..                选取当前节点的父节点
+- /text()           必须加在表达式末尾, 表示选取始末标签之间的文本
+- /@                必须加在表达式末尾, 表示选取一个标签属性的值
+- name[index]       索引定位, 表示选取标签名相同的多个同层并列标签的第几个
+                    div[3]                  表示选取同层多个 div 标签的第三个, index 值从1开始
+                    div[last()]             表示选取同层多个 div 标签的最后一个, 支持减法运算
+                    div[last() - 1]         表示选取同层多个 div 标签的倒数第二个
+                    div[position() >= 5]    表示选取同层多个 div 标签中从第五个到最后一个
+- name[name2 >= 10]                 定位含有子标签 name2 且 name2 子标签的值大于等于10的名为 name1 的标签
+- name[@class='value']              属性定位, div[@id='passw'] 表示定位一个含有属性 id 且值为 passw 的 div 标签
+- name[contains(@class, "val")]     模糊定位, 定位到 class 属性值中包含 val 的名为 name 的标签
+- name[starts-with(@class, "val")]  模糊定位, 定位到 class 属性值中以 val 开头的名为 name 的标签
+- |                                 语法段连接, 表示获取满足左边或右边语法的节点(或)
+--parse_text_xpath end--
+--parse_text end--
+
+
+--parse_json begin--
+--parse_json end--
+
+
+--parse_bin begin--
+--parse_bin end--
+--parse end--
+--all end--

@@ -1,0 +1,53 @@
+{
+  "sleep": {
+    "enable": true,
+    "time": 1.0
+  },
+  "parser_message_out": {
+    "enable": false,
+    "mode": "err"
+  },
+  "asynchronous": {
+    "enable": false,
+    "ctrip_limit": 10
+  },
+  "folder_path": {
+    "file_input_path": "default",
+    "file_output_path": "default",
+    "configuration_path": "default",
+    "script_path": "default",
+    "temp_file_path": "default",
+    "log_path": "default"
+  },
+  "system_log_recording": {
+    "enable": false,
+    "log_file_name": "default"
+  },
+  "hide_title_bar": true,
+  "font": {
+    "family": "Microsoft YaHei UI",
+    "title_size": 10,
+    "text_size": 9
+  },
+  "theme_name": "my"
+}
+/*
+Help Document:
+1. 请保证每个设置键的正确, 否则程序将无法识别和读取
+2. 请按照注释提示进行编写, 以保证正确读取
+3. 请严格按照 Robot 协议使用爬虫, 非法使用后果自负
+
+Data Dictionary:
+sleep:                  请求间隔设置
+  ∟ time:               间隔时间, 需要大于等于1, 实际间隔时间为设置时间的 +- 最大 0.5s
+asynchronousCoroutines: 异步协程设置
+  ∟ loopLimit:          同步事件循环量, 过大可能导致目标服务器反爬
+parseMessageOut:        是否启用解析提示信息输出
+  ∟ mode:               输出模式, all: 全部, err: 仅错误, succ: 仅成功
+  ∟ errLimit:           错输数量阈值, 超过后解析暂停
+database:               数据库配置
+  ∟ onUse:              使用的数据库
+path:                   路径设置
+logFile:                日志设置
+  ∟ fileName:           日志文件名, default 默认为系统运行时间
+*/

@@ -1,0 +1,50 @@
+{
+    "theme_name": "default",
+    "window_size": {
+        "startup": [1400,720],
+        "minimum": [960,540]
+    },
+    "navigation": {
+        "minimum_width": 50,
+        "maximum_width": 240,
+        "margins": 3
+    },
+    "right_column": {
+        "minimum_width": 0,
+        "maximum_width": 240
+    },
+    "time_animation": 500,
+    "color": {
+        "dark_1": "#1b1e23",
+        "dark_2": "#1e2229",
+        "dark_3": "#21252d",
+        "dark_4": "#272c36",
+        "bg_1": "#2c313c",
+        "bg_2": "#343b48",
+        "bg_3": "#3c4454",
+        "icon_color": "#c3ccdf",
+        "icon_hover": "#dce1ec",
+        "icon_pressed": "#6c99f4",
+        "icon_active": "#6c99f4",
+        "context_color": "#568af2",
+        "context_hover": "#6c99f4",
+        "context_pressed": "#3f6fd1",
+        "text_title": "#dce1ec",
+        "text_foreground": "#aaaabb",
+        "text_description": "#4f5b6e",
+        "text_active": "#6c99f4",
+        "white": "#f5f6f9",
+        "pink": "#dd0050",
+        "pink_2": "#bb2060",
+        "green": "#20cc5f",
+        "green_2": "#20b05f",
+        "red": "#ff4040",
+        "red_2": "#cc3030",
+        "yellow": "#f0f020",
+        "yellow_2": "#d0d040",
+        "blue": "#205090",
+        "blue_2": "#204070",
+        "black": "#222222",
+        "black_2": "#444444"
+    }
+}

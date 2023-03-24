@@ -1,0 +1,103 @@
+{
+    "urls": [], // 需要爬取的 url, 可填写多条, 若要从文件导入则留空
+    "parameter": { // 地址传参
+        "enable": false,
+        "args": { // 支持多参数
+            "name1": "value1",
+            "name2": "value2"
+        }
+    },
+    "iteration": { // 迭代参数
+        "enable": false,
+        "name": "",
+        "args": [
+            0,
+            0,
+            1
+        ]
+    },
+    "requestMethod": "get", // 请求方式
+    "responseMethod": "text", // 响应数据, [text, bin]
+    "verify": true, // 证书验证
+    "encoding": "UTF-8",
+    "postForm": {}, // post 表单, 可以和脚本创建同时使用
+    "postFormByFunction": {}, // 若使用自定义脚本构建 post 表单, 则设置脚本文件名以及参数列表
+    "timeout": 10, // 超时时间, 单位:秒
+    // 网络请求头设置
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Upgrade-Insecure-Requests": 1,
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "cross-site",
+        "Connection": "keep-alive"
+    },
+    // 用户身份指纹设置
+    "cookie": {
+        "enableUpdate": false, // 启用自动更新, 目标服务器对 cookie 的修改会同步到此文件
+        "value": null // 值
+    },
+    // 请求机器标识池, 设置多条避免单机请求过量, 若使用单一标识可直接在 headers 中设置
+    "user-agent-pool": [],
+    // 网络代理池, 使用分布式 ip 代理, 避免单一 ip 请求过量被封禁
+    "ip-proxy-pool": [],
+    // 预处理
+    "pretreatment": {
+        "tagName": "div",
+        "attrs": {
+            "class": "item"
+        }
+    },
+    // 解析指令设置
+    "parseLogic": {
+        "onUse": "text", // 使用的解析模式
+        "text": {
+            "0@bs4": { // 基于 bs4@select 方法, 支持 CSS 选择器
+                "selector": "",
+                "attribute": "@text", // 查找属性, @text 为包含的文本
+                "index": "@all", // 查找结果如有多个, 返回第几个, "@all" 为返回全部
+                "sep": " " // 多值时填充字符, 默认为空格
+            },
+            "2@e": { // 基于 re@findall 方法, 支持正则表达式
+                "regular": "",
+                "flags": 0, // 标志位 [S I M L U X], 默认为0
+                "index": "@all", // 查找结果如有多个, 返回第几个, "@all" 为返回全部
+                "sep": " " // 多值时填充字符, 默认为空格
+            },
+            "3@xpath": 1,
+            "0@re": {}
+        },
+        "json": {},
+        "bin": {}
+    },
+    // 数据存储设置
+    "dataSave": {
+        "enable": true,
+        "textSave": {
+            "method": "database", // 存储方式, file 为存储到 .Excle 文件, database 为存储到数据库
+            "file": {
+                "pageLineLimit": 1000, // 单 sheet 页数据限制, 超出限制的会新建 sheet 表
+                "fileName": "default" // default 为默认系统运行时间
+            },
+            "database": {
+                "tableName": "test" // 若要使用数据库, 此处不能为空
+            }
+        },
+        "binSave": {
+            "itemLimit": 500 // 单文件夹文件数量限制
+        }
+    }
+    /*
+    Help Document:
+    1. 请保证每个设置键的正确, 否则程序将无法识别和读取
+    2. 请按照注释提示进行编写, 以保证正确读取
+    3. 解析指令设置较为复杂, 需要认真编写
+    4. 身份信息指纹(Cookie)的自动更新*可能*会影响到爬虫以外的正常登陆
+    5. 请严格按照 Robot 协议使用爬虫, 非法使用后果自负
+    6. 使用脚本构建 post 表单时需要将脚本放入 func 文件夹, 否则无法读取
+    7. JS 脚本编写时调用接口使用固定名称: run(function)
+    */
+}
