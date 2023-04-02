@@ -2,8 +2,8 @@
 # ///////////////////////////////////////////////////////////////
 from core.sys import Settings, Themes
 from core.static import Define
-from .ui_main_window import Ui_MainWindow
-from .func_main_window import MainWindow_Func
+from .Ui_MainWindow import Ui_MainWindow
+from .Function import Func_MainWindow
 
 
 class MainWindow:
@@ -15,7 +15,7 @@ class MainWindow:
     settings: Settings
     themes: Themes
     ui: Ui_MainWindow
-    func: MainWindow_Func
+    func: Func_MainWindow
 
     # ///////////////////////////////////////////////////////////////
 
@@ -30,7 +30,7 @@ class MainWindow:
         self.ui = Ui_MainWindow(self.settings, self.themes)
         self.ui.setWindowTitle(Define.APP_NAME)
         self.ui.setObjectName("window_main")
-        self.func = MainWindow_Func(self.ui)
+        self.func = Func_MainWindow(self.ui)
 
     # API
     # ///////////////////////////////////////////////////////////////

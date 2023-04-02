@@ -1,19 +1,19 @@
 # 配置编辑主组件
 # ///////////////////////////////////////////////////////////////
-from .ui_page_config import Ui_Configuration
-from .func_page_config import Func_ConfigPage
+from .Ui_ConfigurationPage import Ui_ConfigurationPage
+from .Function import Func_ConfigPage
 
 
-class ConfigPage:
+class ConfigurationPage:
     """配置编辑组件类
     """
     # 属性
     # ///////////////////////////////////////////////////////////////
-    ui: Ui_Configuration
+    ui: Ui_ConfigurationPage
     func: Func_ConfigPage
 
     # ///////////////////////////////////////////////////////////////
 
     def __init__(self, page_config_widget, themes) -> None:
-        self.ui = Ui_Configuration(page_config_widget, themes)
+        self.ui = Ui_ConfigurationPage(page_config_widget, themes)
         self.func = Func_ConfigPage(self.ui)

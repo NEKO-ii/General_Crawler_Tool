@@ -5,21 +5,21 @@ from core.static import Define
 from core.support import MsgType, Tools, console_printer
 from core.sys import DataType, File, SysPath
 from ui.preload.imp_qt import QFileDialog, QUrl
-from ui.dialog import Dialog_ConfigSaveMsgInput, Question, Notice
+from ui.dialog import Dialog_ConfigMessageInput, Question, Notice
 from ui.widgets import ComboBox
 
-from .ui_page_config import Ui_Configuration
+from .Ui_ConfigurationPage import Ui_ConfigurationPage
 
 
 class Func_ConfigPage:
-    ui: Ui_Configuration
+    ui: Ui_ConfigurationPage
 
     edit_page_mode: str = None
     edit_data: dict = None
     edit_file_path: str = None
     overview_table_edit_row_index: int = None
 
-    def __init__(self, ui: Ui_Configuration) -> None:
+    def __init__(self, ui: Ui_ConfigurationPage) -> None:
         self.ui = ui
         self.btn_connect()
         self.signal_connect()
@@ -80,7 +80,7 @@ class Func_ConfigPage:
 
     def create_dialog(self) -> None:
         """创建对话框"""
-        self.dialog_config_save_msg_input = Dialog_ConfigSaveMsgInput()
+        self.dialog_config_save_msg_input = Dialog_ConfigMessageInput()
         self.question = Question()
         self.notice = Notice()
 

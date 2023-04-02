@@ -15,7 +15,7 @@ from core.sys import Themes
 from ui.widgets import PushButton, TextEdit
 
 
-class Ui_ConfigurationJson(object):
+class Ui_ConfigJsonEditor(object):
 
     def __init__(self, ConfigurationJson, themes: Themes) -> None:
         self.setupUi(ConfigurationJson, themes)

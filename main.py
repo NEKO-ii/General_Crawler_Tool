@@ -6,7 +6,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 from core.sys import Settings, Path
-from ui.windows.main.main_window import MainWindow
+from ui.windows.main.MainWindow import MainWindow
 import test
 
 

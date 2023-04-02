@@ -13,8 +13,8 @@ from PySide6.QtWidgets import QStackedWidget, QVBoxLayout, QWidget
 
 from core.sys import Themes
 
-from .ui_page_start_btn import Ui_StartPageBtn
-from .ui_page_start_run import Ui_ProgramRunner
+from .Ui_StartPageBtn import Ui_StartPageBtn
+from .Ui_ProgramRunner import Ui_ProgramRunner
 
 
 class Ui_StartPage(object):

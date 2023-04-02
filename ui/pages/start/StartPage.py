@@ -1,5 +1,5 @@
-from .ui_page_start import Ui_StartPage
-from .func_page_start import Func_StartPage
+from .Ui_StartPage import Ui_StartPage
+from .Function import Func_StartPage
 
 
 class StartPage:

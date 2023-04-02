@@ -1,1 +1,1 @@
-from .page_config import ConfigPage
+from .ConfigurationPage import ConfigurationPage

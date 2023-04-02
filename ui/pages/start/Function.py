@@ -7,7 +7,7 @@ from core.data import Parse, Request
 from core.sys import Configuration, DataType, File, Settings, SysPath
 from ui.preload.imp_qt import QObject, QThread, Signal
 
-from .ui_page_start import Ui_StartPage
+from .Ui_StartPage import Ui_StartPage
 
 
 class Func_StartPage(QObject):

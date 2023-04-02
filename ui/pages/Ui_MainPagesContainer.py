@@ -2,7 +2,7 @@ from core.sys import Themes
 from ui.preload.imp_qt import (QCoreApplication, QMetaObject, QStackedWidget,
                                QVBoxLayout, QWidget)
 
-from .config import ConfigPage
+from .config import ConfigurationPage
 from .start import StartPage
 from .ui_test_page3 import Ui_test_page3
 
@@ -30,7 +30,7 @@ class Ui_MainPagesContainer:
         self.pages.addWidget(self.page_start)
 
         self.page_config = QWidget(self.pages)
-        self.page_config_inner = ConfigPage(self.page_config, self._themes)
+        self.page_config_inner = ConfigurationPage(self.page_config, self._themes)
         self.pages.addWidget(self.page_config)
 
         self.page_3 = QWidget()

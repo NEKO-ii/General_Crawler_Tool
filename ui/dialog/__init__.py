@@ -1,5 +1,5 @@
 # 自动包导入
 # ///////////////////////////////////////////////////////////////
-from .dialog_config_save_message_input import Dialog_ConfigSaveMsgInput
-from .question import Question
-from .notice import Notice
+from .Dialog_ConfigMessageInput import Dialog_ConfigMessageInput
+from .Question import Question
+from .Notice import Notice

@@ -13,12 +13,12 @@ from PySide6.QtWidgets import QStackedWidget, QVBoxLayout, QWidget
 
 from core.sys import Themes
 
-from .ui_page_config_editor import Ui_ConfigurationEditor
-from .ui_page_config_json import Ui_ConfigurationJson
-from .ui_page_config_overview import Ui_ConfigurationOverview
+from .Ui_ConfigurationEditor import Ui_ConfigurationEditor
+from .Ui_ConfigJsonEditor import Ui_ConfigJsonEditor
+from .Ui_ConfigurationOverview import Ui_ConfigurationOverview
 
 
-class Ui_Configuration(object):
+class Ui_ConfigurationPage(object):
 
     def __init__(self, Configuration, themes: Themes) -> None:
         self._themes = themes
@@ -45,7 +45,7 @@ class Ui_Configuration(object):
         self.pages.addWidget(self.page_editor)
 
         self.page_json = QWidget(self.pages)
-        self.page_json_ui = Ui_ConfigurationJson(self.page_json, self._themes)
+        self.page_json_ui = Ui_ConfigJsonEditor(self.page_json, self._themes)
         self.pages.addWidget(self.page_json)
 
         self.verticalLayout.addWidget(self.pages)

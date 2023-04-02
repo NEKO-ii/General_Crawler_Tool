@@ -1,10 +1,10 @@
 # 主窗口函数
 # ///////////////////////////////////////////////////////////////
-from .ui_main_window import Ui_MainWindow
+from .Ui_MainWindow import Ui_MainWindow
 from core.support.msg_printer import MsgType, console_printer
 
 
-class MainWindow_Func:
+class Func_MainWindow:
     """主窗口函数类
     """
 

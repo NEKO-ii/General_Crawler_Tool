@@ -1,3 +1,3 @@
 # 自动包导入
 # ///////////////////////////////////////////////////////////////
-from .ui_main_window import Ui_MainWindow
+from .Ui_MainWindow import Ui_MainWindow

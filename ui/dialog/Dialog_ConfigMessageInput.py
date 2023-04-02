@@ -14,7 +14,7 @@ from core.sys import File, SysPath
 from ui.widgets import PushButton, LineEdit, TextEdit
 
 
-class Dialog_ConfigSaveMsgInput(QDialog):
+class Dialog_ConfigMessageInput(QDialog):
 
     config_name: str = "新建配置"
     file_name: str = "new_config.json"
