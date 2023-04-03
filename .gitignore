@@ -1,1 +1,4 @@
-__pycache__/
+**/__pycache__/
+file/io/
+file/log/
+file/temp/
