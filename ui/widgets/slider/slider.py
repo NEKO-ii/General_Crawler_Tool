@@ -60,7 +60,7 @@ class Slider(QSlider):
 
         # FORMAT STYLE
         # ///////////////////////////////////////////////////////////////
-        adjust_style = style.format(_margin=margin,
+        _adjustStyle = style.format(_margin=margin,
                                     _bg_size=bg_size,
                                     _bg_radius=bg_radius,
                                     _bg_color=bg_color,
@@ -74,4 +74,4 @@ class Slider(QSlider):
 
         # APPLY CUSTOM STYLE
         # ///////////////////////////////////////////////////////////////
-        self.setStyleSheet(adjust_style)
+        self.setStyleSheet(_adjustStyle)

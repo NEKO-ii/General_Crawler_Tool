@@ -114,7 +114,7 @@ class TextEdit(QTextEdit):
     def __init__(self,
                  parent=None,
                  text="",
-                 place_holder_text="",
+                 placeHolderText="",
                  color_enabled="#aaaabb",
                  color_disabled="#4f5b6e",
                  border_color_enabled="#3c4454",
@@ -126,34 +126,34 @@ class TextEdit(QTextEdit):
                  selection_color="#f5f6f9",
                  selection_bg_color="#568af2",
                  radius=4,
-                 max_height=None,
-                 font_size=9,
-                 font_family="JetBrains Mono",
-                 scroll_parent=None) -> None:
+                 maxHeight=None,
+                 fontSize=9,
+                 fontFamily="JetBrains Mono",
+                 scrollParent=None) -> None:
         super().__init__()
-        self._max_height = max_height
+        self._maxHeight = maxHeight
         self._color_enabled = color_enabled
         self._color_disabled = color_disabled
-        self._font_family = font_family
-        self._scroll_parent = scroll_parent
+        self._fontFamily = fontFamily
+        self._scrollParent = scrollParent
         self._sp_lock = False
-        if scroll_parent:
+        if scrollParent:
             self._sp_lock = True
         if parent:
             self.setParent(parent)
         if text:
             self.setText(text)
-        if place_holder_text:
-            self.setPlaceholderText(place_holder_text)
-        if max_height:
-            self.setMaximumHeight(max_height)
+        if placeHolderText:
+            self.setPlaceholderText(placeHolderText)
+        if maxHeight:
+            self.setMaximumHeight(maxHeight)
             self.document().contentsChanged.connect(self.text_area_changed)
 
-        self.setFontPointSize(font_size)
-        self.setFontFamily(font_family)
+        self.setFontPointSize(fontSize)
+        self.setFontFamily(fontFamily)
         self.setLineWrapMode(QTextEdit.NoWrap)
 
-        style_format = style.format(_color_enabled=color_enabled,
+        _styleFormat = style.format(_color_enabled=color_enabled,
                                     _color_disabled=color_disabled,
                                     _border_color_enabled=border_color_enabled,
                                     _border_color_disabled=border_color_disabled,
@@ -164,40 +164,40 @@ class TextEdit(QTextEdit):
                                     _selection_color=selection_color,
                                     _selection_background_color=selection_bg_color,
                                     _radius=radius)
-        self.setStyleSheet(style_format)
+        self.setStyleSheet(_styleFormat)
 
     def wheelEvent(self, event: QWheelEvent) -> None:
         if self.hasFocus() and self.isEnabled():
             return super().wheelEvent(event)
         else:
-            if self._scroll_parent:
-                self._scroll_parent.setFocus()
-                return self._scroll_parent.wheelEvent(event)
+            if self._scrollParent:
+                self._scrollParent.setFocus()
+                return self._scrollParent.wheelEvent(event)
 
     def text_area_changed(self) -> None:
         self.document().adjustSize()
         new_height = self.document().size().height() + 10
         if new_height != self.height():
             if new_height < self.height(): new_height = self.height()
-            if new_height > self._max_height: new_height = self._max_height
+            if new_height > self._maxHeight: new_height = self._maxHeight
             self.setFixedHeight(new_height)
 
-    def set_scroll_parent(self, sparent) -> None:
+    def c_setScrollParent(self, sparent) -> None:
         """设置鼠标滚轮事件传递,若已通过构造函数设置,该函数无效
         Args:
             sparent (QObject): 目标组件
         """
         if self._sp_lock is False:
-            self._scroll_parent = sparent
+            self._scrollParent = sparent
 
-    def add_lines(self, data: list) -> None:
+    def c_addLines(self, data: list) -> None:
         for item in data:
             self.append(item)
 
-    def get_lines(self) -> list:
+    def c_getLines(self) -> list:
         return self.toPlainText().strip().split("\n")
 
-    def append_with_color(self, text: str, ctype="default", pre=None, after=None) -> None:
+    def c_appendWithColor(self, text: str, ctype="default", pre=None, after=None) -> None:
         """添加一行文本,设置文字颜色类型"""
         if ctype is None: ctype = "default"
         if pre: self.insertPlainText(pre)
@@ -209,7 +209,7 @@ class TextEdit(QTextEdit):
         self.append("")
         # QApplication.processEvents()
 
-    def insert_with_color(self, text: str, ctype="default", pre=None, after=None) -> None:
+    def c_insertWithColor(self, text: str, ctype="default", pre=None, after=None) -> None:
         """行末追加文本,设置文字颜色类型"""
         if ctype is None: ctype = "default"
         if pre: self.insertPlainText(pre)

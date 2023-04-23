@@ -40,17 +40,17 @@ class SpinBox(QSpinBox):
                  bg_color_disabled="#21252d",
                  bg_color_pressed="#1b1e23",
                  radius=4,
-                 scroll_parent=None) -> None:
+                 scrollParent=None) -> None:
         super().__init__()
-        self._scroll_parent = scroll_parent
+        self._scrollParent = scrollParent
         self._sp_lock = False
-        if scroll_parent:
+        if scrollParent:
             self._sp_lock = True
         if parent:
             self.setParent(parent)
         self.setFocusPolicy(Qt.ClickFocus)
 
-        style_format = style.format(_color_enabled=color_enabled,
+        _styleFormat = style.format(_color_enabled=color_enabled,
                                     _color_disabled=color_disabled,
                                     _border_color_enabled=border_color_enabled,
                                     _border_color_disabled=border_color_disabled,
@@ -59,19 +59,19 @@ class SpinBox(QSpinBox):
                                     _background_color_disabled=bg_color_disabled,
                                     _background_color_pressed=bg_color_pressed,
                                     _radius=radius)
-        self.setStyleSheet(style_format)
+        self.setStyleSheet(_styleFormat)
 
     def wheelEvent(self, event: QWheelEvent) -> None:
         if self.hasFocus() and self.isEnabled():
             return super().wheelEvent(event)
-        elif self._scroll_parent:
-            self._scroll_parent.setFocus()
-            return self._scroll_parent.wheelEvent(event)
+        elif self._scrollParent:
+            self._scrollParent.setFocus()
+            return self._scrollParent.wheelEvent(event)
 
-    def set_scroll_parent(self, sparent) -> None:
+    def c_setScrollParent(self, sparent) -> None:
         """设置鼠标滚轮事件传递,若已通过构造函数设置,该函数无效
         Args:
             sparent (QObject): 目标组件
         """
         if self._sp_lock is False:
-            self._scroll_parent = sparent
+            self._scrollParent = sparent

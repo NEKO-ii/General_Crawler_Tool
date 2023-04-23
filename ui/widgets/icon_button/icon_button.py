@@ -6,11 +6,11 @@ from ui.preload.imp_qt import *
 class IconButton(QPushButton):
 
     def __init__(self,
-                 icon_path=None,
+                 iconPath=None,
                  parent=None,
-                 app_parent=None,
-                 tooltip_text="",
-                 btn_id=None,
+                 appParent=None,
+                 tooltipText="",
+                 buttonId=None,
                  width=30,
                  height=30,
                  radius=8,
@@ -24,14 +24,14 @@ class IconButton(QPushButton):
                  dark_one="#1b1e23",
                  text_foreground="#8a95aa",
                  context_color="#568af2",
-                 top_margin=40,
-                 is_active=False):
+                 topMargin=40,
+                 isActive=False):
         super().__init__()
 
         # SET DEFAULT PARAMETERS
         self.setFixedSize(width, height)
         self.setCursor(Qt.PointingHandCursor)
-        self.setObjectName(btn_id)
+        self.setObjectName(buttonId)
 
         # PROPERTIES
         self._bg_color = bg_color
@@ -42,32 +42,32 @@ class IconButton(QPushButton):
         self._icon_color_pressed = icon_color_pressed
         self._icon_color_active = icon_color_active
         self._context_color = context_color
-        self._top_margin = top_margin
-        self._is_active = is_active
+        self._topMargin = topMargin
+        self._isActive = isActive
         # Set Parameters
         self._set_bg_color = bg_color
-        self._set_icon_path = icon_path
+        self._set_iconPath = iconPath
         self._set_icon_color = icon_color
         self._set_border_radius = radius
         # Parent
         self._parent = parent
-        self._app_parent = app_parent
+        self._appParent = appParent
 
         # TOOLTIP
-        self._tooltip_text = tooltip_text
-        self._tooltip = _ToolTip(app_parent, tooltip_text, dark_one, text_foreground)
+        self._tooltipText = tooltipText
+        self._tooltip = _ToolTip(appParent, tooltipText, dark_one, text_foreground)
         self._tooltip.hide()
 
     # SET ACTIVE MENU
     # ///////////////////////////////////////////////////////////////
-    def set_active(self, is_active):
-        self._is_active = is_active
+    def c_setActive(self, is_active):
+        self._isActive = is_active
         self.repaint()
 
     # RETURN IF IS ACTIVE MENU
     # ///////////////////////////////////////////////////////////////
-    def is_active(self):
-        return self._is_active
+    def c_isActive(self):
+        return self._isActive
 
     # PAINT EVENT
     # painting the button and the icon
@@ -78,7 +78,7 @@ class IconButton(QPushButton):
         paint.begin(self)
         paint.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-        if self._is_active:
+        if self._isActive:
             # BRUSH
             brush = QBrush(QColor(self._context_color))
         else:
@@ -92,7 +92,7 @@ class IconButton(QPushButton):
         paint.drawRoundedRect(rect, self._set_border_radius, self._set_border_radius)
 
         # DRAW ICONS
-        self.icon_paint(paint, self._set_icon_path, rect)
+        self._iconPaint(paint, self._set_iconPath, rect)
 
         # END PAINTER
         paint.end()
@@ -100,7 +100,7 @@ class IconButton(QPushButton):
     # CHANGE STYLES
     # Functions with custom styles
     # ///////////////////////////////////////////////////////////////
-    def change_style(self, event):
+    def _changeStyle(self, event):
         if event == QEvent.Enter:
             self._set_bg_color = self._bg_color_hover
             self._set_icon_color = self._icon_color_hover
@@ -122,16 +122,16 @@ class IconButton(QPushButton):
     # Event triggered when the mouse is over the BTN
     # ///////////////////////////////////////////////////////////////
     def enterEvent(self, event):
-        self.change_style(QEvent.Enter)
-        self.move_tooltip()
+        self._changeStyle(QEvent.Enter)
+        self._moveTooltip()
         self._tooltip.show()
 
     # MOUSE LEAVE
     # Event fired when the mouse leaves the BTN
     # ///////////////////////////////////////////////////////////////
     def leaveEvent(self, event):
-        self.change_style(QEvent.Leave)
-        self.move_tooltip()
+        self._changeStyle(QEvent.Leave)
+        self._moveTooltip()
         self._tooltip.hide()
 
     # MOUSE PRESS
@@ -139,7 +139,7 @@ class IconButton(QPushButton):
     # ///////////////////////////////////////////////////////////////
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.change_style(QEvent.MouseButtonPress)
+            self._changeStyle(QEvent.MouseButtonPress)
             # SET FOCUS
             self.setFocus()
             # EMIT SIGNAL
@@ -150,17 +150,17 @@ class IconButton(QPushButton):
     # ///////////////////////////////////////////////////////////////
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.change_style(QEvent.MouseButtonRelease)
+            self._changeStyle(QEvent.MouseButtonRelease)
             # EMIT SIGNAL
             return self.released.emit()
 
     # DRAW ICON WITH COLORS
     # ///////////////////////////////////////////////////////////////
-    def icon_paint(self, qp, image, rect):
+    def _iconPaint(self, qp, image, rect):
         icon = QPixmap(image)
         painter = QPainter(icon)
         painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
-        if self._is_active:
+        if self._isActive:
             painter.fillRect(icon.rect(), self._icon_color_active)
         else:
             painter.fillRect(icon.rect(), self._set_icon_color)
@@ -169,13 +169,13 @@ class IconButton(QPushButton):
 
     # SET ICON
     # ///////////////////////////////////////////////////////////////
-    def set_icon(self, icon_path):
-        self._set_icon_path = icon_path
+    def c_setIcon(self, iconPath):
+        self._set_iconPath = iconPath
         self.repaint()
 
     # MOVE TOOLTIP
     # ///////////////////////////////////////////////////////////////
-    def move_tooltip(self):
+    def _moveTooltip(self):
         # GET MAIN WINDOW PARENT
         gp = self.mapToGlobal(QPoint(0, 0))
 
@@ -186,7 +186,7 @@ class IconButton(QPushButton):
         # FORMAT POSITION
         # Adjust tooltip position with offset
         pos_x = (pos.x() - (self._tooltip.width() // 2)) + (self.width() // 2)
-        pos_y = pos.y() - self._top_margin
+        pos_y = pos.y() - self._topMargin
 
         # SET POSITION TO WIDGET
         # Move tooltip position

@@ -20,10 +20,10 @@ class Func_MainWindow:
     def __init__(self, ui) -> None:
         self.ui = ui
         self.btn_id_to_func = {}
-        self.init_func_dict()
+        self.initFuncDict()
         self.connect()
 
-    def init_func_dict(self) -> None:
+    def initFuncDict(self) -> None:
         """初始化字典
         """
         self.btn_id_to_func["btn_nav_start"] = self.nav_start
@@ -43,15 +43,15 @@ class Func_MainWindow:
         """
         self.ui.navigation.ui.clicked.connect(self.btn_clicked)
         self.ui.navigation.ui.released.connect(self.btn_released)
-        self.ui.title_bar.ui.clicked.connect(self.btn_clicked)
-        self.ui.title_bar.ui.released.connect(self.btn_released)
-        self.ui.main_pages_ui.page_start_inner.ui.page_btn_ui.btn_config.clicked.connect(self.page_start_btn_config)
-        self.ui.main_pages_ui.page_start_inner.ui.page_btn_ui.btn_help.clicked.connect(self.page_start_btn_help)
+        self.ui.titleBar.ui.clicked.connect(self.btn_clicked)
+        self.ui.titleBar.ui.released.connect(self.btn_released)
+        self.ui.mainPages_ui.startPage_inner.ui.btnPage_ui.btn_config.clicked.connect(self.page_start_btn_config)
+        self.ui.mainPages_ui.startPage_inner.ui.btnPage_ui.btn_help.clicked.connect(self.page_start_btn_help)
 
     def btn_clicked(self):
         """按钮点击事件分发
         """
-        btn = self.ui.get_btns()
+        btn = self.ui.getBtns()
         self.btn_id = btn.objectName()
         if self.btn_id in self.btn_id_to_func:
             self.btn_id_to_func[self.btn_id]()
@@ -61,49 +61,49 @@ class Func_MainWindow:
     def btn_released(self):
         """按钮释放事件分发
         """
-        btn = self.ui.get_btns()
+        btn = self.ui.getBtns()
         self.btn_id = btn.objectName()
 
     # 按钮事件方法定义
     # ///////////////////////////////////////////////////////////////
     def nav_start(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
-        self.ui.set_page(self.ui.main_pages_ui.page_start)
-        self.ui.main_pages_ui.page_start_inner.ui.pages.setCurrentWidget(self.ui.main_pages_ui.page_start_inner.ui.page_btn)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
+        self.ui.setPage(self.ui.mainPages_ui.startPage)
+        self.ui.mainPages_ui.startPage_inner.ui.pages.setCurrentWidget(self.ui.mainPages_ui.startPage_inner.ui.btnPage)
         # console_printer(MsgType.INFOMATION, "btn start clicked")
 
     def nav_config(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
-        self.ui.set_page(self.ui.main_pages_ui.page_config)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
+        self.ui.setPage(self.ui.mainPages_ui.configPage)
         # console_printer(MsgType.INFOMATION, "btn configuration clicked")
 
     def nav_request(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
-        self.ui.set_page(self.ui.main_pages_ui.page_3)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
+        self.ui.setPage(self.ui.mainPages_ui.page_3)
         console_printer(MsgType.INFOMATION, "btn request clicked")
 
     def nav_parse(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
         console_printer(MsgType.INFOMATION, "btn parse clicked")
 
     def nav_script(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
         console_printer(MsgType.INFOMATION, "btn script clicked")
 
     def nav_temp(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
         console_printer(MsgType.INFOMATION, "btn temp clicked")
 
     def nav_help(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
         console_printer(MsgType.INFOMATION, "btn help clicked")
 
     def nav_log(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
         console_printer(MsgType.INFOMATION, "btn log clicked")
 
     def nav_settings(self) -> None:
-        self.ui.navigation.ui.select_only_one(self.btn_id)
+        self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
         console_printer(MsgType.INFOMATION, "btn settings clicked")
 
     # 标题栏按钮
@@ -114,9 +114,9 @@ class Func_MainWindow:
     # 起始页按钮
     # ///////////////////////////////////////////////////////////////
     def page_start_btn_config(self) -> None:
-        self.ui.navigation.ui.select_only_one("btn_nav_config")
-        self.ui.set_page(self.ui.main_pages_ui.page_config)
+        self.ui.navigation.ui.c_selectOnlyOne("btn_nav_config")
+        self.ui.setPage(self.ui.mainPages_ui.configPage)
 
     def page_start_btn_help(self) -> None:
-        self.ui.navigation.ui.select_only_one("btn_nav_help")
+        self.ui.navigation.ui.c_selectOnlyOne("btn_nav_help")
         console_printer(MsgType.INFOMATION, "start page btn2 clicked")

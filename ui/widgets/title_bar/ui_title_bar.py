@@ -142,7 +142,7 @@ class TitleBar_UI(QWidget):
                 _btn_tooltip = menu['btn_tooltip']
                 _is_active = menu['is_active']
 
-                self.btn = TitleButton(self._container, self._central_widget, btn_id=_btn_id, tooltip_text=_btn_tooltip, themes=self._themes, icon_path=_btn_icon, is_active=_is_active)
+                self.btn = TitleButton(self._container, self._central_widget, buttonId=_btn_id, tooltipText=_btn_tooltip, themes=self._themes, iconPath=_btn_icon, isActive=_is_active)
                 self.btn.clicked.connect(self.btn_clicked)
                 self.btn.released.connect(self.btn_released)
 
@@ -166,12 +166,12 @@ class TitleBar_UI(QWidget):
         if self._is_maximized:
             self._container.central_widget_layout.setContentsMargins(0, 0, 0, 0)
             self._container.window.set_stylesheet(border_radius=0, border_size=0)
-            self.btn_maximize.set_icon(IconSetter.set_svg_icon("icon_window_restore.svg"))
+            self.btn_maximize._setIcon(IconSetter.set_svg_icon("icon_window_restore.svg"))
             self.btn_maximize.tooltip.setText("Restore")
         else:
             self._container.central_widget_layout.setContentsMargins(10, 10, 10, 10)
             self._container.window.set_stylesheet(border_radius=10, border_size=2)
-            self.btn_maximize.set_icon(IconSetter.set_svg_icon("icon_window_maximize.svg"))
+            self.btn_maximize._setIcon(IconSetter.set_svg_icon("icon_window_maximize.svg"))
             self.btn_maximize.tooltip.setText("Maximize")
 
     def maximize_restore(self, e=None) -> None:

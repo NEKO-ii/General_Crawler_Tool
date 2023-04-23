@@ -22,89 +22,89 @@ class NavButton(QPushButton):
 
     _container: Any
     _themes: Themes
-    _icon_active: str
+    _iconActive: str
     _icon: str
 
     _set_icon_color: str
     _set_bg_color: str
 
-    _is_active: bool
-    _is_active_tab: bool
-    _is_expand: bool
+    _isActive: bool
+    _isActive_tab: bool
+    _isExpand: bool
 
     # ///////////////////////////////////////////////////////////////
 
-    def __init__(self, container, button_id, button_text, tooltip_text, themes, icon_name, is_active=False) -> None:
+    def __init__(self, container, buttonId, buttonText, tooltipText, themes, iconName, isActive=False) -> None:
         super().__init__()
 
         self._container = container
-        self._tooltip_text = tooltip_text
+        self._tooltipText = tooltipText
         self._themes = themes
-        self._icon_active = IconSetter.setSvgIcon("icon_nav_button_active.svg")
-        self._icon = IconSetter.setSvgIcon(icon_name)
-        self._is_active = is_active
-        self._is_active_tab = False
-        self._is_expand = False
+        self._iconActive = IconSetter.setSvgIcon("icon_nav_button_active.svg")
+        self._icon = IconSetter.setSvgIcon(iconName)
+        self._isActive = isActive
+        self._isActive_tab = False
+        self._isExpand = False
         self._set_icon_color = self._themes.color["icon_color"]
         self._set_bg_color = self._themes.color["dark_1"]
 
-        self.setObjectName(button_id)
+        self.setObjectName(buttonId)
         self.setStyleSheet(u"font: 10pt \"Microsoft YaHei UI\";")
-        self.setText(button_text)
+        self.setText(buttonText)
         self.setMaximumHeight(50)
         self.setMinimumHeight(50)
         self.setCursor(Qt.PointingHandCursor)
 
-        self.tooltip = ToolTip(self._container, tooltip_text, self._themes.color["dark_1"], self._themes.color["text_foreground"], self._themes.color["context_color"])
+        self.tooltip = ToolTip(self._container, tooltipText, self._themes.color["dark_1"], self._themes.color["text_foreground"], self._themes.color["context_color"])
         self.tooltip.hide()
 
     # API
     # ///////////////////////////////////////////////////////////////
-    def set_active(self, is_active):
-        self._is_active = is_active
-        if is_active is False:
+    def c_setActive(self, isActive):
+        self._isActive = isActive
+        if isActive is False:
             self._set_icon_color = self._themes.color["icon_color"]
             self._set_bg_color = self._themes.color["dark_1"]
         self.repaint()
 
-    def set_active_tab(self, is_active):
-        self._is_active_tab = is_active
-        if not is_active:
+    def c_setActiveTab(self, isActive):
+        self._isActive_tab = isActive
+        if not isActive:
             self._set_icon_color = self._themes.color["icon_color"]
             self._set_bg_color = self._themes.color["dark_1"]
         self.repaint()
 
-    def is_active(self):
-        return self._is_active
+    def c_isActive(self):
+        return self._isActive
 
-    def is_active_tab(self):
-        return self._is_active_tab
+    def c_isActive_tab(self):
+        return self._isActive_tab
 
-    def set_expand(self, is_expand: bool):
-        self.is_expand = is_expand
+    def c_setExpand(self, isExpand: bool):
+        self._isExpand = isExpand
 
-    def set_icon(self, icon_name):
-        self._icon = IconSetter.set_svg_icon(icon_name)
+    def c_setIcon(self, iconName):
+        self._icon = IconSetter.setSvgIcon(iconName)
         self.repaint()
 
-    def change_style(self, event):
+    def _changeStyle(self, event):
         if event == QEvent.Enter:
-            if self._is_active is False:
+            if self._isActive is False:
                 self._set_icon_color = self._themes.color["icon_hover"]
                 self._set_bg_color = self._themes.color["dark_3"]
             self.repaint()
         elif event == QEvent.Leave:
-            if self._is_active is False:
+            if self._isActive is False:
                 self._set_icon_color = self._themes.color["icon_color"]
                 self._set_bg_color = self._themes.color["dark_1"]
             self.repaint()
         elif event == QEvent.MouseButtonPress:
-            if self._is_active is False:
+            if self._isActive is False:
                 self._set_icon_color = self._themes.color["context_color"]
                 self._set_bg_color = self._themes.color["dark_4"]
             self.repaint()
         elif event == QEvent.MouseButtonRelease:
-            if self._is_active is False:
+            if self._isActive is False:
                 self._set_icon_color = self._themes.color["icon_hover"]
                 self._set_bg_color = self._themes.color["dark_3"]
             self.repaint()
@@ -125,64 +125,64 @@ class NavButton(QPushButton):
         rect_inside_active = QRect(7, 5, self.width(), self.height() - 10)
         rect_text = QRect(45, 0, self.width() - 50, self.height())
 
-        if self._is_active:
+        if self._isActive:
             painter.setBrush(QColor(self._themes.color["context_color"]))
             painter.drawRoundedRect(rect_blue, 8, 8)
             painter.setBrush(QColor(self._themes.color["bg_1"]))
             painter.drawRoundedRect(rect_inside_active, 8, 8)
             self._set_icon_color = self._themes.color["icon_active"]
-            self.icon_active(painter, self._icon_active, self.width())
+            self._setIconActive(painter, self._iconActive, self.width())
             painter.setPen(QColor(self._themes.color["text_active"]))
             painter.drawText(rect_text, Qt.AlignVCenter, self.text())
-            self.icon_paint(painter, self._icon, rect_icon, self._set_icon_color)
-        elif self._is_active_tab:
+            self._iconPaint(painter, self._icon, rect_icon, self._set_icon_color)
+        elif self._isActive_tab:
             painter.setBrush(QColor(self._themes.color["dark_4"]))
             painter.drawRoundedRect(rect_blue, 8, 8)
             painter.setBrush(QColor(self._themes.color["bg_1"]))
             painter.drawRoundedRect(rect_inside_active, 8, 8)
             self._set_icon_color = self._themes.color["icon_active"]
-            self.icon_active(painter, self._icon, self.width())
+            self._setIconActive(painter, self._icon, self.width())
             painter.setPen(QColor(self._themes.color["text_active"]))
             painter.drawText(rect_text, Qt.AlignVCenter, self.text())
-            self.icon_paint(painter, self._icon, rect_icon, self._set_icon_color)
-        elif self._is_expand:
+            self._iconPaint(painter, self._icon, rect_icon, self._set_icon_color)
+        elif self._isExpand:
             painter.setBrush(QColor(self._themes.color["dark_3"]))
             painter.drawRoundedRect(rect_inside, 8, 8)
             painter.setPen(QColor(self._themes.color["text_foreground"]))
             painter.drawText(rect_text, Qt.AlignVCenter, self.text())
-            self.icon_paint(painter, self._icon, rect_icon, self._themes.color["context_color"])
+            self._iconPaint(painter, self._icon, rect_icon, self._themes.color["context_color"])
         else:
             painter.setBrush(QColor(self._set_bg_color))
             painter.drawRoundedRect(rect_inside, 8, 8)
             painter.setPen(QColor(self._themes.color["text_foreground"]))
             painter.drawText(rect_text, Qt.AlignVCenter, self.text())
-            self.icon_paint(painter, self._icon, rect_icon, self._set_icon_color)
+            self._iconPaint(painter, self._icon, rect_icon, self._set_icon_color)
         painter.end()
 
     def enterEvent(self, event):
-        self.change_style(QEvent.Enter)
-        if self.width() == 50 and self._tooltip_text:
-            self.move_tooltip()
+        self._changeStyle(QEvent.Enter)
+        if self.width() == 50 and self._tooltipText:
+            self._moveTooltip()
             self.tooltip.show()
 
     def leaveEvent(self, event):
-        self.change_style(QEvent.Leave)
+        self._changeStyle(QEvent.Leave)
         self.tooltip.hide()
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.change_style(QEvent.MouseButtonPress)
+            self._changeStyle(QEvent.MouseButtonPress)
             self.tooltip.hide()
             return self.clicked.emit(self)
 
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.change_style(QEvent.MouseButtonRelease)
+            self._changeStyle(QEvent.MouseButtonRelease)
             return self.released.emit(self)
 
     # 私有方法
     # ///////////////////////////////////////////////////////////////
-    def icon_active(self, qp: QPainter, icon, width):
+    def _setIconActive(self, qp: QPainter, icon, width):
         icon = QPixmap(icon)
         painter = QPainter(icon)
         painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
@@ -190,7 +190,7 @@ class NavButton(QPushButton):
         qp.drawPixmap(width - 5, 0, icon)
         painter.end()
 
-    def icon_paint(self, qp: QPainter, icon, rect: QRect, color):
+    def _iconPaint(self, qp: QPainter, icon, rect: QRect, color):
         icon = QPixmap(icon)
         painter = QPainter(icon)
         painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
@@ -198,7 +198,7 @@ class NavButton(QPushButton):
         qp.drawPixmap((rect.width() - icon.width()) / 2, (rect.height() - icon.height()) / 2, icon)
         painter.end()
 
-    def move_tooltip(self):
+    def _moveTooltip(self):
         gp = self.mapToGlobal(QPoint(0, 0))
         pos = self._container.mapFromGlobal(gp)
         pos_x = pos.x() + self.width() + 5

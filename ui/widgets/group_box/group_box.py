@@ -22,11 +22,11 @@ QGroupBox:disabled {{
 
 class GroupBox(QGroupBox):
 
-    def __init__(self, parent=None, color="#aaaabb", color_disabled="#4f5b6e", border_color="#3c4454", scroll_parent=None) -> None:
+    def __init__(self, parent=None, color="#aaaabb", color_disabled="#4f5b6e", border_color="#3c4454", scrollParent=None) -> None:
         super().__init__(parent)
-        self._scroll_parent = scroll_parent
+        self._scrollParent = scrollParent
         self._sp_lock = False
-        if scroll_parent:
+        if scrollParent:
             self._sp_lock = True
 
         self.setFocusPolicy(Qt.NoFocus)

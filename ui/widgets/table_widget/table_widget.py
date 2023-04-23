@@ -172,16 +172,16 @@ class TableWidget(QTableWidget):
     }}
     '''
 
-    sig_data_changed = Signal(object)
+    sig_dataChanged = Signal(object)
     sig_open = Signal(object)
     sig_flush = Signal(object)
 
     flag_opened: bool = False
-    flag_init_complete: bool = False
-    _flag_data_change_sig_enable: bool = True
+    flag_initComplete: bool = False
+    _flag_dataChangeSigEnable: bool = True
 
-    no_edit_cols: list = []
-    no_change_sig_count = 0
+    noEditCols: list = []
+    noChangeSigCount = 0
 
     def __init__(self,
                  parent,
@@ -205,17 +205,17 @@ class TableWidget(QTableWidget):
                  scroll_bg_color_handle="#568af2",
                  scroll_bg_color_addline="#272c36",
                  scroll_bg_color_subline="#272c36",
-                 header_padding=1,
-                 default_row_height=20,
-                 font_size=9,
-                 font_family="JetBrains Mono",
+                 headerPadding=1,
+                 defaultRowHeight=20,
+                 fontSize=9,
+                 fontFamily="JetBrains Mono",
                  height=140,
-                 extend_height=False,
-                 auto_col_width=False,
-                 fixed_col_width=False,
+                 extendHeight=False,
+                 autoColWidth=False,
+                 fixedColWidth=False,
                  show_h_header=True,
                  show_v_header=True,
-                 scroll_parent=None):
+                 scrollParent=None):
         """初始化表格控件
 
         Args:
@@ -229,29 +229,29 @@ class TableWidget(QTableWidget):
             scroll_parent (_type_, optional): 滚动传递组件. Defaults to None.
         """
         super().__init__(parent)
-        self._auto_col_width = auto_col_width
-        self._default_row_height = default_row_height
-        self._scroll_parent = scroll_parent
+        self._autoColWidth = autoColWidth
+        self._defaultRowHeight = defaultRowHeight
+        self._scrollParent = scrollParent
         self._sp_lock = False
-        if scroll_parent:
+        if scrollParent:
             self._sp_lock = True
-        if auto_col_width:
+        if autoColWidth:
             self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        elif fixed_col_width:
+        elif fixedColWidth:
             self.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
-        if extend_height is False:
+        if extendHeight is False:
             if height: self.setFixedHeight(height)
 
         self.setFocusPolicy(Qt.ClickFocus)
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.verticalHeader().setDefaultSectionSize(default_row_height)
+        self.verticalHeader().setDefaultSectionSize(defaultRowHeight)
         self.horizontalHeader().setVisible(show_h_header)
         self.verticalHeader().setVisible(show_v_header)
 
         # 设置样式表
-        style_format = self.style.format(_radius=radius,
-                                         _header_padding=header_padding,
+        _styleFormat = self.style.format(_radius=radius,
+                                         _header_padding=headerPadding,
                                          _color=color,
                                          _color_disabled=color_disabled,
                                          _color_selected=color_selected,
@@ -271,14 +271,14 @@ class TableWidget(QTableWidget):
                                          _background_color_handle=scroll_bg_color_handle,
                                          _background_color_addline=scroll_bg_color_addline,
                                          _background_color_subline=scroll_bg_color_subline,
-                                         _font_size=font_size,
-                                         _font_family=font_family)
-        self.setStyleSheet(style_format)
+                                         _font_size=fontSize,
+                                         _font_family=fontFamily)
+        self.setStyleSheet(_styleFormat)
 
     # 当初始化完成后表格数据变化时发出自定义信号: sig_data_changed
     def dataChanged(self, topLeft, bottomRight, roles) -> None:
-        if self.flag_init_complete and self._flag_data_change_sig_enable:
-            self.sig_data_changed.emit(self.get_current_index())
+        if self.flag_initComplete and self._flag_dataChangeSigEnable:
+            self.sig_dataChanged.emit(self.c_getCurrentIndex())
         return super().dataChanged(topLeft, bottomRight, roles)
 
     # 当初次打开此表格时发出自定义信号: sig_open, 不是初次打开的时候发出自定义信号: sig_flush
@@ -295,19 +295,19 @@ class TableWidget(QTableWidget):
         if self.hasFocus() and self.isEnabled():
             return super().wheelEvent(event)
         else:
-            if self._scroll_parent:
-                self._scroll_parent.setFocus()
-                return self._scroll_parent.wheelEvent(event)
+            if self._scrollParent:
+                self._scrollParent.setFocus()
+                return self._scrollParent.wheelEvent(event)
 
-    def set_scroll_parent(self, sparent) -> None:
+    def c_setScrollParent(self, sparent) -> None:
         """设置鼠标滚轮事件传递,若已通过构造函数设置,该函数无效
         Args:
             sparent (QObject): 目标组件
         """
         if self._sp_lock is False:
-            self._scroll_parent = sparent
+            self._scrollParent = sparent
 
-    def set_header(self, header_names: list, stretch_cols: list = []) -> None:
+    def c_setHeader(self, headerNames: list, stretchCols: list = []) -> None:
         """设置横向标题栏
 
         Args:
@@ -315,60 +315,60 @@ class TableWidget(QTableWidget):
             stretch_cols (list, optional): 可随窗口大小改变宽度的列(起始为0),默认为最后一列,当设置自动列宽时该设置将被忽略. Defaults to [].
         """
         if self.columnCount() == 0:
-            self.setColumnCount(header_names.__len__())
-        col_index: int = 0
-        for name in header_names:
+            self.setColumnCount(headerNames.__len__())
+        colIndex: int = 0
+        for name in headerNames:
             column = QTableWidgetItem(name)
             column.setTextAlignment(Qt.AlignCenter)
-            self.setHorizontalHeaderItem(col_index, column)
-            col_index += 1
-        if self._auto_col_width is False:
-            if stretch_cols == []:
-                self.horizontalHeader().setSectionResizeMode(col_index - 1, QHeaderView.Stretch)
+            self.setHorizontalHeaderItem(colIndex, column)
+            colIndex += 1
+        if self._autoColWidth is False:
+            if stretchCols == []:
+                self.horizontalHeader().setSectionResizeMode(colIndex - 1, QHeaderView.Stretch)
             else:
-                for item in stretch_cols:
+                for item in stretchCols:
                     self.horizontalHeader().setSectionResizeMode(item, QHeaderView.Stretch)
         self.horizontalHeaderItem(0).setToolTip("这是工具提示文字")
 
-    def set_header_tooltip(self, tooltips: list) -> None:
+    def c_setHeaderTooltip(self, tooltips: list) -> None:
         """设置表头的悬停提示文字,按输入列表从左到右依次设置,多则忽略,少则跳过
 
         Args:
             tooltips (list): 提示文字列表
         """
-        col_count = self.columnCount()
-        list_len = tooltips.__len__()
-        for i in range(0, col_count):
-            if i == list_len: break
+        colCount = self.columnCount()
+        listLength = tooltips.__len__()
+        for i in range(0, colCount):
+            if i == listLength: break
             self.horizontalHeaderItem(i).setToolTip(tooltips[i])
 
-    def add_row(self, data: list = []) -> None:
+    def c_addRow(self, data: list = []) -> None:
         """添加行,输入数组按由左到右顺序依次添加,多余忽略,不足自动添加空QTableWidgetItem
 
         Args:
             data (list): 一维数组,数据仅限字符串类型
             no_edit_cols (list): 不可编辑的列
         """
-        row_index = self.rowCount()
-        self.insertRow(row_index)
-        col_count = self.columnCount()
-        list_len = data.__len__()
-        self._flag_data_change_sig_enable = False
-        for i in range(0, col_count):
-            if i == col_count - 1:
-                self._flag_data_change_sig_enable = True
-                self.setCurrentCell(row_index, i)
-            if i < list_len:
+        rowIndex = self.rowCount()
+        self.insertRow(rowIndex)
+        colCount = self.columnCount()
+        listLength = data.__len__()
+        self._flag_dataChangeSigEnable = False
+        for i in range(0, colCount):
+            if i == colCount - 1:
+                self._flag_dataChangeSigEnable = True
+                self.setCurrentCell(rowIndex, i)
+            if i < listLength:
                 item = data[i]
-                if item is None: self.setItem(row_index, i, QTableWidgetItem())
+                if item is None: self.setItem(rowIndex, i, QTableWidgetItem())
                 else:
-                    if type(item) == str: self.setItem(row_index, i, QTableWidgetItem(item))
-                    else: self.setCellWidget(row_index, i, item)
-            else: self.setItem(row_index, i, QTableWidgetItem())
-            if i in self.no_edit_cols: self.item(row_index, i).setFlags(self.item(row_index, i).flags() & (~Qt.ItemIsEditable))
+                    if type(item) == str: self.setItem(rowIndex, i, QTableWidgetItem(item))
+                    else: self.setCellWidget(rowIndex, i, item)
+            else: self.setItem(rowIndex, i, QTableWidgetItem())
+            if i in self.noEditCols: self.item(rowIndex, i).setFlags(self.item(rowIndex, i).flags() & (~Qt.ItemIsEditable))
         self.setCurrentCell(-1, -1)
 
-    def add_rows(self, data: list) -> None:
+    def c_addRows(self, data: list) -> None:
         """添加多行数据,每行输入数据数组按由左到右顺序依次添加,多余忽略,不足留空
 
         Args:
@@ -376,9 +376,9 @@ class TableWidget(QTableWidget):
             no_edit_cols (list): 不可编辑的列
         """
         for item in data:
-            self.add_row(item)
+            self.c_addRow(item)
 
-    def get_data(self, widget_cols: list = [], only_col: list = [], only_selected_rows: bool = False) -> list:
+    def c_getData(self, widgetCols: list = [], onlyCol: list = [], onlySelectedRows: bool = False) -> list:
         """获取表格数据列表(二维),最外层固定位列表,若表格为空则不会添加内层列表,只返回一个空列表
 
         Args:
@@ -389,57 +389,57 @@ class TableWidget(QTableWidget):
         Returns:
             list: 返回数据列表(二维)
         """
-        col_count = self.columnCount()
-        row_count = self.rowCount()
-        return_data = []
-        for rindex in range(0, row_count):
+        colCount = self.columnCount()
+        rowCount = self.rowCount()
+        returnData = []
+        for rindex in range(0, rowCount):
             row = []
-            for cindex in range(0, col_count):
-                if (only_col != []) and (cindex not in only_col): continue
-                if only_selected_rows and (self.item(rindex, cindex).isSelected() is False): continue
-                if cindex in widget_cols:
-                    item_data = self.cellWidget(rindex, cindex)
+            for cindex in range(0, colCount):
+                if (onlyCol != []) and (cindex not in onlyCol): continue
+                if onlySelectedRows and (self.item(rindex, cindex).isSelected() is False): continue
+                if cindex in widgetCols:
+                    itemData = self.cellWidget(rindex, cindex)
                 else:
                     item = self.item(rindex, cindex)
-                    if item: item_data = item.text()
-                    else: item_data = ""
-                row.append(item_data)
-            if row != []: return_data.append(row)
-        return return_data
+                    if item: itemData = item.text()
+                    else: itemData = ""
+                row.append(itemData)
+            if row != []: returnData.append(row)
+        return returnData
 
     def flush(self) -> None:
         """通过设置不可见再设为可见以触发sig_flush信号"""
         self.hide()
         self.show()
 
-    def set_col_width(self, width: list) -> None:
+    def c_setColWidth(self, width: list) -> None:
         """设置每列的列宽,根据输入数组从左到右设置列宽,输入数组项数不足以及过多时多余部分忽略,设置了自动列宽时该设置将被忽略
 
         Args:
             width (list): 列宽数据数组
         """
-        if self._auto_col_width is False:
-            col_count = self.columnCount()
-            list_len = width.__len__()
-            for i in range(0, col_count):
-                if i == list_len: break
+        if self._autoColWidth is False:
+            colCount = self.columnCount()
+            listLength = width.__len__()
+            for i in range(0, colCount):
+                if i == listLength: break
                 if width[i] is not None: self.setColumnWidth(i, width[i])
 
-    def delete_selectd_rows(self) -> None:
+    def c_deleteSelectdRows(self) -> None:
         """删除所有选中行,注意:当flag_init_complete=True时会触发sig_data_changed信号"""
         while self.selectedItems().__len__() > 0:
             self.removeRow(self.selectedItems()[0].row())
-        if self.flag_init_complete and self._flag_data_change_sig_enable:
-            self.sig_data_changed.emit(self.get_current_index())
+        if self.flag_initComplete and self._flag_dataChangeSigEnable:
+            self.sig_dataChanged.emit(self.c_getCurrentIndex())
 
     def clear(self) -> None:
         """清空表格,注意:当flag_init_complete=True时会触发sig_data_changed信号"""
         while self.rowCount() > 0:
             self.removeRow(0)
-        if self.flag_init_complete and self._flag_data_change_sig_enable:
-            self.sig_data_changed.emit(self.get_current_index())
+        if self.flag_initComplete and self._flag_dataChangeSigEnable:
+            self.sig_dataChanged.emit(self.c_getCurrentIndex())
 
-    def set_cell_color(self, rindex, cindex, color_type: str = "default"):
+    def c_setCellColor(self, rindex, cindex, colorType: str = "default"):
         """设置单元格文字颜色,只适用于文字单元格,若单元格内添加了组件则可能报错,不会触发sig_data_changed信号
 
         Args:
@@ -447,11 +447,11 @@ class TableWidget(QTableWidget):
             cindex (int): 列坐标
             color_type (str, optional): 颜色类型[default:默认灰白文字,info:蓝色,warning:黄色,error:红色,success:绿色]. Defaults to "default".
         """
-        self._flag_data_change_sig_enable = False
-        self.item(rindex, cindex).setForeground(QColor(self.color[color_type.lower()]))
-        self._flag_data_change_sig_enable = True
+        self._flag_dataChangeSigEnable = False
+        self.item(rindex, cindex).setForeground(QColor(self.color[colorType.lower()]))
+        self._flag_dataChangeSigEnable = True
 
-    def set_change_sig_disabled_count(self, num: int) -> int:
+    def c_setChangeSigDisabledCount(self, num: int) -> int:
         """增加接下来发生表格数据变化时,不发出sig_data_changed信号的次数,并返回当前剩余次数
 
         Args:
@@ -460,10 +460,10 @@ class TableWidget(QTableWidget):
         Returns:
             int: 返回当前剩余次数
         """
-        if (type(num) == int) and (num > 0): self.no_change_sig_count += num
-        return self.no_change_sig_count
+        if (type(num) == int) and (num > 0): self.noChangeSigCount += num
+        return self.noChangeSigCount
 
-    def get_current_index(self) -> list:
+    def c_getCurrentIndex(self) -> list:
         """获取当前活动单元坐标"""
         if self.selectedItems().__len__() > 0:
             crow = self.currentRow()

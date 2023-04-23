@@ -80,7 +80,7 @@ class Navigation:
         "is_active": False
     }]
 
-    def __init__(self, container, central_widget, themes) -> None:
+    def __init__(self, container, centralWidget, themes) -> None:
         """初始化导航栏
 
         Args:
@@ -88,6 +88,6 @@ class Navigation:
             central_widget (Any): 窗口主组件
             themes (Themes): 样式封装对象
         """
-        self.ui = Navigation_UI(container, central_widget, themes)
+        self.ui = Navigation_UI(container, centralWidget, themes)
         self.ui.setObjectName("navigation")
-        self.ui.add_menus(self.navigation_menus)
+        self.ui.c_addMenus(self.navigation_menus)

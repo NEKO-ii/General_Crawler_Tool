@@ -16,39 +16,39 @@ class Ui_MainWindow(QMainWindow):
     settings: Settings
     themes: Themes
 
-    central_widget_layout: QVBoxLayout
-    central_widget: QWidget
+    centralWidgetLayout: QVBoxLayout
+    centralWidget: QWidget
     window: Window
 
-    navigation_layout: QHBoxLayout
-    navigation_frame: QFrame
+    navigationLayout: QHBoxLayout
+    navigationFrame: QFrame
     navigation: Navigation
 
-    right_app_frame: QFrame
-    right_app_layout: QVBoxLayout
+    rightAppFrame: QFrame
+    rightAppLayout: QVBoxLayout
 
-    title_bar_frame: QFrame
-    title_bar_layout: QVBoxLayout
-    title_bar: TitleBar
+    titleBarFrame: QFrame
+    titleBarLayout: QVBoxLayout
+    titleBar: TitleBar
 
-    workspace_frame: QFrame
-    workspace_layout: QHBoxLayout
+    workspaceFrame: QFrame
+    workspaceLayout: QHBoxLayout
 
-    credits_frame: QFrame
-    credits_layout: QVBoxLayout
+    creditsFrame: QFrame
+    creditsLayout: QVBoxLayout
     credits: Credits
 
-    left_grip: Grips
-    right_grip: Grips
-    top_grip: Grips
-    bottom_grip: Grips
-    top_left_grip: Grips
-    top_right_grip: Grips
-    bottom_left_grip: Grips
-    bottom_right_grip: Grips
+    leftGrip: Grips
+    rightGrip: Grips
+    topGrip: Grips
+    bottomGrip: Grips
+    topLeftGrip: Grips
+    topRightGrip: Grips
+    bottomLeftGrip: Grips
+    bottomRightGrip: Grips
 
     # 主页面
-    main_pages: Ui_MainPagesContainer
+    mainPages: Ui_MainPagesContainer
 
     # ///////////////////////////////////////////////////////////////
 
@@ -65,7 +65,7 @@ class Ui_MainWindow(QMainWindow):
         self.themes = themes
 
         # 窗口基本设置
-        self.hide_grips = True
+        self.hideGrips = True
         if self.settings.hide_title_bar:
             self.setWindowFlag(Qt.FramelessWindowHint)
             self.setAttribute(Qt.WA_TranslucentBackground)
@@ -75,121 +75,121 @@ class Ui_MainWindow(QMainWindow):
         # 装载UI
         self.setup()
         # 设置初始页面
-        self.set_page(self.main_pages_ui.page_start)
+        self.setPage(self.mainPages_ui.startPage)
 
     def setup(self) -> None:
         """装载UI
         """
 
         # 主要容器部件
-        self.central_widget = QWidget()
-        self.central_widget.setStyleSheet(F'''
+        self.centralWidget = QWidget()
+        self.centralWidget.setStyleSheet(F'''
             font: {self.settings.font["text_size"]}pt "{self.settings.font["family"]}";
             color: {self.themes.color["text_foreground"]};
         ''')
-        self.central_widget_layout = QVBoxLayout(self.central_widget)
-        if self.settings.hide_title_bar: self.central_widget_layout.setContentsMargins(10, 10, 10, 10)
-        else: self.central_widget_layout.setContentsMargins(0, 0, 0, 0)
+        self.centralWidgetLayout = QVBoxLayout(self.centralWidget)
+        if self.settings.hide_title_bar: self.centralWidgetLayout.setContentsMargins(10, 10, 10, 10)
+        else: self.centralWidgetLayout.setContentsMargins(0, 0, 0, 0)
         self.window = Window(self, self.themes, self.settings)
-        if self.settings.hide_title_bar is False: self.window.set_stylesheet(border_radius=0, border_size=0)
-        self.central_widget_layout.addWidget(self.window)
-        self.setCentralWidget(self.central_widget)
+        if self.settings.hide_title_bar is False: self.window.c_setStylesheet(borderRadius=0, borderSize=0)
+        self.centralWidgetLayout.addWidget(self.window)
+        self.setCentralWidget(self.centralWidget)
 
         # 窗口边界
         if self.settings.hide_title_bar:
-            self.left_grip = Grips(self, "left", self.hide_grips)
-            self.right_grip = Grips(self, "right", self.hide_grips)
-            self.top_grip = Grips(self, "top", self.hide_grips)
-            self.bottom_grip = Grips(self, "bottom", self.hide_grips)
-            self.top_left_grip = Grips(self, "top_left", self.hide_grips)
-            self.top_right_grip = Grips(self, "top_right", self.hide_grips)
-            self.bottom_left_grip = Grips(self, "bottom_left", self.hide_grips)
-            self.bottom_right_grip = Grips(self, "bottom_right", self.hide_grips)
+            self.leftGrip = Grips(self, "left", self.hideGrips)
+            self.rightGrip = Grips(self, "right", self.hideGrips)
+            self.topGrip = Grips(self, "top", self.hideGrips)
+            self.bottomGrip = Grips(self, "bottom", self.hideGrips)
+            self.topLeftGrip = Grips(self, "top_left", self.hideGrips)
+            self.topRightGrip = Grips(self, "top_right", self.hideGrips)
+            self.bottomLeftGrip = Grips(self, "bottom_left", self.hideGrips)
+            self.bottomRightGrip = Grips(self, "bottom_right", self.hideGrips)
 
         # 左侧导航栏
-        self.navigation_frame = QFrame()
-        navigation_margin = self.themes.navigation["margins"]
-        navigation_minimum_width = self.themes.navigation["minimum_width"]
-        self.navigation_frame.setMaximumSize(navigation_minimum_width + (navigation_margin * 2), 17280)
-        self.navigation_frame.setMinimumSize(navigation_minimum_width + (navigation_margin * 2), 0)
-        self.navigation_layout = QHBoxLayout(self.navigation_frame)
-        self.navigation_layout.setContentsMargins(navigation_margin, navigation_margin, navigation_margin, navigation_margin)
-        self.navigation = Navigation(self.navigation_frame, self.central_widget, self.themes)
-        self.navigation_layout.addWidget(self.navigation.ui)
+        self.navigationFrame = QFrame()
+        navigationMargin = self.themes.navigation["margins"]
+        navigationMinimumWidth = self.themes.navigation["minimum_width"]
+        self.navigationFrame.setMaximumSize(navigationMinimumWidth + (navigationMargin * 2), 17280)
+        self.navigationFrame.setMinimumSize(navigationMinimumWidth + (navigationMargin * 2), 0)
+        self.navigationLayout = QHBoxLayout(self.navigationFrame)
+        self.navigationLayout.setContentsMargins(navigationMargin, navigationMargin, navigationMargin, navigationMargin)
+        self.navigation = Navigation(self.navigationFrame, self.centralWidget, self.themes)
+        self.navigationLayout.addWidget(self.navigation.ui)
 
         # 除左侧导航栏外的右侧部分
-        self.right_app_frame = QFrame()
-        self.right_app_layout = QVBoxLayout(self.right_app_frame)
-        self.right_app_layout.setContentsMargins(3, 3, 3, 3)
-        self.right_app_layout.setSpacing(6)
+        self.rightAppFrame = QFrame()
+        self.rightAppLayout = QVBoxLayout(self.rightAppFrame)
+        self.rightAppLayout.setContentsMargins(3, 3, 3, 3)
+        self.rightAppLayout.setSpacing(6)
 
         # 标题栏
-        self.title_bar_frame = QFrame()
-        self.title_bar_frame.setMinimumHeight(40)
-        self.title_bar_frame.setMaximumHeight(40)
-        self.title_bar_layout = QVBoxLayout(self.title_bar_frame)
-        self.title_bar_layout.setContentsMargins(0, 0, 0, 0)
-        self.title_bar = TitleBar(self, self.central_widget, self.settings.hide_title_bar, self.themes)
-        self.title_bar_layout.addWidget(self.title_bar.ui)
-        if self.settings.hide_title_bar: self.title_bar.ui.set_title(Define.APP_NAME)
-        else: self.title_bar.ui.set_title("Welcome")
+        self.titleBarFrame = QFrame()
+        self.titleBarFrame.setMinimumHeight(40)
+        self.titleBarFrame.setMaximumHeight(40)
+        self.titleBarLayout = QVBoxLayout(self.titleBarFrame)
+        self.titleBarLayout.setContentsMargins(0, 0, 0, 0)
+        self.titleBar = TitleBar(self, self.centralWidget, self.settings.hide_title_bar, self.themes)
+        self.titleBarLayout.addWidget(self.titleBar.ui)
+        if self.settings.hide_title_bar: self.titleBar.ui.set_title(Define.APP_NAME)
+        else: self.titleBar.ui.set_title("Welcome")
 
         # 主界面工作区
-        self.workspace_frame = QFrame()
-        self.workspace_layout = QHBoxLayout(self.workspace_frame)
-        self.workspace_layout.setContentsMargins(0, 0, 0, 0)
-        self.workspace_layout.setSpacing(0)
+        self.workspaceFrame = QFrame()
+        self.workspaceLayout = QHBoxLayout(self.workspaceFrame)
+        self.workspaceLayout.setContentsMargins(0, 0, 0, 0)
+        self.workspaceLayout.setSpacing(0)
 
         # 底部信息栏
-        self.credits_frame = QFrame()
-        self.credits_frame.setMinimumHeight(26)
-        self.credits_frame.setMaximumHeight(26)
-        self.credits_layout = QVBoxLayout(self.credits_frame)
-        self.credits_layout.setContentsMargins(0, 0, 0, 0)
+        self.creditsFrame = QFrame()
+        self.creditsFrame.setMinimumHeight(26)
+        self.creditsFrame.setMaximumHeight(26)
+        self.creditsLayout = QVBoxLayout(self.creditsFrame)
+        self.creditsLayout.setContentsMargins(0, 0, 0, 0)
         self.credits = Credits(Define.COPYRIGHT, Define.VERSION, self.themes, self.settings.font)
-        self.credits_layout.addWidget(self.credits)
+        self.creditsLayout.addWidget(self.credits)
 
         # 主页面
-        self.main_pages = QWidget()
-        self.main_pages_ui = Ui_MainPagesContainer(self.main_pages, self.themes)
+        self.mainPages = QWidget()
+        self.mainPages_ui = Ui_MainPagesContainer(self.mainPages, self.themes)
 
-        self.workspace_layout.addWidget(self.main_pages)
+        self.workspaceLayout.addWidget(self.mainPages)
 
-        self.right_app_layout.addWidget(self.title_bar_frame)
-        self.right_app_layout.addWidget(self.workspace_frame)
-        self.right_app_layout.addWidget(self.credits_frame)
+        self.rightAppLayout.addWidget(self.titleBarFrame)
+        self.rightAppLayout.addWidget(self.workspaceFrame)
+        self.rightAppLayout.addWidget(self.creditsFrame)
 
-        self.window.slayout.addWidget(self.navigation_frame)
-        self.window.slayout.addWidget(self.right_app_frame)
+        self.window.slayout.addWidget(self.navigationFrame)
+        self.window.slayout.addWidget(self.rightAppFrame)
 
     # API
     # ///////////////////////////////////////////////////////////////
-    def get_btns(self) -> QObject:
-        if self.title_bar.ui.sender() is not None:
-            return self.title_bar.ui.sender()
+    def getBtns(self) -> QObject:
+        if self.titleBar.ui.sender() is not None:
+            return self.titleBar.ui.sender()
         elif self.navigation.ui.sender() is not None:
             return self.navigation.ui.sender()
 
-    def set_page(self, page) -> None:
-        self.main_pages_ui.pages.setCurrentWidget(page)
+    def setPage(self, page) -> None:
+        self.mainPages_ui.pages.setCurrentWidget(page)
 
-    def get_title_bar_btn(self, object_name) -> IconButton:
-        return self.title_bar_frame.findChild(QPushButton, object_name)
+    def getTitleBarBtn(self, objectName) -> IconButton:
+        return self.titleBarFrame.findChild(QPushButton, objectName)
 
-    def get_nav_btn(self, object_name):
-        return self.navigation.ui.findChild(QPushButton, object_name)
+    def getNavBtn(self, objectName):
+        return self.navigation.ui.findChild(QPushButton, objectName)
 
     # 方法定义
     # ///////////////////////////////////////////////////////////////
     def resizeEvent(self, event):
         if self.settings.hide_title_bar:
-            self.left_grip.setGeometry(5, 10, 10, self.height())
-            self.right_grip.setGeometry(self.width() - 15, 10, 10, self.height())
-            self.top_grip.setGeometry(5, 5, self.width() - 10, 10)
-            self.bottom_grip.setGeometry(5, self.height() - 15, self.width() - 10, 10)
-            self.top_right_grip.setGeometry(self.width() - 20, 5, 15, 15)
-            self.bottom_left_grip.setGeometry(5, self.height() - 20, 15, 15)
-            self.bottom_right_grip.setGeometry(self.width() - 20, self.height() - 20, 15, 15)
+            self.leftGrip.setGeometry(5, 10, 10, self.height())
+            self.rightGrip.setGeometry(self.width() - 15, 10, 10, self.height())
+            self.topGrip.setGeometry(5, 5, self.width() - 10, 10)
+            self.bottomGrip.setGeometry(5, self.height() - 15, self.width() - 10, 10)
+            self.topRightGrip.setGeometry(self.width() - 20, 5, 15, 15)
+            self.bottomLeftGrip.setGeometry(5, self.height() - 20, 15, 15)
+            self.bottomRightGrip.setGeometry(self.width() - 20, self.height() - 20, 15, 15)
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPos()

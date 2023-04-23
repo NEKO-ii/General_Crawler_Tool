@@ -27,9 +27,9 @@ class Window(QFrame):
     _settings: Settings
     _margin: int
     _spacing: int
-    _border_radius: int
-    _border_size: int
-    _enable_shadow: bool
+    _borderRadius: int
+    _borderSize: int
+    _enableShadow: bool
 
     slayout: QHBoxLayout
     shadow: QGraphicsDropShadowEffect
@@ -45,23 +45,23 @@ class Window(QFrame):
         self._settings = settings
         self._margin = 0
         self._spacing = 2
-        self._border_radius = 10
-        self._border_size = 2
-        self._enable_shadow = True
+        self._borderRadius = 10
+        self._borderSize = 2
+        self._enableShadow = True
 
-        self._bg_color = self._themes.color["bg_1"]
-        self._text_color = self._themes.color["text_foreground"]
-        self._font_size = self._settings.font["text_size"]
-        self._font_family = self._settings.font["family"]
-        self._border_color = self._themes.color["bg_2"]
+        self._bgColor = self._themes.color["bg_1"]
+        self._textColor = self._themes.color["text_foreground"]
+        self._fontSize = self._settings.font["text_size"]
+        self._fontFamily = self._settings.font["family"]
+        self._borderColor = self._themes.color["bg_2"]
 
-        self.set_stylesheet()
+        self.c_setStylesheet()
 
         self.setObjectName("pod_bg_app")
         self.slayout.setContentsMargins(self._margin, self._margin, self._margin, self._margin)
         self.slayout.setSpacing(self._spacing)
 
-        if self._settings.hide_title_bar and self._enable_shadow:
+        if self._settings.hide_title_bar and self._enableShadow:
             self.shadow = QGraphicsDropShadowEffect()
             self.shadow.setBlurRadius(20)
             self.shadow.setXOffset(0)
@@ -69,10 +69,10 @@ class Window(QFrame):
             self.shadow.setColor(QColor(0, 0, 0, 160))
             self.setGraphicsEffect(self.shadow)
 
-    def set_stylesheet(self, border_radius=None, border_size=None) -> None:
-        if border_radius is not None: self._border_radius = border_radius
-        if border_size is not None: self._border_size = border_size
+    def c_setStylesheet(self, borderRadius=None, borderSize=None) -> None:
+        if borderRadius is not None: self._borderRadius = borderRadius
+        if borderSize is not None: self._borderSize = borderSize
 
         self.setStyleSheet(
-            self.style.format(bg_color=self._bg_color, border_radius=self._border_radius, border_size=self._border_size, border_color=self._border_color, text_color=self._text_color, font_size=self._font_size,
-                              font_family=self._font_family))
+            self.style.format(bg_color=self._bgColor, border_radius=self._borderRadius, border_size=self._borderSize, border_color=self._borderColor, text_color=self._textColor, font_size=self._fontSize,
+                              font_family=self._fontFamily))

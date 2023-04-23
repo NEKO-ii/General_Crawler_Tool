@@ -19,8 +19,8 @@ class Credits(QWidget):
         self.setup()
 
     def setup(self):
-        self.widget_layout = QHBoxLayout(self)
-        self.widget_layout.setContentsMargins(0, 0, 0, 0)
+        self.widgetLayout = QHBoxLayout(self)
+        self.widgetLayout.setContentsMargins(0, 0, 0, 0)
 
         style = F"""
         #bg_frame {{
@@ -39,19 +39,19 @@ class Credits(QWidget):
         self.bg_frame.setObjectName("bg_frame")
         self.bg_frame.setStyleSheet(style)
 
-        self.widget_layout.addWidget(self.bg_frame)
+        self.widgetLayout.addWidget(self.bg_frame)
 
-        self.bg_layout = QHBoxLayout(self.bg_frame)
-        self.bg_layout.setContentsMargins(0, 0, 0, 0)
+        self.bgLayout = QHBoxLayout(self.bg_frame)
+        self.bgLayout.setContentsMargins(0, 0, 0, 0)
 
-        self.copyright_label = QLabel(self._copyright)
-        self.copyright_label.setAlignment(Qt.AlignVCenter)
+        self.copyrightLabel = QLabel(self._copyright)
+        self.copyrightLabel.setAlignment(Qt.AlignVCenter)
 
-        self.version_label = QLabel(self._version)
-        self.version_label.setAlignment(Qt.AlignVCenter)
+        self.versionLabel = QLabel(self._version)
+        self.versionLabel.setAlignment(Qt.AlignVCenter)
 
         self.separator = QSpacerItem(20, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.bg_layout.addWidget(self.copyright_label)
-        self.bg_layout.addSpacerItem(self.separator)
-        self.bg_layout.addWidget(self.version_label)
+        self.bgLayout.addWidget(self.copyrightLabel)
+        self.bgLayout.addSpacerItem(self.separator)
+        self.bgLayout.addWidget(self.versionLabel)

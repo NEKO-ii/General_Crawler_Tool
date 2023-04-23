@@ -22,7 +22,7 @@ class Ui_StartPage(object):
     def __init__(self, StartPage, themes: Themes) -> None:
         self._themes = themes
         self.setupUi(StartPage)
-        self.pages.setCurrentWidget(self.page_btn)
+        self.pages.setCurrentWidget(self.btnPage)
 
     def setupUi(self, StartPage):
         if not StartPage.objectName():
@@ -35,13 +35,13 @@ class Ui_StartPage(object):
 
         # 添加页面
         # ///////////////////////////////////////////////////////////////
-        self.page_btn = QWidget(self.pages)
-        self.page_btn_ui = Ui_StartPageBtn(self.page_btn, self._themes)
-        self.pages.addWidget(self.page_btn)
+        self.btnPage = QWidget(self.pages)
+        self.btnPage_ui = Ui_StartPageBtn(self.btnPage, self._themes)
+        self.pages.addWidget(self.btnPage)
 
-        self.page_run = QWidget(self.pages)
-        self.page_run_ui = Ui_ProgramRunner(self.page_run, self._themes)
-        self.pages.addWidget(self.page_run)
+        self.runPage = QWidget(self.pages)
+        self.runPage_ui = Ui_ProgramRunner(self.runPage, self._themes)
+        self.pages.addWidget(self.runPage)
 
         self.verticalLayout.addWidget(self.pages)
 

@@ -20,11 +20,11 @@ class ToolTip(QLabel):
     }}
     """
 
-    def __init__(self, container, tip_text, bg_color, fg_color, border_color) -> None:
+    def __init__(self, container, text, bg_color, fg_color, border_color) -> None:
         QLabel.__init__(self)
 
         self._container = container
-        self._tip_text = tip_text
+        self._text = text
         self.bg_color = bg_color
         self.fg_color = fg_color
         self.border_color = border_color
@@ -36,7 +36,7 @@ class ToolTip(QLabel):
         self.setStyleSheet(self.style.format(_background=self.bg_color, _foreground=self.fg_color, _border_color=self.border_color))
         self.setMinimumHeight(34)
         self.setParent(self._container)
-        self.setText(self._tip_text)
+        self.setText(self._text)
         self.adjustSize()  # 根据文本长度自适应大小
 
         self.shadow = QGraphicsDropShadowEffect(self)

@@ -16,7 +16,7 @@ class Grips(QWidget):
 
     # ///////////////////////////////////////////////////////////////
 
-    def __init__(self, parent, position, hide_grips=False):
+    def __init__(self, parent, position, hideGrips=False):
         super().__init__()
         self._container = parent
         self.setParent(parent)
@@ -27,28 +27,28 @@ class Grips(QWidget):
             grip = QSizeGrip(self.wi.top_left_grip)
             grip.setFixedSize(self.wi.top_left_grip.size())
             self.setGeometry(5, 5, 15, 15)
-            if hide_grips: self.wi.top_left_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.top_left_grip.setStyleSheet("background: transparent")
 
         if position == "top_right":
             self.wi.top_right(self)
             grip = QSizeGrip(self.wi.top_right_grip)
             grip.setFixedSize(self.wi.top_right_grip.size())
             self.setGeometry(self._container.width() - 20, 5, 15, 15)
-            if hide_grips: self.wi.top_right_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.top_right_grip.setStyleSheet("background: transparent")
 
         if position == "bottom_left":
             self.wi.bottom_left(self)
             grip = QSizeGrip(self.wi.bottom_left_grip)
             grip.setFixedSize(self.wi.bottom_left_grip.size())
             self.setGeometry(5, self._container.height() - 20, 15, 15)
-            if hide_grips: self.wi.bottom_left_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.bottom_left_grip.setStyleSheet("background: transparent")
 
         if position == "bottom_right":
             self.wi.bottom_right(self)
             grip = QSizeGrip(self.wi.bottom_right_grip)
             grip.setFixedSize(self.wi.bottom_right_grip.size())
             self.setGeometry(self._container.width() - 20, self._container.height() - 20, 15, 15)
-            if hide_grips: self.wi.bottom_right_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.bottom_right_grip.setStyleSheet("background: transparent")
 
         if position == "top":
             self.wi.top(self)
@@ -64,7 +64,7 @@ class Grips(QWidget):
                 event.accept()
 
             self.wi.top_grip.mouseMoveEvent = resize_top
-            if hide_grips: self.wi.top_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.top_grip.setStyleSheet("background: transparent")
 
         elif position == "bottom":
             self.wi.bottom(self)
@@ -78,7 +78,7 @@ class Grips(QWidget):
                 event.accept()
 
             self.wi.bottom_grip.mouseMoveEvent = resize_bottom
-            if hide_grips: self.wi.bottom_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.bottom_grip.setStyleSheet("background: transparent")
 
         elif position == "left":
             self.wi.left(self)
@@ -94,7 +94,7 @@ class Grips(QWidget):
                 event.accept()
 
             self.wi.left_grip.mouseMoveEvent = resize_left
-            if hide_grips: self.wi.left_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.left_grip.setStyleSheet("background: transparent")
 
         elif position == "right":
             self.wi.right(self)
@@ -109,7 +109,7 @@ class Grips(QWidget):
 
             self.wi.right_grip.mouseMoveEvent = resize_right
 
-            if hide_grips: self.wi.right_grip.setStyleSheet("background: transparent")
+            if hideGrips: self.wi.right_grip.setStyleSheet("background: transparent")
 
     # 重写方法
     # ///////////////////////////////////////////////////////////////

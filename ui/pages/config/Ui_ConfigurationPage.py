@@ -23,7 +23,7 @@ class Ui_ConfigurationPage(object):
     def __init__(self, Configuration, themes: Themes) -> None:
         self._themes = themes
         self.setupUi(Configuration)
-        self.pages.setCurrentWidget(self.page_overview)
+        self.pages.setCurrentWidget(self.overviewPage)
 
     def setupUi(self, Configuration):
         if not Configuration.objectName():
@@ -36,17 +36,17 @@ class Ui_ConfigurationPage(object):
 
         # 添加页面
         # ///////////////////////////////////////////////////////////////
-        self.page_overview = QWidget(self.pages)
-        self.page_overview_ui = Ui_ConfigurationOverview(self.page_overview, self._themes)
-        self.pages.addWidget(self.page_overview)
+        self.overviewPage = QWidget(self.pages)
+        self.overviewPage_ui = Ui_ConfigurationOverview(self.overviewPage, self._themes)
+        self.pages.addWidget(self.overviewPage)
 
-        self.page_editor = QWidget(self.pages)
-        self.page_editor_ui = Ui_ConfigurationEditor(self.page_editor, self._themes)
-        self.pages.addWidget(self.page_editor)
+        self.editorPage = QWidget(self.pages)
+        self.editorPage_ui = Ui_ConfigurationEditor(self.editorPage, self._themes)
+        self.pages.addWidget(self.editorPage)
 
-        self.page_json = QWidget(self.pages)
-        self.page_json_ui = Ui_ConfigJsonEditor(self.page_json, self._themes)
-        self.pages.addWidget(self.page_json)
+        self.jsonEditPage = QWidget(self.pages)
+        self.jsonEditPage_ui = Ui_ConfigJsonEditor(self.jsonEditPage, self._themes)
+        self.pages.addWidget(self.jsonEditPage)
 
         self.verticalLayout.addWidget(self.pages)
 

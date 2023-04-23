@@ -31,13 +31,13 @@ class Question(QDialog):
         self.btn_reject.clicked.connect(self.btn_reject_clicked)
         self.btn_accept.clicked.connect(self.btn_accept_clicked)
 
-    def exec(self, title="标题", msg="信息", title_type="info", msg_type="default", btn_reject_text="取消", btn_accept_text="确认") -> bool:
+    def exec(self, title="标题", msg="信息", titleType="info", msgType="default", btnRejectText="取消", btnAcceptText="确认") -> bool:
         self.label_title.setText(title)
         self.label_text.setText(msg)
-        self.btn_reject.setText(btn_reject_text)
-        self.btn_accept.setText(btn_accept_text)
-        self.label_title.setStyleSheet(F"color: {self.color[title_type.lower()]};")
-        self.label_text.setStyleSheet(F"color: {self.color[msg_type.lower()]};")
+        self.btn_reject.setText(btnRejectText)
+        self.btn_accept.setText(btnAcceptText)
+        self.label_title.setStyleSheet(F"color: {self.color[titleType.lower()]};")
+        self.label_text.setStyleSheet(F"color: {self.color[msgType.lower()]};")
         super().exec()
         return self.flag_accept
 

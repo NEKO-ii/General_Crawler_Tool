@@ -27,11 +27,11 @@ class Ui_StartPageBtn(object):
     def setup(self) -> None:
         # 添加按钮
         # ///////////////////////////////////////////////////////////////
-        self.btn_config = PushButton(text="编辑配置文件", mini_size=[250, 60], radius=8, font_size=11)
+        self.btn_config = PushButton(text="编辑配置文件", minimumSize=[250, 60], radius=8, fontSize=11)
         self.btn_container_1.addWidget(self.btn_config)
-        self.btn_help = PushButton(text="查看帮助文档", mini_size=[250, 60], radius=8, font_size=11)
+        self.btn_help = PushButton(text="查看帮助文档", minimumSize=[250, 60], radius=8, fontSize=11)
         self.btn_container_2.addWidget(self.btn_help)
-        self.btn_run = PushButton(text="执行自动运行", mini_size=[250, 60], radius=8, font_size=11, type="success")
+        self.btn_run = PushButton(text="执行自动运行", minimumSize=[250, 60], radius=8, fontSize=11, type="success")
         self.btn_container_3.addWidget(self.btn_run)
 
     def setupUi(self, StartPageBtn):

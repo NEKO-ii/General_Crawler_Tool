@@ -49,8 +49,8 @@ QComboBox::down-arrow {{
 
 
 class ComboBox(QComboBox):
-    sig_current_text_changed = Signal(object)
-    sig_current_index_changed = Signal(object)
+    sig_currentTextChanged = Signal(object)
+    sig_currentIndexChanged = Signal(object)
 
     def __init__(self,
                  parent=None,
@@ -67,17 +67,17 @@ class ComboBox(QComboBox):
                  bg_color_hover="#21252d",
                  bg_color_pressed="#21252d",
                  radius=3,
-                 mini_size=None,
-                 scroll_parent=None) -> None:
+                 minimumSize=None,
+                 scrollParent=None) -> None:
         super().__init__()
-        self._scroll_parent = scroll_parent
+        self._scrollParent = scrollParent
         self._sp_lock = False
-        if scroll_parent:
+        if scrollParent:
             self._sp_lock = True
         if parent:
             self.setParent(parent)
-        if mini_size:
-            self.setMinimumSize(mini_size[0], mini_size[1])
+        if minimumSize:
+            self.setMinimumSize(minimumSize[0], minimumSize[1])
         if tooltip:
             self.setToolTip(tooltip)
 
@@ -99,22 +99,22 @@ class ComboBox(QComboBox):
         self.currentIndexChanged.connect(self.indexChanged)
 
     def wheelEvent(self, event: QWheelEvent) -> None:
-        if self._scroll_parent:
-            self._scroll_parent.setFocus()
-            return self._scroll_parent.wheelEvent(event)
+        if self._scrollParent:
+            self._scrollParent.setFocus()
+            return self._scrollParent.wheelEvent(event)
 
     # 当前文本变化时发送自定义信号: current_text_changed
     def textChanged(self) -> None:
-        self.sig_current_text_changed.emit(self.currentText())
+        self.sig_currentTextChanged.emit(self.currentText())
 
     # 当前索引变化时发送自定义信号: current_index_changed
     def indexChanged(self) -> None:
-        self.sig_current_index_changed.emit(self.currentIndex())
+        self.sig_currentIndexChanged.emit(self.currentIndex())
 
-    def set_scroll_parent(self, sparent) -> None:
+    def c_setScrollParent(self, sparent) -> None:
         """设置鼠标滚轮事件传递,若已通过构造函数设置,该函数无效
         Args:
             sparent (QObject): 目标组件
         """
         if self._sp_lock is False:
-            self._scroll_parent = sparent
+            self._scrollParent = sparent

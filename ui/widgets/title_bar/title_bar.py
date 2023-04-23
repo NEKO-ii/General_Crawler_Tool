@@ -14,9 +14,9 @@ class TitleBar:
     # ///////////////////////////////////////////////////////////////
 
     # 标题栏菜单
-    titlebar_menus = [{"btn_icon": "icon_account.svg", "btn_id": "btn_top_account", "btn_tooltip": "账户", "is_active": False}]
+    titlebarMenus = [{"btn_icon": "icon_account.svg", "btn_id": "btn_top_account", "btn_tooltip": "账户", "is_active": False}]
 
-    def __init__(self, container, central_widget, hide_title_bar, themes):
+    def __init__(self, container, centralWidget, hideTitleBar, themes):
         """初始化标题栏
 
         Args:
@@ -25,6 +25,6 @@ class TitleBar:
             hide_title_bar (bool): 隐藏原有标题栏
             themes (Themes): 样式封装对象
         """
-        self.ui = TitleBar_UI(container, central_widget, hide_title_bar, themes)
+        self.ui = TitleBar_UI(container, centralWidget, hideTitleBar, themes)
         self.ui.setObjectName("title_bar")
-        self.ui.add_menus(self.titlebar_menus)
+        self.ui.add_menus(self.titlebarMenus)

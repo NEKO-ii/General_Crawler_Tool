@@ -3,7 +3,7 @@ from ui.preload.imp_qt import *
 
 class Toggle(QCheckBox):
 
-    def __init__(self, width=50, bg_color="#777", circle_color="#DDD", active_color="#00BCFF", animation_curve=QEasingCurve.OutBounce):
+    def __init__(self, width=50, bg_color="#777", circle_color="#DDD", active_color="#00BCFF", animationCurve=QEasingCurve.OutBounce):
         QCheckBox.__init__(self)
         self.setFixedSize(width, 28)
         self.setCursor(Qt.PointingHandCursor)
@@ -15,9 +15,9 @@ class Toggle(QCheckBox):
 
         self._position = 3
         self.animation = QPropertyAnimation(self, b"position")
-        self.animation.setEasingCurve(animation_curve)
+        self.animation.setEasingCurve(animationCurve)
         self.animation.setDuration(500)
-        self.stateChanged.connect(self.setup_animation)
+        self.stateChanged.connect(self._setupAnimation)
 
     @Property(float)
     def position(self):
@@ -29,7 +29,7 @@ class Toggle(QCheckBox):
         self.update()
 
     # START STOP ANIMATION
-    def setup_animation(self, value):
+    def _setupAnimation(self, value):
         self.animation.stop()
         if value:
             self.animation.setEndValue(self.width() - 26)

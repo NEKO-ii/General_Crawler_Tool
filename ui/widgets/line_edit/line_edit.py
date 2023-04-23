@@ -34,7 +34,7 @@ class LineEdit(QLineEdit):
     def __init__(self,
                  parent=None,
                  text="",
-                 place_holder_text="",
+                 placeHolderText="",
                  color_enabled="#aaaabb",
                  color_disabled="#4f5b6e",
                  border_color_enabled="#3c4454",
@@ -46,17 +46,17 @@ class LineEdit(QLineEdit):
                  selection_color="#f5f6f9",
                  selection_bg_color="#568af2",
                  radius=4,
-                 font_family="JetBrains Mono") -> None:
+                 fontFamily="JetBrains Mono") -> None:
         super().__init__()
 
         if parent:
             self.setParent(parent)
         if text:
             self.setText(text)
-        if place_holder_text:
-            self.setPlaceholderText(place_holder_text)
+        if placeHolderText:
+            self.setPlaceholderText(placeHolderText)
 
-        style_format = style.format(_color_enabled=color_enabled,
+        _styleFormat = style.format(_color_enabled=color_enabled,
                                     _color_disabled=color_disabled,
                                     _border_color_enabled=border_color_enabled,
                                     _border_color_disabled=border_color_disabled,
@@ -67,5 +67,5 @@ class LineEdit(QLineEdit):
                                     _selection_color=selection_color,
                                     _selection_background_color=selection_bg_color,
                                     _radius=radius,
-                                    _font_family=font_family)
-        self.setStyleSheet(style_format)
+                                    _font_family=fontFamily)
+        self.setStyleSheet(_styleFormat)

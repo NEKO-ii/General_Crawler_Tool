@@ -16,22 +16,22 @@ class Ui_MainPagesContainer:
     def setupUi(self, MainPagesContainer):
         if not MainPagesContainer.objectName():
             MainPagesContainer.setObjectName(u"MainPagesContainer")
-        self.main_pages_layout = QVBoxLayout(MainPagesContainer)
-        self.main_pages_layout.setSpacing(0)
-        self.main_pages_layout.setObjectName(u"main_pages_layout")
-        self.main_pages_layout.setContentsMargins(0, 0, 0, 0)
+        self.mainPagesLayout = QVBoxLayout(MainPagesContainer)
+        self.mainPagesLayout.setSpacing(0)
+        self.mainPagesLayout.setObjectName(u"main_pages_layout")
+        self.mainPagesLayout.setContentsMargins(0, 0, 0, 0)
         self.pages = QStackedWidget(MainPagesContainer)
         self.pages.setObjectName(u"pages")
 
         # 添加页面
         # ///////////////////////////////////////////////////////////////
-        self.page_start = QWidget(self.pages)
-        self.page_start_inner = StartPage(self.page_start, self._themes)
-        self.pages.addWidget(self.page_start)
+        self.startPage = QWidget(self.pages)
+        self.startPage_inner = StartPage(self.startPage, self._themes)
+        self.pages.addWidget(self.startPage)
 
-        self.page_config = QWidget(self.pages)
-        self.page_config_inner = ConfigurationPage(self.page_config, self._themes)
-        self.pages.addWidget(self.page_config)
+        self.configPage = QWidget(self.pages)
+        self.configPage_inner = ConfigurationPage(self.configPage, self._themes)
+        self.pages.addWidget(self.configPage)
 
         self.page_3 = QWidget()
         self.test_page3 = Ui_test_page3()
@@ -40,7 +40,7 @@ class Ui_MainPagesContainer:
 
         # ///////////////////////////////////////////////////////////////
 
-        self.main_pages_layout.addWidget(self.pages)
+        self.mainPagesLayout.addWidget(self.pages)
 
         self.retranslateUi(MainPagesContainer)
 

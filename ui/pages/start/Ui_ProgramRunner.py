@@ -28,40 +28,40 @@ class Ui_ProgramRunner(object):
         self.verticalLayout = QVBoxLayout(ProgramRunner)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.top_layout = QHBoxLayout()
-        self.top_layout.setObjectName(u"top_layout")
+        self.topLayout = QHBoxLayout()
+        self.topLayout.setObjectName(u"top_layout")
         self.btn_back = PushButton(ProgramRunner)
         self.btn_back.setObjectName(u"btn_back")
 
-        self.top_layout.addWidget(self.btn_back)
+        self.topLayout.addWidget(self.btn_back)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.top_layout.addItem(self.horizontalSpacer)
+        self.topLayout.addItem(self.horizontalSpacer)
 
         self.label = QLabel(ProgramRunner)
         self.label.setObjectName(u"label")
 
-        self.top_layout.addWidget(self.label)
+        self.topLayout.addWidget(self.label)
 
-        self.combo_config_select = ComboBox(ProgramRunner, mini_size=[200, 0])
-        self.combo_config_select.setObjectName(u"combo_config_select")
+        self.combo_configSelector = ComboBox(ProgramRunner, minimumSize=[200, 0])
+        self.combo_configSelector.setObjectName(u"combo_config_select")
 
-        self.top_layout.addWidget(self.combo_config_select)
+        self.topLayout.addWidget(self.combo_configSelector)
 
         self.btn_run = PushButton(ProgramRunner, type="success")
         self.btn_run.setObjectName(u"btn_run")
 
-        self.top_layout.addWidget(self.btn_run)
+        self.topLayout.addWidget(self.btn_run)
 
-        self.verticalLayout.addLayout(self.top_layout)
+        self.verticalLayout.addLayout(self.topLayout)
 
-        self.tedit_msg_out = TextEdit(ProgramRunner)
-        self.tedit_msg_out.setReadOnly(True)
+        self.tedit_msgOutput = TextEdit(ProgramRunner)
+        self.tedit_msgOutput.setReadOnly(True)
         # self.tedit_msg_out.setFocusPolicy(Qt.NoFocus)
-        self.tedit_msg_out.setObjectName(u"tedit_msg_out")
+        self.tedit_msgOutput.setObjectName(u"tedit_msg_out")
 
-        self.verticalLayout.addWidget(self.tedit_msg_out)
+        self.verticalLayout.addWidget(self.tedit_msgOutput)
 
         self.retranslateUi(ProgramRunner)
 

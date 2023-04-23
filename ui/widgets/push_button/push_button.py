@@ -48,10 +48,10 @@ class PushButton(QPushButton):
                  bg_color_disabled="#21252d",
                  bg_color_hover="#21252d",
                  bg_color_pressed="#1b1e23",
-                 border_width=1,
-                 font_size=9,
+                 borderWidth=1,
+                 fontSize=9,
                  radius=3,
-                 mini_size=None,
+                 minimumSize=None,
                  type=None) -> None:
         """按钮初始化
 
@@ -81,8 +81,8 @@ class PushButton(QPushButton):
         self.setText(text)
         if parent:
             self.setParent(parent)
-        if mini_size:
-            self.setMinimumSize(mini_size[0], mini_size[1])
+        if minimumSize:
+            self.setMinimumSize(minimumSize[0], minimumSize[1])
         if tooltip:
             self.setToolTip(tooltip)
 
@@ -117,7 +117,7 @@ class PushButton(QPushButton):
 
         self.setCursor(Qt.PointingHandCursor)
 
-        custom_style = style.format(_color_enabled=color_enabled,
+        _customStyle = style.format(_color_enabled=color_enabled,
                                     _color_disabled=color_disabled,
                                     _color_pressed=color_pressed,
                                     _border_color_enabled=border_color_enabled,
@@ -128,10 +128,10 @@ class PushButton(QPushButton):
                                     _background_color_disabled=bg_color_disabled,
                                     _background_color_hover=bg_color_hover,
                                     _background_color_pressed=bg_color_pressed,
-                                    _border_width=border_width,
+                                    _border_width=borderWidth,
                                     _radius=radius,
-                                    _font_size=font_size)
-        self.setStyleSheet(custom_style)
+                                    _font_size=fontSize)
+        self.setStyleSheet(_customStyle)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:

@@ -26,30 +26,30 @@ class Ui_ConfigJsonEditor(object):
         self.verticalLayout = QVBoxLayout(ConfigurationJson)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.json_top_layout = QHBoxLayout()
-        self.json_top_layout.setObjectName(u"json_top_layout")
+        self.jsonTopLayout = QHBoxLayout()
+        self.jsonTopLayout.setObjectName(u"json_top_layout")
         self.btn_back = PushButton(ConfigurationJson)
         self.btn_back.setObjectName(u"btn_back")
 
-        self.json_top_layout.addWidget(self.btn_back)
+        self.jsonTopLayout.addWidget(self.btn_back)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.json_top_layout.addItem(self.horizontalSpacer)
+        self.jsonTopLayout.addItem(self.horizontalSpacer)
 
         self.btn_default = PushButton(ConfigurationJson, type="warning")
         self.btn_default.setObjectName(u"btn_default")
 
-        self.json_top_layout.addWidget(self.btn_default)
+        self.jsonTopLayout.addWidget(self.btn_default)
 
         self.btn_confirm = PushButton(ConfigurationJson, type="success")
         self.btn_confirm.setObjectName(u"btn_confirm")
 
-        self.json_top_layout.addWidget(self.btn_confirm)
+        self.jsonTopLayout.addWidget(self.btn_confirm)
 
-        self.verticalLayout.addLayout(self.json_top_layout)
+        self.verticalLayout.addLayout(self.jsonTopLayout)
 
-        self.tedit_editor = TextEdit(ConfigurationJson, font_size=10)
+        self.tedit_editor = TextEdit(ConfigurationJson, fontSize=10)
         self.tedit_editor.setObjectName(u"tedit_editor")
 
         self.verticalLayout.addWidget(self.tedit_editor)

@@ -24,44 +24,44 @@ class Ui_ConfigurationOverview(object):
         self.verticalLayout = QVBoxLayout(ConfigurationOverview)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.overview_top_layout = QHBoxLayout()
-        self.overview_top_layout.setObjectName(u"overview_top_layout")
-        self.btn_new_config = PushButton(ConfigurationOverview, type="success")
-        self.btn_new_config.setObjectName(u"btn_new_config")
+        self.overviewTopLayout = QHBoxLayout()
+        self.overviewTopLayout.setObjectName(u"overview_top_layout")
+        self.btn_newConfig = PushButton(ConfigurationOverview, type="success")
+        self.btn_newConfig.setObjectName(u"btn_new_config")
 
-        self.overview_top_layout.addWidget(self.btn_new_config)
+        self.overviewTopLayout.addWidget(self.btn_newConfig)
 
         self.btn_import = PushButton(ConfigurationOverview, type="primary")
         self.btn_import.setObjectName(u"btn_import")
 
-        self.overview_top_layout.addWidget(self.btn_import)
+        self.overviewTopLayout.addWidget(self.btn_import)
 
         self.btn_edit = PushButton(ConfigurationOverview, type="primary", tooltip="编辑选中的配置文件\n多选时编辑第一个选中配置")
         self.btn_edit.setObjectName(u"btn_edit")
 
-        self.overview_top_layout.addWidget(self.btn_edit)
+        self.overviewTopLayout.addWidget(self.btn_edit)
 
         self.btn_delete = PushButton(ConfigurationOverview, type="error")
         self.btn_delete.setObjectName(u"btn_delete")
 
-        self.overview_top_layout.addWidget(self.btn_delete)
+        self.overviewTopLayout.addWidget(self.btn_delete)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.overview_top_layout.addItem(self.horizontalSpacer)
+        self.overviewTopLayout.addItem(self.horizontalSpacer)
 
         self.btn_flush = PushButton(ConfigurationOverview, type="primary", text="刷新列表")
         self.btn_flush.setObjectName(u"btn_flush")
 
-        self.overview_top_layout.addWidget(self.btn_flush)
+        self.overviewTopLayout.addWidget(self.btn_flush)
 
-        self.verticalLayout.addLayout(self.overview_top_layout)
+        self.verticalLayout.addLayout(self.overviewTopLayout)
 
-        self.table_overview = TableWidget(ConfigurationOverview, default_row_height=25, header_padding=3, fixed_col_width=True, extend_height=True)
+        self.table_overview = TableWidget(ConfigurationOverview, defaultRowHeight=25, headerPadding=3, fixedColWidth=True, extendHeight=True)
         self.table_overview.setObjectName(u"table_overview")
-        self.table_overview.set_header(["名称", "文件位置", "时间", "状态", "备注"], [1])
-        self.table_overview.set_header_tooltip([None, "该配置对应的JSON文件路径", "最后修改的时间", "R:可运行网络请求\nP:可运行数据解析\nN:不可运行\nFL:配置文件丢失\nU:未知"])
-        self.table_overview.no_edit_cols = [1]
-        self.table_overview.set_col_width([240, None, 160, 50, 350])
+        self.table_overview.c_setHeader(["名称", "文件位置", "时间", "状态", "备注"], [1])
+        self.table_overview.c_setHeaderTooltip([None, "该配置对应的JSON文件路径", "最后修改的时间", "R:可运行网络请求\nP:可运行数据解析\nN:不可运行\nFL:配置文件丢失\nU:未知"])
+        self.table_overview.noEditCols = [1]
+        self.table_overview.c_setColWidth([240, None, 160, 50, 350])
 
         self.verticalLayout.addWidget(self.table_overview)
 
@@ -73,7 +73,7 @@ class Ui_ConfigurationOverview(object):
 
     def retranslateUi(self, ConfigurationOverview):
         ConfigurationOverview.setWindowTitle(QCoreApplication.translate("ConfigurationOverview", u"Form", None))
-        self.btn_new_config.setText(QCoreApplication.translate("ConfigurationOverview", u"\u65b0\u5efa", None))
+        self.btn_newConfig.setText(QCoreApplication.translate("ConfigurationOverview", u"\u65b0\u5efa", None))
         self.btn_import.setText(QCoreApplication.translate("ConfigurationOverview", u"\u5bfc\u5165", None))
         self.btn_edit.setText(QCoreApplication.translate("ConfigurationOverview", u"\u7f16\u8f91", None))
         self.btn_delete.setText(QCoreApplication.translate("ConfigurationOverview", u"\u5220\u9664", None))

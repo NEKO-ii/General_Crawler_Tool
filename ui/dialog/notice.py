@@ -15,12 +15,12 @@ class Notice(QDialog):
         self.setupUi()
         self.btn_accept.clicked.connect(self.btn_accept_clicked)
 
-    def exec(self, title="标题", msg="信息", title_type="info", msg_type="default", btn_accept_text="确认") -> bool:
+    def exec(self, title="标题", msg="信息", titleType="info", msgType="default", btnAcceptText="确认") -> bool:
         self.label_title.setText(title)
         self.label_text.setText(msg)
-        self.btn_accept.setText(btn_accept_text)
-        self.label_title.setStyleSheet(F"color: {self.color[title_type]};")
-        self.label_text.setStyleSheet(F"color: {self.color[msg_type]};")
+        self.btn_accept.setText(btnAcceptText)
+        self.label_title.setStyleSheet(F"color: {self.color[titleType]};")
+        self.label_text.setStyleSheet(F"color: {self.color[msgType]};")
         super().exec()
 
     def setupUi(self):

@@ -93,8 +93,8 @@ class ScrollArea(QScrollArea):
         super().__init__(parent)
         self.setFocusPolicy(Qt.WheelFocus)
 
-        style_format = style.format(_background_color=bg_color, _background_color_handle=bg_color_handle, _background_color_addline=bg_color_addline, _background_color_subline=bg_color_subline)
-        self.setStyleSheet(style_format)
+        _styleFormat = style.format(_background_color=bg_color, _background_color_handle=bg_color_handle, _background_color_addline=bg_color_addline, _background_color_subline=bg_color_subline)
+        self.setStyleSheet(_styleFormat)
 
     def wheelEvent(self, event: QWheelEvent) -> None:
         if self.hasFocus():
