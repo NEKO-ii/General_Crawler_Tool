@@ -3,7 +3,7 @@
 from typing import Any
 
 from core.sys import Themes
-from ui.func.icon_setter import IconSetter
+from ui.func.iconsetter import IconSetter
 from ui.preload.imp_qt import (QColor, QEvent, QPainter, QPixmap, QPoint, QPushButton, QRect, Qt, Signal)
 
 from .tooltip import ToolTip
@@ -40,8 +40,8 @@ class NavButton(QPushButton):
         self._container = container
         self._tooltip_text = tooltip_text
         self._themes = themes
-        self._icon_active = IconSetter.set_svg_icon("icon_nav_button_active.svg")
-        self._icon = IconSetter.set_svg_icon(icon_name)
+        self._icon_active = IconSetter.setSvgIcon("icon_nav_button_active.svg")
+        self._icon = IconSetter.setSvgIcon(icon_name)
         self._is_active = is_active
         self._is_active_tab = False
         self._is_expand = False

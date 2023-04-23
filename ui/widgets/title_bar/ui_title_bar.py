@@ -3,7 +3,7 @@
 from typing import Any
 
 from core.sys import Themes
-from ui.func.icon_setter import IconSetter
+from ui.func.iconsetter import IconSetter
 from ui.preload.imp_qt import (QCursor, QFrame, QHBoxLayout, QLabel, QSize,
                                QSvgWidget, Qt, QVBoxLayout, QWidget, Signal)
 
@@ -88,7 +88,7 @@ class TitleBar_UI(QWidget):
         self.logo_layout = QVBoxLayout(self.logo)
         self.logo_layout.setContentsMargins(0, 0, 0, 0)
         self.logo_svg = QSvgWidget()
-        self.logo_svg.load(IconSetter.set_svg_icon(self._logo_name))
+        self.logo_svg.load(IconSetter.setSvgIcon(self._logo_name))
         self.logo_layout.addWidget(self.logo_svg, Qt.AlignCenter, Qt.AlignCenter)
 
         self.title = QLabel()
@@ -99,9 +99,9 @@ class TitleBar_UI(QWidget):
         self.buttons_layout.setContentsMargins(0, 0, 0, 0)
         self.buttons_layout.setSpacing(3)
 
-        self.btn_minimize = TitleButton(self._container, self._central_widget, "window_minimize", "最小化", self._themes, IconSetter.set_svg_icon("icon_window_minimize.svg"))
-        self.btn_maximize = TitleButton(self._container, self._central_widget, "window_maximize", "最大化", self._themes, IconSetter.set_svg_icon("icon_window_maximize.svg"))
-        self.btn_close = TitleButton(self._container, self._central_widget, "window_close", "关闭", self._themes, IconSetter.set_svg_icon("icon_window_close.svg"))
+        self.btn_minimize = TitleButton(self._container, self._central_widget, "window_minimize", "最小化", self._themes, IconSetter.setSvgIcon("icon_window_minimize.svg"))
+        self.btn_maximize = TitleButton(self._container, self._central_widget, "window_maximize", "最大化", self._themes, IconSetter.setSvgIcon("icon_window_maximize.svg"))
+        self.btn_close = TitleButton(self._container, self._central_widget, "window_close", "关闭", self._themes, IconSetter.setSvgIcon("icon_window_close.svg"))
 
         if self._hide_title_bar:
             self.logo.mouseMoveEvent = self.moveWindow
@@ -137,7 +137,7 @@ class TitleBar_UI(QWidget):
     def add_menus(self, menus):
         if menus is not None and len(menus) > 0:
             for menu in menus:
-                _btn_icon = IconSetter.set_svg_icon(menu['btn_icon'])
+                _btn_icon = IconSetter.setSvgIcon(menu['btn_icon'])
                 _btn_id = menu['btn_id']
                 _btn_tooltip = menu['btn_tooltip']
                 _is_active = menu['is_active']
