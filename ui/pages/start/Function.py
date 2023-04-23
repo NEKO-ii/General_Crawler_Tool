@@ -59,6 +59,7 @@ class Func_StartPage(QObject):
         self.ui.pages.setCurrentWidget(self.ui.page_btn)
 
     def btn_run(self) -> None:
+        self.ui.page_run_ui.tedit_msg_out.clear()
         self.thread_run()
         self.sig_run.emit()
 

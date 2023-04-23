@@ -3,3 +3,4 @@
 from .Dialog_ConfigMessageInput import Dialog_ConfigMessageInput
 from .Question import Question
 from .Notice import Notice
+from .Input import Inputer

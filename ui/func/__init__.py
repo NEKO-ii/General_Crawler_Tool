@@ -1,3 +1,3 @@
 # 自动包导入
 # ///////////////////////////////////////////////////////////////
-from .icon_setter import IconSetter
+from .IconSetter import IconSetter

@@ -157,7 +157,7 @@ class Ui_ConfigurationEditor(object):
 
         self.url_set_top_layout.addWidget(self.ledit_url_source)
 
-        self.btn_choose_file = PushButton(self.url_set,"文件")
+        self.btn_choose_file = PushButton(self.url_set, "文件")
         self.btn_choose_file.setEnabled(False)
         self.btn_choose_file.setObjectName(u"btn_choose_file")
         self.url_set_top_layout.addWidget(self.btn_choose_file)
@@ -414,6 +414,11 @@ class Ui_ConfigurationEditor(object):
 
         self.headers_btn_layout.addItem(self.horizontalSpacer_7)
 
+        self.btn_headers_parse = PushButton(self.group_headers)
+        self.btn_headers_parse.setObjectName(u"btn_headers_parse")
+
+        self.headers_btn_layout.addWidget(self.btn_headers_parse)
+
         self.btn_headers_add = PushButton(self.group_headers)
         self.btn_headers_add.setObjectName(u"btn_headers_add")
 
@@ -513,6 +518,11 @@ class Ui_ConfigurationEditor(object):
         self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.cookies_btn_layout.addItem(self.horizontalSpacer_8)
+
+        self.btn_cookies_parse = PushButton(self.group_cookies)
+        self.btn_cookies_parse.setObjectName(u"btn_cookies_parse")
+
+        self.cookies_btn_layout.addWidget(self.btn_cookies_parse)
 
         self.btn_cookies_add = PushButton(self.group_cookies)
         self.btn_cookies_add.setObjectName(u"btn_cookies_add")
@@ -857,6 +867,7 @@ class Ui_ConfigurationEditor(object):
         self.request_lable4.setText(QCoreApplication.translate("ConfigurationEditor", u"\u8d85\u65f6\u65f6\u95f4", None))
         self.check_verify.setText(QCoreApplication.translate("ConfigurationEditor", u"\u8bc1\u4e66\u9a8c\u8bc1", None))
         self.group_headers.setTitle(QCoreApplication.translate("ConfigurationEditor", u"\u8bf7\u6c42\u5934", None))
+        self.btn_headers_parse.setText(QCoreApplication.translate("ConfigurationEditor", u"\u7c98\u8d34", None))
         self.btn_headers_add.setText(QCoreApplication.translate("ConfigurationEditor", u"\u65b0\u589e", None))
         self.btn_headers_delete.setText(QCoreApplication.translate("ConfigurationEditor", u"\u5220\u9664", None))
         self.group_data_form.setTitle(QCoreApplication.translate("ConfigurationEditor", u"\u8bf7\u6c42\u6570\u636e\u8868\u5355(\u76f4\u63a5\u586b\u5199)", None))
@@ -866,6 +877,7 @@ class Ui_ConfigurationEditor(object):
         self.btn_data_form_script_add.setText(QCoreApplication.translate("ConfigurationEditor", u"\u65b0\u589e", None))
         self.btn_data_form_script_delete.setText(QCoreApplication.translate("ConfigurationEditor", u"\u5220\u9664", None))
         self.group_cookies.setTitle(QCoreApplication.translate("ConfigurationEditor", u"Cookies", None))
+        self.btn_cookies_parse.setText(QCoreApplication.translate("ConfigurationEditor", u"\u7c98\u8d34", None))
         self.btn_cookies_add.setText(QCoreApplication.translate("ConfigurationEditor", u"\u65b0\u589e", None))
         self.btn_cookies_delete.setText(QCoreApplication.translate("ConfigurationEditor", u"\u5220\u9664", None))
         self.group_user_agent_pool.setTitle(QCoreApplication.translate("ConfigurationEditor", u"\u7528\u6237\u4ee3\u7406\u6c60", None))

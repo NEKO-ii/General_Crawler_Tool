@@ -58,7 +58,7 @@ class Ui_ProgramRunner(object):
 
         self.tedit_msg_out = TextEdit(ProgramRunner)
         self.tedit_msg_out.setReadOnly(True)
-        self.tedit_msg_out.setFocusPolicy(Qt.NoFocus)
+        # self.tedit_msg_out.setFocusPolicy(Qt.NoFocus)
         self.tedit_msg_out.setObjectName(u"tedit_msg_out")
 
         self.verticalLayout.addWidget(self.tedit_msg_out)

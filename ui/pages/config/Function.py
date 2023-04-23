@@ -5,7 +5,7 @@ from core.static import Define
 from core.support import MsgType, Tools, console_printer
 from core.sys import DataType, File, SysPath
 from ui.preload.imp_qt import QFileDialog, QUrl
-from ui.dialog import Dialog_ConfigMessageInput, Question, Notice
+from ui.dialog import Dialog_ConfigMessageInput, Question, Notice, Inputer
 from ui.widgets import ComboBox
 
 from .Ui_ConfigurationPage import Ui_ConfigurationPage
@@ -46,9 +46,11 @@ class Func_ConfigPage:
 
         self.ui.page_editor_ui.btn_parameter_add.clicked.connect(self.btns_add_items)
         self.ui.page_editor_ui.btn_url_view_add.clicked.connect(self.btns_add_items)
+        self.ui.page_editor_ui.btn_headers_parse.clicked.connect(self.btn_parse_headers)
         self.ui.page_editor_ui.btn_headers_add.clicked.connect(self.btns_add_items)
         self.ui.page_editor_ui.btn_data_form_add.clicked.connect(self.btns_add_items)
         self.ui.page_editor_ui.btn_data_form_script_add.clicked.connect(self.btns_add_items)
+        self.ui.page_editor_ui.btn_cookies_parse.clicked.connect(self.btn_parse_cookies)
         self.ui.page_editor_ui.btn_cookies_add.clicked.connect(self.btns_add_items)
         self.ui.page_editor_ui.btn_pset_text_add.clicked.connect(self.btns_add_items)
 
@@ -83,6 +85,7 @@ class Func_ConfigPage:
         self.dialog_config_save_msg_input = Dialog_ConfigMessageInput()
         self.question = Question()
         self.notice = Notice()
+        self.inputer = Inputer()
 
     # 函数定义
     # ///////////////////////////////////////////////////////////////
@@ -318,6 +321,14 @@ class Func_ConfigPage:
         url: QUrl
         url, type = QFileDialog.getOpenFileUrl(None, "选择文件")
         if url: self.ui.page_editor_ui.ledit_url_source.setText(url.toLocalFile())
+
+    def btn_parse_headers(self) -> None:
+        data = self.inputer.exec()
+        self.ui.page_editor_ui.table_headers.add_rows([item.split(": ") for item in data.splitlines()])
+
+    def btn_parse_cookies(self) -> None:
+        data = self.inputer.exec()
+        self.ui.page_editor_ui.table_cookies.add_rows([item.split("=") for item in data.split("; ")])
 
     # 配置编辑页面:JSON
     # ///////////////////////////////////////////////////////////////
