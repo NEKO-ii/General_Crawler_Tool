@@ -1,7 +1,7 @@
 # 主窗口UI
 # ///////////////////////////////////////////////////////////////
 from core.static import Define
-from core.sys import Settings, Themes
+from core.sys import Globalv, GlvKey, Settings, Themes
 from ui.pages import Ui_MainPagesContainer
 from ui.preload.imp_qt import (QFrame, QHBoxLayout, QMainWindow, QObject, QPushButton, Qt, QVBoxLayout, QWidget)
 from ui.widgets import Credits, Grips, IconButton, Navigation, TitleBar, Window
@@ -52,17 +52,12 @@ class Ui_MainWindow(QMainWindow):
 
     # ///////////////////////////////////////////////////////////////
 
-    def __init__(self, settings, themes) -> None:
-        """初始化主界面UI
-
-        Args:
-            settings (Settings): 设置封装对象
-            themes (Themes): 主题样式封装对象
-        """
+    def __init__(self) -> None:
+        """初始化主界面UI"""
         super().__init__()
 
-        self.settings = settings
-        self.themes = themes
+        self.settings = Globalv.get(GlvKey.SETTINGS)
+        self.themes = Globalv.get(GlvKey.THEMES)
 
         # 窗口基本设置
         self.hideGrips = True
@@ -151,7 +146,7 @@ class Ui_MainWindow(QMainWindow):
 
         # 主页面
         self.mainPages = QWidget()
-        self.mainPages_ui = Ui_MainPagesContainer(self.mainPages, self.themes)
+        self.mainPages_ui = Ui_MainPagesContainer(self.mainPages)
 
         self.workspaceLayout.addWidget(self.mainPages)
 

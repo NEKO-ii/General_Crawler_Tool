@@ -11,29 +11,30 @@
 from PySide6.QtCore import QCoreApplication, QMetaObject, QRect, QSize, Qt
 from PySide6.QtWidgets import (QAbstractSpinBox, QTableWidget, QCheckBox, QComboBox, QFormLayout, QFrame, QGroupBox, QHBoxLayout, QLabel, QListWidget, QSizePolicy, QSpacerItem, QSpinBox, QStackedWidget, QTextEdit, QVBoxLayout, QWidget)
 
-from core.sys import Themes
+from core.sys import Themes, Globalv, GlvKey
 from ui.widgets import (ComboBox, LineEdit, List, PushButton, ScrollArea, SpinBox, TableWidget, TextEdit, GroupBox)
 
 
 class Ui_ConfigurationEditor(object):
 
-    def __init__(self, ConfigurationEditor: QWidget, themes: Themes) -> None:
+    def __init__(self, ConfigurationEditor: QWidget) -> None:
+        self.themes: Themes = Globalv.get(GlvKey.THEMES)
         self.style = F'''
         #edit_place_WidgetContents {{
-            background-color: {themes.color["bg_1"]};
-            border: 1px solid {themes.color["dark_3"]};
+            background-color: {self.themes.color["bg_1"]};
+            border: 1px solid {self.themes.color["dark_3"]};
         }}
         #line {{
-            background-color: {themes.color["bg_3"]};
+            background-color: {self.themes.color["bg_3"]};
         }}
         QLabel:enabled {{
-            color: {themes.color["text_foreground"]};
+            color: {self.themes.color["text_foreground"]};
         }}
         QLabel:disabled {{
-            color: {themes.color["text_description"]};
+            color: {self.themes.color["text_description"]};
         }}
         '''
-        self.setupUi(ConfigurationEditor, themes)
+        self.setupUi(ConfigurationEditor)
         ConfigurationEditor.setStyleSheet(self.style)
         self._setScrollParent(ConfigurationEditor)
         self._setTableHeader()
@@ -63,7 +64,7 @@ class Ui_ConfigurationEditor(object):
         self.table_psetText.c_setColWidth([120, 700, 200])
         self.table_psetText.c_setHeaderTooltip(["文本匹配方式\nRE:正则表达式匹配\nBS4:BeautifulSoup标签搜索语法\nXPATH:XML路径定位语法", "所选方法对应的匹配语句", "若前面的语法匹配到的结果不止一个\n可在此填写所需结果的索引\n(起始为0,空表示选择所有,可多选索引间用逗号分隔)", "若有多个匹配结果,可在此填写多个结果间的分隔符\n默认为空代表空格"])
 
-    def setupUi(self, ConfigurationEditor: QWidget, themes: Themes):
+    def setupUi(self, ConfigurationEditor: QWidget):
         if not ConfigurationEditor.objectName():
             ConfigurationEditor.setObjectName(u"ConfigurationEditor")
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)

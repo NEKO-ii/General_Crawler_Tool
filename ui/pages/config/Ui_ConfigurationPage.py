@@ -20,8 +20,7 @@ from .Ui_ConfigurationOverview import Ui_ConfigurationOverview
 
 class Ui_ConfigurationPage(object):
 
-    def __init__(self, Configuration, themes: Themes) -> None:
-        self._themes = themes
+    def __init__(self, Configuration) -> None:
         self.setupUi(Configuration)
         self.pages.setCurrentWidget(self.overviewPage)
 
@@ -37,15 +36,15 @@ class Ui_ConfigurationPage(object):
         # 添加页面
         # ///////////////////////////////////////////////////////////////
         self.overviewPage = QWidget(self.pages)
-        self.overviewPage_ui = Ui_ConfigurationOverview(self.overviewPage, self._themes)
+        self.overviewPage_ui = Ui_ConfigurationOverview(self.overviewPage)
         self.pages.addWidget(self.overviewPage)
 
         self.editorPage = QWidget(self.pages)
-        self.editorPage_ui = Ui_ConfigurationEditor(self.editorPage, self._themes)
+        self.editorPage_ui = Ui_ConfigurationEditor(self.editorPage)
         self.pages.addWidget(self.editorPage)
 
         self.jsonEditPage = QWidget(self.pages)
-        self.jsonEditPage_ui = Ui_ConfigJsonEditor(self.jsonEditPage, self._themes)
+        self.jsonEditPage_ui = Ui_ConfigJsonEditor(self.jsonEditPage)
         self.pages.addWidget(self.jsonEditPage)
 
         self.verticalLayout.addWidget(self.pages)

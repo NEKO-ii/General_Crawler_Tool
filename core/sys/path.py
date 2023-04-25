@@ -2,7 +2,7 @@ import os
 
 from core.static import Define
 from core.support.msg_printer import MsgType, console_printer
-from core.sys import Settings
+from core.sys.globalv import Globalv, GlvKey
 from core.support.decorator import Decorator as deco
 
 
@@ -61,6 +61,10 @@ class Path:
         self.__folder_check_list = [self.__folder, self.p_configuration, self.p_script, self.p_themes, self.p_settings, self.p_temp, self.p_log, self.p_help, self.p_input, self.p_output, self.p_cache]
         self.__file_check_list = [self.f_settings, self.f_help_main, self.f_help_parse, self.f_help_request, self.f_help_script]
 
+        self.update()
+        self.folder_check()
+        self.file_check()
+
     # 方法定义
     # ///////////////////////////////////////////////////////////////
     def folder_check(self) -> None:
@@ -85,8 +89,7 @@ class Path:
         """依据系统设置更新路径
         """
         # 读取设置
-        settings: Settings = Settings()
-        path: dict = settings.folder_path
+        path: dict = Globalv.get(GlvKey.SETTINGS).folder_path
         # 应用设置
         self.p_input = F"{self.__folder}\\io\\input" if path["file_input_path"].lower() == "default" else path["file_input_path"]
         self.p_output = F"{self.__folder}\\io\\output" if path["file_output_path"].lower() == "default" else path["file_output_path"]

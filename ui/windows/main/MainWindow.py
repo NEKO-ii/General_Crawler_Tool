@@ -12,22 +12,18 @@ class MainWindow:
 
     # 属性
     # ///////////////////////////////////////////////////////////////
-    settings: Settings
-    themes: Themes
     ui: Ui_MainWindow
     func: Func_MainWindow
 
     # ///////////////////////////////////////////////////////////////
 
-    def __init__(self, settings) -> None:
+    def __init__(self) -> None:
         """创建主窗口并初始化
 
         Args:
             settings (Settings): 设置封装对象
         """
-        self.settings = settings
-        self.themes = Themes(self.settings.theme_name)
-        self.ui = Ui_MainWindow(self.settings, self.themes)
+        self.ui = Ui_MainWindow()
         self.ui.setWindowTitle(Define.APP_NAME)
         self.ui.setObjectName("window_main")
         self.func = Func_MainWindow(self.ui)

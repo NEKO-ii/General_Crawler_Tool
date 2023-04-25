@@ -19,8 +19,7 @@ from .Ui_ProgramRunner import Ui_ProgramRunner
 
 class Ui_StartPage(object):
 
-    def __init__(self, StartPage, themes: Themes) -> None:
-        self._themes = themes
+    def __init__(self, StartPage) -> None:
         self.setupUi(StartPage)
         self.pages.setCurrentWidget(self.btnPage)
 
@@ -36,11 +35,11 @@ class Ui_StartPage(object):
         # 添加页面
         # ///////////////////////////////////////////////////////////////
         self.btnPage = QWidget(self.pages)
-        self.btnPage_ui = Ui_StartPageBtn(self.btnPage, self._themes)
+        self.btnPage_ui = Ui_StartPageBtn(self.btnPage)
         self.pages.addWidget(self.btnPage)
 
         self.runPage = QWidget(self.pages)
-        self.runPage_ui = Ui_ProgramRunner(self.runPage, self._themes)
+        self.runPage_ui = Ui_ProgramRunner(self.runPage)
         self.pages.addWidget(self.runPage)
 
         self.verticalLayout.addWidget(self.pages)

@@ -6,7 +6,7 @@ from os.path import join, normpath, isfile, exists, abspath, basename
 from os import remove, removedirs, getcwd
 
 from core.support import remove_json_comments
-from core.sys.path import Path
+from core.sys.globalv import Globalv, GlvKey
 
 
 class DataType(Enum):
@@ -44,8 +44,7 @@ class File:
         Returns:
             str: 返回组装好的绝对路径
         """
-        path = Path()
-        path.update()
+        path = Globalv.get(GlvKey.PATH)
         if sys_path == SysPath.BASE:
             return normpath(join(abspath(getcwd()), *paths))
         if sys_path == SysPath.CONFIGURATION:
@@ -183,6 +182,6 @@ class File:
         elif exists(path): removedirs(path)
 
     @staticmethod
-    def file_basename(path)->str:
+    def file_basename(path) -> str:
         """返回路径中的文件名"""
         return basename(path)

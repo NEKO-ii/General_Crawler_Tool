@@ -14,6 +14,6 @@ class ConfigurationPage:
 
     # ///////////////////////////////////////////////////////////////
 
-    def __init__(self, configPageWidget, themes) -> None:
-        self.ui = Ui_ConfigurationPage(configPageWidget, themes)
+    def __init__(self, configPageWidget) -> None:
+        self.ui = Ui_ConfigurationPage(configPageWidget)
         self.func = Func_ConfigPage(self.ui)

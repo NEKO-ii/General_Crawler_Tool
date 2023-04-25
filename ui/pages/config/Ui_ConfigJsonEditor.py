@@ -17,10 +17,10 @@ from ui.widgets import PushButton, TextEdit
 
 class Ui_ConfigJsonEditor(object):
 
-    def __init__(self, ConfigurationJson, themes: Themes) -> None:
-        self.setupUi(ConfigurationJson, themes)
+    def __init__(self, ConfigurationJson) -> None:
+        self.setupUi(ConfigurationJson)
 
-    def setupUi(self, ConfigurationJson, themes: Themes):
+    def setupUi(self, ConfigurationJson):
         if not ConfigurationJson.objectName():
             ConfigurationJson.setObjectName(u"ConfigurationJson")
         self.verticalLayout = QVBoxLayout(ConfigurationJson)

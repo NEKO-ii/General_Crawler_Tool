@@ -15,10 +15,10 @@ from ui.widgets import PushButton, TableWidget
 
 class Ui_ConfigurationOverview(object):
 
-    def __init__(self, ConfigurationOverview, themes: Themes) -> None:
-        self.setupUi(ConfigurationOverview, themes)
+    def __init__(self, ConfigurationOverview) -> None:
+        self.setupUi(ConfigurationOverview)
 
-    def setupUi(self, ConfigurationOverview, themes: Themes):
+    def setupUi(self, ConfigurationOverview):
         if not ConfigurationOverview.objectName():
             ConfigurationOverview.setObjectName(u"ConfigurationOverview")
         self.verticalLayout = QVBoxLayout(ConfigurationOverview)

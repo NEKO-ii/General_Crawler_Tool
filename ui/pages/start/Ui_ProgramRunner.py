@@ -17,8 +17,7 @@ from ui.widgets import ComboBox, PushButton, TextEdit
 
 
 class Ui_ProgramRunner(object):
-    def __init__(self, ProgramRunner: QWidget, themes: Themes) -> None:
-        self._themes = themes
+    def __init__(self, ProgramRunner: QWidget) -> None:
         self.setupUi(ProgramRunner)
 
     def setupUi(self, ProgramRunner):

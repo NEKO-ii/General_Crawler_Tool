@@ -11,14 +11,14 @@
 from PySide6.QtCore import QCoreApplication, QMetaObject, QSize, Qt
 from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel, QLayout, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
-from core.sys import Themes
+from core.sys import Themes, Globalv, GlvKey
 from ui.widgets import PushButton
 
 
 class Ui_StartPageBtn(object):
 
-    def __init__(self, StartPageBtn: QWidget, themes: Themes) -> None:
-        self._themes = themes
+    def __init__(self, StartPageBtn: QWidget) -> None:
+        self._themes: Themes = Globalv.get(GlvKey.THEMES)
         self._color_green_1 = self._themes.color["green"]
         self._color_green_2 = self._themes.color["green_2"]
         self.setupUi(StartPageBtn)

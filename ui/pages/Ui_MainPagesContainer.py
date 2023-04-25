@@ -9,8 +9,7 @@ from .ui_test_page3 import Ui_test_page3
 
 class Ui_MainPagesContainer:
 
-    def __init__(self, MainPagesContainer, themes: Themes) -> None:
-        self._themes = themes
+    def __init__(self, MainPagesContainer) -> None:
         self.setupUi(MainPagesContainer)
 
     def setupUi(self, MainPagesContainer):
@@ -26,11 +25,11 @@ class Ui_MainPagesContainer:
         # 添加页面
         # ///////////////////////////////////////////////////////////////
         self.startPage = QWidget(self.pages)
-        self.startPage_inner = StartPage(self.startPage, self._themes)
+        self.startPage_inner = StartPage(self.startPage)
         self.pages.addWidget(self.startPage)
 
         self.configPage = QWidget(self.pages)
-        self.configPage_inner = ConfigurationPage(self.configPage, self._themes)
+        self.configPage_inner = ConfigurationPage(self.configPage)
         self.pages.addWidget(self.configPage)
 
         self.page_3 = QWidget()

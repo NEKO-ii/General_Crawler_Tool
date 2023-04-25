@@ -2,9 +2,9 @@
 # STATUS => [RP:ALL_PASS][R:ONLY_HTTP_REQUEST][P:ONLY_DATA_PARSE][E:ERROR]
 
 ['Demo_DoubanTop250_DataCut', ':/file/configuration/test.json', '2022.12.13 17:24:58', 'FL', '可执行配置文件']
-['AllErrorTest', ':/file/configuration/all.json', '2022.12.15 13:38:29', 'N', '请求与解析配置均出错']
-['RequestErrorTest', ':/file/configuration/requ.json', '2022.12.18 21:11:35', 'P', '请求配置出错']
-['ParseErrorTest', ':/file/configuration/p.json', '2022.12.12 21:56:00', 'R', '解析配置出错']
+['AllErrorTest', ':/file/configuration/all.json', '2023.04.25 11:36:41', 'FL', '请求与解析配置均出错']
+['RequestErrorTest', ':/file/configuration/requ.json', '2023.04.25 11:36:45', 'FL', '请求配置出错']
+['ParseErrorTest', ':/file/configuration/p.json', '2023.04.25 11:36:51', 'FL', '解析配置出错']
 ['ConfigurationSampleFile', ':/file/configuration/configuration_sample.json', '2022.12.15 17:47:03', 'FL', '默认配置,缺少必要URL']
 ['豆瓣Top250数据获取测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\test_output.json', '2023.04.03 11:13:27', 'RP', '']
 ['临时测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\new_config.json', '2023.04.03 11:14:35', 'RP', '']

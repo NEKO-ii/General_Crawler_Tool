@@ -17,7 +17,7 @@ from ui.widgets import PushButton, LineEdit, TextEdit
 class Dialog_ConfigMessageInput(QDialog):
 
     config_name: str = "新建配置"
-    file_name: str = "new_config.json"
+    fileName: str = "new_config.json"
     comment: str = ""
     flag_accept: bool = False
     flag_check_pass: bool = False
@@ -41,14 +41,14 @@ class Dialog_ConfigMessageInput(QDialog):
         self.flag_accept = False
         self.flag_check_pass = False
         self.config_name = "新建配置"
-        self.file_name = "new_config.json"
+        self.fileName = "new_config.json"
         self.comment = ""
-        self.ledit_config_name.setText(self.config_name)
-        self.ledit_file_name.setText(self.file_name)
+        self.ledit_configName.setText(self.config_name)
+        self.ledit_fileName.setText(self.fileName)
         self.tedit_comment.setText(self.comment)
         self.set_check_state()
 
-    def set_check_state(self, state: str = "default", err_msg: str = "") -> None:
+    def set_check_state(self, state: str = "default", msg: str = "") -> None:
         """更新检查结果显示标签"""
         if state == "default":
             self.label_check_msg.setText("未检查")
@@ -56,8 +56,11 @@ class Dialog_ConfigMessageInput(QDialog):
         if state == "pass":
             self.label_check_msg.setText("数据可用")
             self.label_check_msg.setStyleSheet("color: #20b05f;")
+        if state == "warn":
+            self.label_check_msg.setText(msg)
+            self.label_check_msg.setStyleSheet("color: #f0f020;")
         if state == "err":
-            self.label_check_msg.setText(err_msg)
+            self.label_check_msg.setText(msg)
             self.label_check_msg.setStyleSheet("color: #ff4040;")
 
     def setupUi(self):
@@ -73,20 +76,20 @@ class Dialog_ConfigMessageInput(QDialog):
 
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label)
 
-        self.ledit_config_name = LineEdit(self)
-        self.ledit_config_name.setObjectName(u"ledit_config_name")
+        self.ledit_configName = LineEdit(self)
+        self.ledit_configName.setObjectName(u"ledit_config_name")
 
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.ledit_config_name)
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.ledit_configName)
 
         self.label_2 = QLabel(self)
         self.label_2.setObjectName(u"label_2")
 
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_2)
 
-        self.ledit_file_name = LineEdit(self)
-        self.ledit_file_name.setObjectName(u"ledit_file_name")
+        self.ledit_fileName = LineEdit(self)
+        self.ledit_fileName.setObjectName(u"ledit_file_name")
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.ledit_file_name)
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.ledit_fileName)
 
         self.verticalLayout.addLayout(self.formLayout)
 
@@ -161,19 +164,19 @@ class Dialog_ConfigMessageInput(QDialog):
     def btn_check_clicked(self) -> None:
         # TODO: 配置同名检查
         passf = True
-        if self.ledit_file_name.text() == "":
+        if self.ledit_fileName.text() == "":
             passf = False
             self.set_check_state("err", "文件名不能为空")
         if passf:
-            file_name = self.ledit_file_name.text()
-            if file_name.endswith(".json") is False:
-                file_name = file_name + ".json"
-                self.ledit_file_name.setText(file_name)
-            path = File.path(SysPath.CONFIGURATION, self.ledit_file_name.text())
+            fileName = self.ledit_fileName.text()
+            if fileName.endswith(".json") is False:
+                fileName = fileName + ".json"
+                self.ledit_fileName.setText(fileName)
+            path = File.path(SysPath.CONFIGURATION, self.ledit_fileName.text())
             for c in [":"]:
-                if file_name.find(c) != -1:
+                if fileName.find(c) != -1:
                     passf = False
-                    self.set_check_state("err", "文件名无效")
+                    self.set_check_state("err", "文件名无效(包含:)")
         if passf:
             if File.file_exists(path):
                 passf = False
@@ -194,8 +197,8 @@ class Dialog_ConfigMessageInput(QDialog):
         self.btn_check_clicked()
         if self.flag_check_pass:
             self.flag_accept = True
-            self.config_name = self.ledit_config_name.text()
-            self.file_name = self.ledit_file_name.text()
+            self.config_name = self.ledit_configName.text()
+            self.fileName = self.ledit_fileName.text()
             self.comment = self.tedit_comment.toPlainText()
             self.accept()
 

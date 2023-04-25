@@ -256,7 +256,7 @@ class Func_ConfigPage:
         if self.editPageMode == "new":
             if self.dialog_configSaveMsgInput.exec():
                 data = self._editPageFormDataGet()
-                path = File.path(SysPath.CONFIGURATION, self.dialog_configSaveMsgInput.file_name)
+                path = File.path(SysPath.CONFIGURATION, self.dialog_configSaveMsgInput.fileName)
                 File.write_with_comment(path, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
                 self.ui.overviewPage_ui.table_overview.c_addRow([self.dialog_configSaveMsgInput.config_name, path, None, Define.LocalConfigState.U, self.dialog_configSaveMsgInput.comment])
                 self.notice.exec("提示", "保存成功", msgType="success")
