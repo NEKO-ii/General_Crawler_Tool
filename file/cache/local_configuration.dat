@@ -6,5 +6,5 @@
 ['RequestErrorTest', ':/file/configuration/requ.json', '2023.04.25 11:36:45', 'FL', '请求配置出错']
 ['ParseErrorTest', ':/file/configuration/p.json', '2023.04.25 11:36:51', 'FL', '解析配置出错']
 ['ConfigurationSampleFile', ':/file/configuration/configuration_sample.json', '2022.12.15 17:47:03', 'FL', '默认配置,缺少必要URL']
-['豆瓣Top250数据获取测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\test_output.json', '2023.04.03 11:13:27', 'RP', '']
-['临时测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\new_config.json', '2023.04.03 11:14:35', 'RP', '']
+['豆瓣Top250数据获取测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\test_output.json', '2023.04.25 20:00:23', 'RP', '']
+['临时测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\new_config.json', '2023.04.25 20:15:58', 'RP', '']

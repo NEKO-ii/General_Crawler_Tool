@@ -4,6 +4,7 @@ from enum import Enum
 from json import dumps, loads
 from os.path import join, normpath, isfile, exists, abspath, basename
 from os import remove, removedirs, getcwd
+from pandas import DataFrame, ExcelWriter
 
 from core.support import remove_json_comments
 from core.sys.globalv import Globalv, GlvKey
@@ -69,7 +70,7 @@ class File:
             return normpath(join(path.p_cache, *paths))
 
     @staticmethod
-    def path_join(*paths: str) -> str:
+    def pathJoin(*paths: str) -> str:
         """将输入路径连接为路径字符串"""
         return normpath(join(*paths))
 
@@ -143,7 +144,7 @@ class File:
                 file.write(dumps(data, indent=2) + "\n")
 
     @staticmethod
-    def write_with_comment(path: str, data, top_comment: str = "", bottom_comment: str = "") -> None:
+    def writeWithComment(path: str, data, top_comment: str = "", bottom_comment: str = "") -> None:
         """将数据以及注释写入文件(此方法会先清空文件原有内容)
 
         Args:
@@ -166,13 +167,33 @@ class File:
             file.write(bottom_comment)
 
     @staticmethod
-    def file_exists(path) -> bool:
+    def isFileExists(path) -> bool:
         """判断文件是否存在"""
-        return isfile(path)
+        if exists(path) and isfile(path):
+            return True
+        else:
+            return False
 
     @staticmethod
-    def is_path(path) -> bool:
+    def isFolderExists(path) -> bool:
+        """判断文件夹是否存在"""
+        if exists(path) and not isfile(path):
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def checkFileName(fileName: str) -> bool:
         """判断输入路径是否合法"""
+        for char in ['<', '>', ':', '"', '/', '\\', '|', '?', '*']:
+            if fileName.find(char) != -1:
+                return False
+            else:
+                return True
+
+    @staticmethod
+    def isExists(path) -> bool:
+        """判断是否存在"""
         return exists(path)
 
     @staticmethod
@@ -182,6 +203,49 @@ class File:
         elif exists(path): removedirs(path)
 
     @staticmethod
-    def file_basename(path) -> str:
+    def getBasenameFromUrl(path) -> str:
         """返回路径中的文件名"""
         return basename(path)
+
+    @staticmethod
+    def insertFileName(fileName: str, index: int, subStr: str) -> str:
+        """在文件名指定位置后插入字符串
+
+        Args:
+            fileName (str): 文件名(有无后缀均可)
+            index (int): 位置索引(忽略扩展名,0为起始位置,-1为末尾)
+            subStr (str): 插入的字符串
+
+        Returns:
+            str: 返回修改后的文件名
+        """
+        if "." in fileName:
+            arr = fileName.rsplit(".", 1)
+            base = arr[0]
+            extend = arr[1]
+            if index == -1: index = base.__len__()
+            return F"{base[:index]}{subStr}{base[index:]}.{extend}".strip()
+        else:
+            if index == -1: index = fileName.__len__()
+            return F"{fileName[:index]}{subStr}{fileName[index:]}".strip()
+
+    @staticmethod
+    def createExcelFile(path: str, datadict: dict):
+        """依据数据字典创建 Excel 文件
+
+        Args:
+            path (str): 文件地址
+            datadict (dict): 数据字典, 字典键为 sheet 工作表名, 值为表内容
+        """
+        try:
+            # TODO: info表数据填充
+            DataFrame().to_excel(path, sheet_name="info", engine="openpyxl")
+            for pagename in datadict:
+                dataframe = DataFrame(datadict[pagename])
+                writer = ExcelWriter(path, mode="a", engine="openpyxl")
+                dataframe.to_excel(writer, sheet_name=pagename, index=False)
+                # writer.save()
+                writer.close()
+        except Exception as e:
+            #TODO 错误日志记录
+            print(e)

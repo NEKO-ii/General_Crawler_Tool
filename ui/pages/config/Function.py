@@ -163,7 +163,7 @@ class Func_ConfigPage:
         currentCol = currentIndex[1]
         if currentRow: table.item(currentRow, 2).setText(Tools.datetime())
         data = table.c_getData()
-        File.write_with_comment(File.path(SysPath.CACHE, "local_configuration.dat"), data, top_comment=Define.FILE_DAT_TOP_COMMENT["local_configuration"])
+        File.writeWithComment(File.path(SysPath.CACHE, "local_configuration.dat"), data, top_comment=Define.FILE_DAT_TOP_COMMENT["local_configuration"])
         if currentCol and currentCol == 3:
             text = table.item(currentRow, currentCol).text()
             if text in Define.LOCAL_CONF_STATE_TYPE["success"]: table.c_setCellColor(currentRow, currentCol, "success")
@@ -195,7 +195,7 @@ class Func_ConfigPage:
             self.overviewTableEditRowIndex = currentRow
             path = table.item(currentRow, 1).text()
             # print(path)
-            if File.file_exists(path):
+            if File.isFileExists(path):
                 try:
                     self.editData = File.read_opt(path, DataType.DICTIONARY)
                     self.editFilePath = path
@@ -257,14 +257,13 @@ class Func_ConfigPage:
             if self.dialog_configSaveMsgInput.exec():
                 data = self._editPageFormDataGet()
                 path = File.path(SysPath.CONFIGURATION, self.dialog_configSaveMsgInput.fileName)
-                File.write_with_comment(path, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
+                File.writeWithComment(path, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
                 self.ui.overviewPage_ui.table_overview.c_addRow([self.dialog_configSaveMsgInput.config_name, path, None, Define.LocalConfigState.U, self.dialog_configSaveMsgInput.comment])
                 self.notice.exec("提示", "保存成功", msgType="success")
                 self.ui.pages.setCurrentWidget(self.ui.overviewPage)
         elif self.editPageMode == "edit":
-            # TODO: 覆盖和另存为的选择
             data = self._editPageFormDataGet()
-            File.write_with_comment(self.editFilePath, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
+            File.writeWithComment(self.editFilePath, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
             table = self.ui.overviewPage_ui.table_overview
             table.item(self.overviewTableEditRowIndex, 2).setText(Tools.datetime())
             self.notice.exec("提示", "保存成功", msgType="success")
@@ -303,13 +302,13 @@ class Func_ConfigPage:
                             else:
                                 urls.append(F"{url}&{i_name}={i}")
                     except:
-                        self.notice.exec("错误", "输入信息有误\n起始值,结束值以及步长只能输入数字", "error", "warning")
+                        self.notice.exec("错误", "输入数据存在错误\n起始值,结束值以及步长只能输入数字", "error", "warning")
             if urls:
                 self.ui.editorPage_ui.list_urlView.c_addRows(urls)
             elif url:
                 self.ui.editorPage_ui.list_urlView.c_addRows([url])
             else:
-                self.notice.exec("提示", "未输入任何信息")
+                self.notice.exec("提示", "未输入任何内容")
 
         elif self.ui.editorPage_ui.combo_urlSource.currentIndex() == 1:
             self.notice.exec("提示", "该功能暂未实现...")
@@ -427,7 +426,7 @@ class Func_ConfigPage:
         data["file_save_setting"]["text"]["file_type"] = self.ui.editorPage_ui.combo_saveText_fileType.currentText().lower()
         data["file_save_setting"]["text"]["file_name"] = self.ui.editorPage_ui.ledit_saveText_fileName.text()
         data["file_save_setting"]["text"]["page_cut_enable"] = self.ui.editorPage_ui.check_saveText_paging.isChecked()
-        data["file_save_setting"]["text"]["data_count_limit_per_page"] = self.ui.editorPage_ui.spin_saveText_dataLimit.value()
+        data["file_save_setting"]["text"]["limit_per_page"] = self.ui.editorPage_ui.spin_saveText_dataLimit.value()
         data["file_save_setting"]["bin"]["file_type"] = self.ui.editorPage_ui.combo_saveImage_fileType.currentText().lower()
         data["file_save_setting"]["bin"]["file_name"] = self.ui.editorPage_ui.ledit_saveImage_fileName.text()
         return data
@@ -493,6 +492,6 @@ class Func_ConfigPage:
         self.ui.editorPage_ui.combo_saveText_fileType.setCurrentText(data["file_save_setting"]["text"]["file_type"].upper())
         self.ui.editorPage_ui.ledit_saveText_fileName.setText(data["file_save_setting"]["text"]["file_name"])
         self.ui.editorPage_ui.check_saveText_paging.setChecked(data["file_save_setting"]["text"]["page_cut_enable"])
-        self.ui.editorPage_ui.spin_saveText_dataLimit.setValue(data["file_save_setting"]["text"]["data_count_limit_per_page"])
+        self.ui.editorPage_ui.spin_saveText_dataLimit.setValue(data["file_save_setting"]["text"]["limit_per_page"])
         self.ui.editorPage_ui.combo_saveImage_fileType.setCurrentText(data["file_save_setting"]["bin"]["file_type"].upper())
         self.ui.editorPage_ui.ledit_saveImage_fileName.setText(data["file_save_setting"]["bin"]["file_name"])

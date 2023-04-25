@@ -38,10 +38,10 @@
   "file_save_enable": true,
   "file_save_setting": {
     "text": {
-      "file_type": "txt",
-      "file_name": "default.txt",
+      "file_type": "excel",
+      "file_name": "default.xlsx",
       "page_cut_enable": false,
-      "data_count_limit_per_page": 1000
+      "limit_per_page": 100
     },
     "bin": {
       "file_type": "png",

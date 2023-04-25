@@ -10,7 +10,7 @@
 
 from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
 from PySide6.QtWidgets import (QDialog, QStyleFactory, QFormLayout, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
-from core.sys import File, SysPath
+from core.sys import File, SysPath, DataType
 from ui.widgets import PushButton, LineEdit, TextEdit
 
 
@@ -53,13 +53,13 @@ class Dialog_ConfigMessageInput(QDialog):
         if state == "default":
             self.label_check_msg.setText("未检查")
             self.label_check_msg.setStyleSheet("color: #aaaabb;")
-        if state == "pass":
+        elif state == "pass":
             self.label_check_msg.setText("数据可用")
             self.label_check_msg.setStyleSheet("color: #20b05f;")
-        if state == "warn":
+        elif state == "warn":
             self.label_check_msg.setText(msg)
             self.label_check_msg.setStyleSheet("color: #f0f020;")
-        if state == "err":
+        elif state == "err":
             self.label_check_msg.setText(msg)
             self.label_check_msg.setStyleSheet("color: #ff4040;")
 
@@ -162,25 +162,28 @@ class Dialog_ConfigMessageInput(QDialog):
         self.reject()
 
     def btn_check_clicked(self) -> None:
-        # TODO: 配置同名检查
         passf = True
+        warnf = False
         if self.ledit_fileName.text() == "":
             passf = False
             self.set_check_state("err", "文件名不能为空")
+        if self.ledit_configName.text() == "":
+            passf = False
+            self.set_check_state("err", "配置名不能为空")
         if passf:
             fileName = self.ledit_fileName.text()
             if fileName.endswith(".json") is False:
                 fileName = fileName + ".json"
                 self.ledit_fileName.setText(fileName)
             path = File.path(SysPath.CONFIGURATION, self.ledit_fileName.text())
-            for c in [":"]:
-                if fileName.find(c) != -1:
-                    passf = False
-                    self.set_check_state("err", "文件名无效(包含:)")
-        if passf:
-            if File.file_exists(path):
+            if File.checkFileName(fileName) is False:
+                passf = False
+                self.set_check_state("err", "文件名无效(包含非法字符)")
+                return
+            if File.isFileExists(path):
                 passf = False
                 self.set_check_state("err", "文件已存在")
+                return
             else:
                 try:
                     with open(path, "w", encoding="UTF-8") as file:
@@ -189,9 +192,14 @@ class Dialog_ConfigMessageInput(QDialog):
                 except:
                     passf = False
                     self.set_check_state("err", "文件名无效")
+            for item in File.read_opt(File.path(SysPath.CACHE, "local_configuration.dat"), DataType.LIST, "#"):
+                if self.ledit_configName.text() == eval(item)[0]:
+                    self.set_check_state("warn", "存在同名配置(不会覆盖)")
+                    warnf = True
+                    break
         if passf:
             self.flag_check_pass = True
-            self.set_check_state("pass")
+            if not warnf: self.set_check_state("pass")
 
     def btn_save_clicked(self) -> None:
         self.btn_check_clicked()

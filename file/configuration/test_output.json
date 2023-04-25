@@ -58,7 +58,7 @@
       "sep": " "
     },
     "5@re": {
-      "selector": "<span>(.*?人评价)</span>",
+      "selector": "<span>(.*?\u4eba\u8bc4\u4ef7)</span>",
       "index": [],
       "sep": " "
     },
@@ -85,10 +85,10 @@
   "file_save_enable": true,
   "file_save_setting": {
     "text": {
-      "file_type": "txt",
-      "file_name": "test_output.txt",
+      "file_type": "excel",
+      "file_name": "test_output.xlsx",
       "page_cut_enable": true,
-      "data_count_limit_per_page": 1000
+      "limit_per_page": 100
     },
     "bin": {
       "file_type": "png",

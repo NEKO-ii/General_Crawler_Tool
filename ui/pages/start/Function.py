@@ -5,6 +5,7 @@ from requests import Response
 
 from core.data import Parse, Request
 from core.sys import Configuration, DataType, File, Settings, SysPath
+from core.support import Tools
 from ui.preload.imp_qt import QObject, QThread, Signal
 
 from .Ui_StartPage import Ui_StartPage
@@ -108,7 +109,7 @@ class Runner(QObject):
     def _doRequest(self, config: Configuration, settings: Settings) -> list:
         sleep_set = settings.sleep
         responses: list = []
-        self.sig_msgAppend.emit("Reading Start\n", "info", None, None)
+        self.sig_msgAppend.emit("Start Reading\n", "info", None, None)
         count = config.urls.__len__()
         num = 1
         for url in config.urls:
@@ -132,7 +133,7 @@ class Runner(QObject):
     def _doParse(self, responses: list, config: Configuration) -> list:
         returnList: list = []
         func: dict = {"bs4": Parse.bs4_select, "re": Parse.re_findall, "xpath": Parse.lxml_xpath}
-        self.sig_msgAppend.emit("Data Parsing Start\n", "info", None, None)
+        self.sig_msgAppend.emit("Start Data Parsing\n", "info", None, None)
         if config.data_type == "text":
             data: list = []
             cols: list = []
@@ -178,13 +179,30 @@ class Runner(QObject):
         if config.file_save_enable:
             self.sig_msgAppend.emit("\nStart File Output\n", "info", None, None)
             if config.data_type == "text":
-                # TODO: 不同文件格式的保存
+                # TODO: SQL文件格式的保存
+                # TODO: 保存路径设置
+                if config.file_save_setting["text"]["page_cut_enable"]:
+                    limit = config.file_save_setting["text"]["limit_per_page"]
+                    datadict = Tools.toPagingDict(data, limit)
+                else:
+                    datadict = {"": data}
                 fileName = config.file_save_setting["text"]["file_name"]
-                path = File.path(SysPath.OUTPUT, fileName)
-                with open(path, "w", encoding="UTF-8") as file:
-                    lines = ["::".join(item) + "\n" for item in data]
-                    file.writelines(lines)
-                self.sig_msgAppend.emit(F"file successfully saved at {path}", "success", None, None)
+                fileType = config.file_save_setting["text"]["file_type"]
+
+                if fileType == "txt":
+                    for page in datadict:
+                        path = File.path(SysPath.OUTPUT, File.insertFileName(fileName, -1, F" ({page})") if page else fileName)
+                        with open(path, "w", encoding="UTF-8") as file:
+                            lines = ["::".join(item) + "\n" for item in datadict[page]]
+                            file.writelines(lines)
+                        self.sig_msgAppend.emit(F"file successfully saved at {path}", "success", None, None)
+                elif fileType == "excel":
+                    if not config.file_save_setting["text"]["page_cut_enable"]: datadict["data"] = datadict.pop("")
+                    path = File.path(SysPath.OUTPUT, fileName)
+                    File.createExcelFile(path, datadict)
+                    self.sig_msgAppend.emit(F"file successfully saved at {path}", "success", None, None)
+                elif fileType == "sql":
+                    pass
 
     def _randomSleepTime(self, timeset: float) -> float:
         """随机间隔时间生成器
