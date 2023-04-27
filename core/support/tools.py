@@ -10,6 +10,14 @@ class Tools:
 
     @staticmethod
     def datetime(format: str = "%Y.%m.%d %H:%M:%S") -> str:
+        """返回格式化时间字符串
+
+        Args:
+            format (str, optional): 时间格式. Defaults to "%Y.%m.%d %H:%M:%S".
+
+        Returns:
+            str:
+        """
         return strftime(format, localtime(time()))
 
     @staticmethod

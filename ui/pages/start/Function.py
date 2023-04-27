@@ -178,27 +178,29 @@ class Runner(QObject):
     def _doDataSave(self, data: list, config: Configuration):
         if config.file_save_enable:
             self.sig_msgAppend.emit("\nStart File Output\n", "info", None, None)
+            savePath = File.path(SysPath.OUTPUT) if config.file_save_setting["save_path"] == "default" else config.file_save_setting["save_path"]
             if config.data_type == "text":
+                FILE_EXTEND_NAME: dict = {"txt": ["txt"], "excel": ["xlsx", "xls"], "sql": ["sql"]}
                 # TODO: SQL文件格式的保存
-                # TODO: 保存路径设置
                 if config.file_save_setting["text"]["page_cut_enable"]:
                     limit = config.file_save_setting["text"]["limit_per_page"]
                     datadict = Tools.toPagingDict(data, limit)
                 else:
                     datadict = {"": data}
-                fileName = config.file_save_setting["text"]["file_name"]
+                fileName: str = config.file_save_setting["text"]["file_name"]
                 fileType = config.file_save_setting["text"]["file_type"]
-
+                if fileName.find(".") == -1 or fileName.split(".", 1)[-1] not in FILE_EXTEND_NAME[fileType]:
+                    fileName = F"{fileName}.{FILE_EXTEND_NAME[fileType][0]}"
                 if fileType == "txt":
                     for page in datadict:
-                        path = File.path(SysPath.OUTPUT, File.insertFileName(fileName, -1, F" ({page})") if page else fileName)
+                        path = File.pathJoin(savePath, File.insertFileName(fileName, -1, F" ({page})") if page else fileName)
                         with open(path, "w", encoding="UTF-8") as file:
                             lines = ["::".join(item) + "\n" for item in datadict[page]]
                             file.writelines(lines)
                         self.sig_msgAppend.emit(F"file successfully saved at {path}", "success", None, None)
                 elif fileType == "excel":
                     if not config.file_save_setting["text"]["page_cut_enable"]: datadict["data"] = datadict.pop("")
-                    path = File.path(SysPath.OUTPUT, fileName)
+                    path = File.pathJoin(savePath, fileName)
                     File.createExcelFile(path, datadict)
                     self.sig_msgAppend.emit(F"file successfully saved at {path}", "success", None, None)
                 elif fileType == "sql":

@@ -21,7 +21,7 @@ class TitleBar:
 
         Args:
             container (Any): 导航栏容器
-            central_widget (Any): 出口主组件
+            central_widget (Any): 窗口主组件
             hide_title_bar (bool): 隐藏原有标题栏
             themes (Themes): 样式封装对象
         """

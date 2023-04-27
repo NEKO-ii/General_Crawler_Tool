@@ -19,30 +19,30 @@ class TitleBar_UI(QWidget):
 
     # 属性
     # ///////////////////////////////////////////////////////////////
-    _is_maximized: bool
-    _old_size: QSize
+    _isMaximized: bool
+    _oldSize: QSize
 
     _container: Any  # 存放导航栏的组件
-    _central_widget: Any  # 窗口中心组件
-    _hide_title_bar: bool  # 是否隐藏系统窗口标题栏
+    _centralWidget: Any  # 窗口中心组件
+    _hideTitleBar: bool  # 是否隐藏系统窗口标题栏
     _radius: int
-    _logo_name: str
-    _logo_width: int
-    _title_size: int
-    _font_family: str
+    _logoName: str
+    _logoWidth: int
+    _titleSize: int
+    _fontFamily: str
     _themes: Themes
 
-    title_bar_layout: QVBoxLayout
+    titleBarLayout: QVBoxLayout
     background: QFrame
-    bg_layout: QHBoxLayout
+    bgLayout: QHBoxLayout
 
     logo: QLabel
-    logo_layout: QVBoxLayout
-    logo_svg: QSvgWidget
+    logoLayout: QVBoxLayout
+    logoSvg: QSvgWidget
 
     title: QLabel
 
-    buttons_layout: QHBoxLayout
+    buttonsLayout: QHBoxLayout
     btn_minimize: TitleButton
     btn_maximize: TitleButton
     btn_close: TitleButton
@@ -51,17 +51,17 @@ class TitleBar_UI(QWidget):
 
     def __init__(self, container, central_widget, hide_title_bar, themes) -> None:
         super().__init__()
-        self._is_maximized = False
-        self._old_size = QSize()
+        self._isMaximized = False
+        self._oldSize = QSize()
 
         self._container = container
-        self._central_widget = central_widget
-        self._hide_title_bar = hide_title_bar
+        self._centralWidget = central_widget
+        self._hideTitleBar = hide_title_bar
         self._radius = 8
-        self._logo_name = "logo_top_100x22.svg"
-        self._logo_width = 100
-        self._title_size = 10
-        self._font_family = "Segoe UI"
+        self._logoName = "logo_top_100x22.svg"
+        self._logoWidth = 100
+        self._titleSize = 10
+        self._fontFamily = "Segoe UI"
         self._themes = themes
 
         # 自动运行
@@ -69,41 +69,41 @@ class TitleBar_UI(QWidget):
         self.btn_connect()
 
     def setup(self) -> None:
-        self.title_bar_layout = QVBoxLayout(self)
-        self.title_bar_layout.setContentsMargins(0, 0, 0, 0)
+        self.titleBarLayout = QVBoxLayout(self)
+        self.titleBarLayout.setContentsMargins(0, 0, 0, 0)
 
         self.background = QFrame()
         self.background.setStyleSheet(F'background-color: {self._themes.color["bg_2"]}; border-radius: {self._radius}px;')
-        self.bg_layout = QHBoxLayout(self.background)
-        self.bg_layout.setContentsMargins(10, 0, 5, 0)
-        self.bg_layout.setSpacing(0)
+        self.bgLayout = QHBoxLayout(self.background)
+        self.bgLayout.setContentsMargins(10, 0, 5, 0)
+        self.bgLayout.setSpacing(0)
 
         self.spl_1 = SepLine(self._themes.color["bg_3"])
         self.spl_2 = SepLine(self._themes.color["bg_3"])
         self.spl_3 = SepLine(self._themes.color["bg_3"])
 
         self.logo = QLabel()
-        self.logo.setMinimumWidth(self._logo_width)
-        self.logo.setMaximumWidth(self._logo_width)
-        self.logo_layout = QVBoxLayout(self.logo)
-        self.logo_layout.setContentsMargins(0, 0, 0, 0)
-        self.logo_svg = QSvgWidget()
-        self.logo_svg.load(IconSetter.setSvgIcon(self._logo_name))
-        self.logo_layout.addWidget(self.logo_svg, Qt.AlignCenter, Qt.AlignCenter)
+        self.logo.setMinimumWidth(self._logoWidth)
+        self.logo.setMaximumWidth(self._logoWidth)
+        self.logoLayout = QVBoxLayout(self.logo)
+        self.logoLayout.setContentsMargins(0, 0, 0, 0)
+        self.logoSvg = QSvgWidget()
+        self.logoSvg.load(IconSetter.setSvgIcon(self._logoName))
+        self.logoLayout.addWidget(self.logoSvg, Qt.AlignCenter, Qt.AlignCenter)
 
         self.title = QLabel()
         self.title.setAlignment(Qt.AlignVCenter)
-        self.title.setStyleSheet(f'font: {self._title_size}pt "{self._font_family}"')
+        self.title.setStyleSheet(f'font: {self._titleSize}pt "{self._fontFamily}"')
 
-        self.buttons_layout = QHBoxLayout()
-        self.buttons_layout.setContentsMargins(0, 0, 0, 0)
-        self.buttons_layout.setSpacing(3)
+        self.buttonsLayout = QHBoxLayout()
+        self.buttonsLayout.setContentsMargins(0, 0, 0, 0)
+        self.buttonsLayout.setSpacing(3)
 
-        self.btn_minimize = TitleButton(self._container, self._central_widget, "window_minimize", "最小化", self._themes, IconSetter.setSvgIcon("icon_window_minimize.svg"))
-        self.btn_maximize = TitleButton(self._container, self._central_widget, "window_maximize", "最大化", self._themes, IconSetter.setSvgIcon("icon_window_maximize.svg"))
-        self.btn_close = TitleButton(self._container, self._central_widget, "window_close", "关闭", self._themes, IconSetter.setSvgIcon("icon_window_close.svg"))
+        self.btn_minimize = TitleButton(self._container, self._centralWidget, "window_minimize", "最小化", self._themes, IconSetter.setSvgIcon("icon_window_minimize.svg"))
+        self.btn_maximize = TitleButton(self._container, self._centralWidget, "window_maximize", "最大化", self._themes, IconSetter.setSvgIcon("icon_window_maximize.svg"))
+        self.btn_close = TitleButton(self._container, self._centralWidget, "window_close", "关闭", self._themes, IconSetter.setSvgIcon("icon_window_close.svg"))
 
-        if self._hide_title_bar:
+        if self._hideTitleBar:
             self.logo.mouseMoveEvent = self.moveWindow
             self.spl_1.mouseMoveEvent = self.moveWindow
             self.title.mouseMoveEvent = self.moveWindow
@@ -115,17 +115,17 @@ class TitleBar_UI(QWidget):
             self.title.mouseDoubleClickEvent = self.maximize_restore
             self.spl_2.mouseDoubleClickEvent = self.maximize_restore
 
-        self.bg_layout.addWidget(self.logo)
-        self.bg_layout.addWidget(self.spl_1)
-        self.bg_layout.addWidget(self.title)
-        self.bg_layout.addWidget(self.spl_2)
-        self.bg_layout.addLayout(self.buttons_layout)
-        if self._hide_title_bar:
-            self.bg_layout.addWidget(self.btn_minimize)
-            self.bg_layout.addWidget(self.btn_maximize)
-            self.bg_layout.addWidget(self.btn_close)
+        self.bgLayout.addWidget(self.logo)
+        self.bgLayout.addWidget(self.spl_1)
+        self.bgLayout.addWidget(self.title)
+        self.bgLayout.addWidget(self.spl_2)
+        self.bgLayout.addLayout(self.buttonsLayout)
+        if self._hideTitleBar:
+            self.bgLayout.addWidget(self.btn_minimize)
+            self.bgLayout.addWidget(self.btn_maximize)
+            self.bgLayout.addWidget(self.btn_close)
 
-        self.title_bar_layout.addWidget(self.background)
+        self.titleBarLayout.addWidget(self.background)
 
     def btn_connect(self) -> None:
         self.btn_minimize.released.connect(lambda: self._container.showMinimized())
@@ -142,14 +142,14 @@ class TitleBar_UI(QWidget):
                 _btn_tooltip = menu['btn_tooltip']
                 _is_active = menu['is_active']
 
-                self.btn = TitleButton(self._container, self._central_widget, buttonId=_btn_id, tooltipText=_btn_tooltip, themes=self._themes, iconPath=_btn_icon, isActive=_is_active)
+                self.btn = TitleButton(self._container, self._centralWidget, buttonId=_btn_id, tooltipText=_btn_tooltip, themes=self._themes, iconPath=_btn_icon, isActive=_is_active)
                 self.btn.clicked.connect(self.btn_clicked)
                 self.btn.released.connect(self.btn_released)
 
-                self.buttons_layout.addWidget(self.btn)
+                self.buttonsLayout.addWidget(self.btn)
 
-            if self._hide_title_bar:
-                self.buttons_layout.addWidget(self.spl_3)
+            if self._hideTitleBar:
+                self.buttonsLayout.addWidget(self.spl_3)
 
     def set_title(self, title):
         self.title.setText(title)
@@ -163,25 +163,25 @@ class TitleBar_UI(QWidget):
         self.released.emit(self.btn)
 
     def change_ui(self) -> None:
-        if self._is_maximized:
-            self._container.central_widget_layout.setContentsMargins(0, 0, 0, 0)
-            self._container.window.set_stylesheet(border_radius=0, border_size=0)
-            self.btn_maximize._setIcon(IconSetter.set_svg_icon("icon_window_restore.svg"))
-            self.btn_maximize.tooltip.setText("Restore")
+        if self._isMaximized:
+            self._container.centralWidgetLayout.setContentsMargins(0, 0, 0, 0)
+            self._container.window.c_setStylesheet(borderRadius=0, borderSize=0)
+            self.btn_maximize._setIcon(IconSetter.setSvgIcon("icon_window_restore.svg"))
+            self.btn_maximize.tooltip.setText("恢复")
         else:
-            self._container.central_widget_layout.setContentsMargins(10, 10, 10, 10)
-            self._container.window.set_stylesheet(border_radius=10, border_size=2)
-            self.btn_maximize._setIcon(IconSetter.set_svg_icon("icon_window_maximize.svg"))
-            self.btn_maximize.tooltip.setText("Maximize")
+            self._container.centralWidgetLayout.setContentsMargins(10, 10, 10, 10)
+            self._container.window.c_setStylesheet(borderRadius=10, borderSize=2)
+            self.btn_maximize._setIcon(IconSetter.setSvgIcon("icon_window_maximize.svg"))
+            self.btn_maximize.tooltip.setText("最大化")
 
     def maximize_restore(self, e=None) -> None:
         if self._container.isMaximized():
-            self._is_maximized = False
+            self._isMaximized = False
             self._container.showNormal()
             self.change_ui()
         else:
-            self._is_maximized = True
-            self._old_size = QSize(self._container.width(), self._container.height())
+            self._isMaximized = True
+            self._oldSize = QSize(self._container.width(), self._container.height())
             self._container.showMaximized()
             self.change_ui()
 

@@ -1,4 +1,4 @@
-from ui.preload.imp_qt import QTextEdit, QWheelEvent, QTextCursor, QColor,QApplication
+from ui.preload.imp_qt import QTextEdit, QWheelEvent, QTextCursor, QColor, QApplication
 
 # 样式表
 # ///////////////////////////////////////////////////////////////
@@ -126,12 +126,12 @@ class TextEdit(QTextEdit):
                  selection_color="#f5f6f9",
                  selection_bg_color="#568af2",
                  radius=4,
-                 maxHeight=None,
+                 heightScope=None,
+                 heightByDocument=False,
                  fontSize=9,
                  fontFamily="JetBrains Mono",
                  scrollParent=None) -> None:
         super().__init__()
-        self._maxHeight = maxHeight
         self._color_enabled = color_enabled
         self._color_disabled = color_disabled
         self._fontFamily = fontFamily
@@ -145,8 +145,12 @@ class TextEdit(QTextEdit):
             self.setText(text)
         if placeHolderText:
             self.setPlaceholderText(placeHolderText)
-        if maxHeight:
-            self.setMaximumHeight(maxHeight)
+        if heightScope:
+            self._minHeight = heightScope[0]
+            self._maxHeight = heightScope[1]
+            self.setMinimumHeight(self._minHeight)
+            self.setMaximumHeight(self._maxHeight)
+        if heightByDocument:
             self.document().contentsChanged.connect(self.text_area_changed)
 
         self.setFontPointSize(fontSize)
@@ -176,11 +180,13 @@ class TextEdit(QTextEdit):
 
     def text_area_changed(self) -> None:
         self.document().adjustSize()
-        new_height = self.document().size().height() + 10
-        if new_height != self.height():
-            if new_height < self.height(): new_height = self.height()
-            if new_height > self._maxHeight: new_height = self._maxHeight
-            self.setFixedHeight(new_height)
+        newHeight = self.document().size().height() + 10
+        if newHeight != self.height():
+            if newHeight < self._minHeight:
+                newHeight = self._minHeight
+            elif newHeight > self._maxHeight:
+                newHeight = self._maxHeight
+            self.setMinimumHeight(newHeight)
 
     def c_setScrollParent(self, sparent) -> None:
         """设置鼠标滚轮事件传递,若已通过构造函数设置,该函数无效

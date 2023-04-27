@@ -43,6 +43,7 @@ class Func_ConfigPage:
         self.ui.editorPage_ui.btn_save.clicked.connect(self.btn_edit_config_save)
         self.ui.editorPage_ui.btn_chooseFile.clicked.connect(self.btn_edit_choose_file)
         self.ui.editorPage_ui.btn_urlSetConfirm.clicked.connect(self.btn_edit_url_set_confirm)
+        self.ui.editorPage_ui.btn_dataSavePath.clicked.connect(self.btn_edit_choose_save_path)
 
         self.ui.editorPage_ui.btn_parameterAdd.clicked.connect(self.btns_add_items)
         self.ui.editorPage_ui.btn_urlView_add.clicked.connect(self.btns_add_items)
@@ -77,6 +78,7 @@ class Func_ConfigPage:
         # 配置编辑页面
         self.ui.editorPage_ui.combo_dataType.sig_currentIndexChanged.connect(self.ed_combo_data_type_index_changed)
         self.ui.editorPage_ui.combo_urlSource.sig_currentIndexChanged.connect(self.ed_combo_url_source_index_changed)
+        self.ui.editorPage_ui.combo_dataSavePath.sig_currentIndexChanged.connect(self.ed_combo_save_path_index_changed)
 
         # 配置编辑页面:JSON
 
@@ -239,6 +241,17 @@ class Func_ConfigPage:
             self.ui.editorPage_ui.ledit_urlSource.setPlaceholderText("输入或选择网址导入文件路径")
             self.ui.editorPage_ui.btn_chooseFile.setEnabled(True)
 
+    def ed_combo_save_path_index_changed(self, index) -> None:
+        if index == 0:
+            self.ui.editorPage_ui.ledit_dataSavePath.setText(File.path(SysPath.OUTPUT))
+            self.ui.editorPage_ui.ledit_dataSavePath.setEnabled(False)
+            self.ui.editorPage_ui.btn_dataSavePath.setEnabled(False)
+        if index == 1:
+            self.ui.editorPage_ui.ledit_dataSavePath.clear()
+            if self.ui.editorPage_ui.group_save.isChecked():
+                self.ui.editorPage_ui.ledit_dataSavePath.setEnabled(True)
+                self.ui.editorPage_ui.btn_dataSavePath.setEnabled(True)
+
     def btn_edit_back(self) -> None:
         if self.editPageMode == "new": msg = "是否在未保存的情况下返回总览界面\n将不会创建新配置"
         elif self.editPageMode == "edit": msg = "是否在未保存的情况下返回总览界面\n本次所有修改将被舍弃"
@@ -318,8 +331,13 @@ class Func_ConfigPage:
 
     def btn_edit_choose_file(self) -> None:
         url: QUrl
-        url, type = QFileDialog.getOpenFileUrl(None, "选择文件")
+        url = QFileDialog.getOpenFileUrl(None, "选择文件")
         if url: self.ui.editorPage_ui.ledit_urlSource.setText(url.toLocalFile())
+
+    def btn_edit_choose_save_path(self) -> None:
+        url: QUrl
+        url = QFileDialog.getExistingDirectoryUrl(None, "选择存储位置")
+        if url: self.ui.editorPage_ui.ledit_dataSavePath.setText(url.toLocalFile())
 
     def btn_parse_headers(self) -> None:
         data = self.inputer.exec()
@@ -421,6 +439,7 @@ class Func_ConfigPage:
         dic.clear()
         data["file_save_enable"] = self.ui.editorPage_ui.group_save.isChecked()
         data["file_save_setting"] = {}
+        data["file_save_setting"]["save_path"] = "default" if self.ui.editorPage_ui.combo_dataSavePath.currentIndex() == 0 else self.ui.editorPage_ui.ledit_dataSavePath.text()
         data["file_save_setting"]["text"] = {}
         data["file_save_setting"]["bin"] = {}
         data["file_save_setting"]["text"]["file_type"] = self.ui.editorPage_ui.combo_saveText_fileType.currentText().lower()
@@ -489,9 +508,26 @@ class Func_ConfigPage:
                 index = ",".join(str(i) for i in item["index"])
             self.ui.editorPage_ui.table_psetText.c_addRow([cbox, item["selector"], index, item["sep"]])
         self.ui.editorPage_ui.group_save.setChecked(data["file_save_enable"])
+        if data["file_save_setting"]["save_path"] == "default":
+            self.ui.editorPage_ui.combo_dataSavePath.setCurrentIndex(0)
+            self.ui.editorPage_ui.ledit_dataSavePath.setText(File.path(SysPath.OUTPUT))
+            self.ui.editorPage_ui.ledit_dataSavePath.setEnabled(False)
+            self.ui.editorPage_ui.btn_dataSavePath.setEnabled(False)
+        else:
+            self.ui.editorPage_ui.combo_dataSavePath.setCurrentIndex(1)
+            self.ui.editorPage_ui.ledit_dataSavePath.setText(data["file_save_setting"]["save_path"])
+            if self.ui.editorPage_ui.group_save.isChecked():
+                self.ui.editorPage_ui.ledit_dataSavePath.setEnabled(True)
+                self.ui.editorPage_ui.btn_dataSavePath.setEnabled(True)
         self.ui.editorPage_ui.combo_saveText_fileType.setCurrentText(data["file_save_setting"]["text"]["file_type"].upper())
         self.ui.editorPage_ui.ledit_saveText_fileName.setText(data["file_save_setting"]["text"]["file_name"])
         self.ui.editorPage_ui.check_saveText_paging.setChecked(data["file_save_setting"]["text"]["page_cut_enable"])
         self.ui.editorPage_ui.spin_saveText_dataLimit.setValue(data["file_save_setting"]["text"]["limit_per_page"])
         self.ui.editorPage_ui.combo_saveImage_fileType.setCurrentText(data["file_save_setting"]["bin"]["file_type"].upper())
         self.ui.editorPage_ui.ledit_saveImage_fileName.setText(data["file_save_setting"]["bin"]["file_name"])
+
+    def _configCheck_ui(self) -> None:
+        pass
+
+    def _configCheck_json(self) -> None:
+        pass

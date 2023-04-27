@@ -37,9 +37,10 @@
   },
   "file_save_enable": true,
   "file_save_setting": {
+    "save_path": "default",
     "text": {
       "file_type": "excel",
-      "file_name": "default.xlsx",
+      "file_name": "default.xlt",
       "page_cut_enable": false,
       "limit_per_page": 100
     },

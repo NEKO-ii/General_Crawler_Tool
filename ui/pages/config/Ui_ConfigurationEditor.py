@@ -553,9 +553,8 @@ class Ui_ConfigurationEditor(object):
         self.verticalLayout_11 = QVBoxLayout(self.group_userAgentPool)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.verticalLayout_11.setContentsMargins(5, 5, 5, 5)
-        self.tedit_userAgent = TextEdit(self.group_userAgentPool, maxHeight=150)
+        self.tedit_userAgent = TextEdit(self.group_userAgentPool, heightScope=[80, 200], heightByDocument=True)
         self.tedit_userAgent.setObjectName(u"tedit_user_agent")
-        self.tedit_userAgent.setMinimumSize(QSize(0, 0))
         self.tedit_userAgent.setLineWrapMode(TextEdit.NoWrap)
 
         self.verticalLayout_11.addWidget(self.tedit_userAgent)
@@ -569,9 +568,8 @@ class Ui_ConfigurationEditor(object):
         self.verticalLayout_12 = QVBoxLayout(self.group_ipProxyPool)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.verticalLayout_12.setContentsMargins(5, 5, 5, 5)
-        self.tedit_ipProxy = TextEdit(self.group_ipProxyPool, maxHeight=150)
+        self.tedit_ipProxy = TextEdit(self.group_ipProxyPool, heightScope=[80, 200], heightByDocument=True)
         self.tedit_ipProxy.setObjectName(u"tedit_ip_proxy")
-        self.tedit_ipProxy.setMinimumSize(QSize(0, 0))
         self.tedit_ipProxy.setLineWrapMode(TextEdit.NoWrap)
 
         self.verticalLayout_12.addWidget(self.tedit_ipProxy)
@@ -635,7 +633,7 @@ class Ui_ConfigurationEditor(object):
 
         self.verticalLayout_14.addWidget(self.dataCut_label2)
 
-        self.tedit_dataCut_attrs = TextEdit(self.group_dataCut, maxHeight=150)
+        self.tedit_dataCut_attrs = TextEdit(self.group_dataCut, heightScope=[50, 150], heightByDocument=True)
         self.tedit_dataCut_attrs.setObjectName(u"tedit_data_cut_attrs")
         self.tedit_dataCut_attrs.setMinimumSize(QSize(0, 0))
 
