@@ -32,15 +32,15 @@ class Navigation:
     }, {
         "btn_icon": "icon_request.svg",
         "btn_id": "btn_nav_request",
-        "btn_text": "端口请求",
-        "btn_tooltip": "端口请求",
+        "btn_text": "端口测试",
+        "btn_tooltip": "端口测试",
         "show_top": True,
         "is_active": False
     }, {
         "btn_icon": "icon_parse.svg",
         "btn_id": "btn_nav_parse",
-        "btn_text": "数据解析",
-        "btn_tooltip": "数据解析",
+        "btn_text": "数据分析",
+        "btn_tooltip": "数据分析",
         "show_top": True,
         "is_active": False
     }, {

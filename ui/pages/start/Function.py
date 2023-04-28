@@ -6,6 +6,7 @@ from requests import Response
 from core.data import Parse, Request
 from core.sys import Configuration, DataType, File, Settings, SysPath
 from core.support import Tools
+from core.static import Define
 from ui.preload.imp_qt import QObject, QThread, Signal
 
 from .Ui_StartPage import Ui_StartPage
@@ -95,15 +96,18 @@ class Runner(QObject):
     configFilePaths: dict = {}
     currentConfigName: str = ""
 
+    f_continue: bool
+
     def __init__(self) -> None:
         super().__init__()
 
     def run(self) -> None:
+        self.f_continue = True
         config = Configuration(self.configFilePaths[self.currentConfigName])
         settings = Settings()
         data: list = self._doRequest(config, settings)
-        data = self._doParse(data, config)
-        self._doDataSave(data, config)
+        if self.f_continue: data = self._doParse(data, config)
+        if self.f_continue: self._doDataSave(data, config)
         self.sig_stop.emit()
 
     def _doRequest(self, config: Configuration, settings: Settings) -> list:
@@ -111,12 +115,18 @@ class Runner(QObject):
         responses: list = []
         self.sig_msgAppend.emit("Start Reading\n", "info", None, None)
         count = config.urls.__len__()
+        if count == 0:
+            self.sig_msgAppend.emit("[stop] empty request url list, stop running.\n", "warn", None, None)
+            self.f_continue = False
+            return responses
         num = 1
         for url in config.urls:
+            if url in Define.TYPE_ICON_LIST: continue
             schedule = F"{num}/{count}".center(13, " ")
             num += 1
             self.sig_msgInsert.emit(F"Reading page NO. = {schedule} ", None, None, None)
             try:
+                response = None
                 response = Request.run(config.request_method, url, config.headers, config.data_form, config.cookies, config.verify, config.timeout)
                 responses.append(response)
                 self.sig_msgInsert.emit("successfully", "success", None, "  ")
@@ -124,7 +134,7 @@ class Runner(QObject):
                 self.sig_msgAppend.emit(F"{response.url}", "info", "url = ", None)
             except Exception as e:
                 self.sig_msgInsert.emit("error", "error", None, "  ")
-                self.sig_msgInsert.emit(F"{response.status_code}", "info", "Status: ", "  ")
+                self.sig_msgInsert.emit(F"{response.status_code if response else 'none'}", "info", "Status: ", "  ")
                 self.sig_msgAppend.emit(F"{e}", "info", "msg = ", None)
             if sleep_set["enable"]: sleep(self._randomSleepTime(sleep_set["time"]))
         self.sig_msgAppend.emit("\nReading Complete\n", "info", None, None)
@@ -134,6 +144,10 @@ class Runner(QObject):
         returnList: list = []
         func: dict = {"bs4": Parse.bs4_select, "re": Parse.re_findall, "xpath": Parse.lxml_xpath}
         self.sig_msgAppend.emit("Start Data Parsing\n", "info", None, None)
+        if not responses:
+            self.f_continue = False
+            self.sig_msgAppend.emit("[stop] empty response data, stop running.\n", "warn", None, None)
+            return returnList
         if config.data_type == "text":
             data: list = []
             cols: list = []
@@ -144,7 +158,7 @@ class Runner(QObject):
                 data.append(response.text)
                 response.close()
             self.sig_msgAppend.emit("complete", "success", None, None)
-            if config.pretreatment_enable and config.pretreatment_setting:
+            if config.pretreatment_enable and config.pretreatment_setting["tag_name"]:
                 self.sig_msgInsert.emit("info", "info", "[", "] data pretreatment...  ")
                 data = Parse.pretreatment(data, config.pretreatment_setting["tag_name"], config.pretreatment_setting["attrs"])
                 self.sig_msgAppend.emit("complete\n", "success", None, None)

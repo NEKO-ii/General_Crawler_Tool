@@ -1,7 +1,7 @@
 # 自定义列表组件
 # ///////////////////////////////////////////////////////////////
-
-from ui.preload.imp_qt import QListWidget, QAbstractItemView, Qt, QModelIndex, QWheelEvent, QKeyEvent, QListWidgetItem
+from core.static import Define
+from ui.preload.imp_qt import QListWidget, QAbstractItemView, Qt, QModelIndex, QWheelEvent, QKeyEvent, QListWidgetItem, QColor, QLabel
 
 # 样式表
 # ///////////////////////////////////////////////////////////////
@@ -25,6 +25,7 @@ QListWidget:disabled {{
     font: {_font_size}pt {_font_family};
 }}
 QListWidget::item {{
+    background-color: {_background_color};
     border: none;
     border-radius: {_radius}px;
     margin: 1px 5px 1px 0px;
@@ -51,6 +52,10 @@ QListWidget::item::selected:active {{
 
 
 class List(QListWidget):
+
+    _stateChangedRowList: list = []
+    color = Define.TYPE_COLOR
+    icon = Define.TYPE_ICON
 
     def __init__(self,
                  parent=None,
@@ -138,6 +143,7 @@ class List(QListWidget):
     # 按下回车键关闭编辑框
     def keyPressEvent(self, event: QKeyEvent) -> None:
         if event.key() == Qt.Key_Enter:
+            self.editingItem = self.item(self.currentRow())
             self._closeEdit()
         return super().keyPressEvent(event)
 
@@ -176,4 +182,45 @@ class List(QListWidget):
     def c_deleteSelectdRows(self) -> None:
         """删除所有选中行"""
         while self.selectedIndexes().__len__() > 0:
-            self.takeItem(self.selectedIndexes()[0].row())
+            rowIndex = self.selectedIndexes()[0].row()
+            self.takeItem(rowIndex)
+            if rowIndex in self._stateChangedRowList: self._stateChangedRowList.pop(self._stateChangedRowList.index(rowIndex))
+
+    def c_setTextColor(self, rowIndex: int, type: str) -> None:
+        """设置列表行文本颜色
+
+        Args:
+            rowIndex (int): 行号
+            type (str): 颜色类型[default, success, info, warn, error]
+        """
+        self.item(rowIndex).setForeground(QColor(self.color[type]))
+        self.item(rowIndex).setText(self.icon[type])
+
+    def c_setRowState(self, rowIndex: int, colorType: str, tooltip: str) -> None:
+        """设置行状态
+
+        Args:
+            rowIndex (int): 行号
+            colorType (str): 颜色类型[default, success, info, warn, error]
+            tooltip (str): 提示文本
+        """
+        self.c_setTextColor(rowIndex, colorType)
+        self.item(rowIndex).setToolTip(tooltip)
+        self._stateChangedRowList.append(rowIndex)
+
+    def c_RemoveState(self, rowIndex: int) -> None:
+        """移除已有行状态
+
+        Args:
+            rowIndex (int): 行号
+        """
+        if rowIndex in self._stateChangedRowList:
+            self._stateChangedRowList.pop(self._stateChangedRowList.index(rowIndex))
+            self.item(rowIndex).setForeground(QColor(self.color["default"]))
+            self.item(rowIndex).setToolTip(None)
+
+    def c_RemoveAllState(self) -> None:
+        for index in self._stateChangedRowList:
+            self._stateChangedRowList.pop(self._stateChangedRowList.index(index))
+            self.item(index).setForeground(QColor(self.color["default"]))
+            self.item(index).setToolTip(None)

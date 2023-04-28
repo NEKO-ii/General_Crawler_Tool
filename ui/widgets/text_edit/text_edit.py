@@ -107,7 +107,7 @@ class TextEdit(QTextEdit):
         "default": "#aaaabb",
         "success": "#20cc5f",
         "info": "#6c99f4",
-        "warning": "#f0f020",
+        "warn": "#f0f020",
         "error": "#ff4040",
     }
 

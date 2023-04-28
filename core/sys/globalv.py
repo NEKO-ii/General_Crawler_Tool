@@ -8,7 +8,7 @@ _SETTINGS: Settings = None
 _THEMES: Themes = None
 _PATH = None
 
-_GLOBAL_DICT: dict
+_GLOBAL_DICT: dict = {}
 
 
 class GlvKey(Enum):

@@ -99,6 +99,10 @@ class Ui_ConfigurationEditor(object):
         self.btn_editInJson.setObjectName(u"btn_edit_json")
         self.horizontalLayout_2.addWidget(self.btn_editInJson)
 
+        self.btn_check = PushButton(self.topBar, text="检查")
+        self.btn_check.setObjectName(u"btn_check")
+        self.horizontalLayout_2.addWidget(self.btn_check)
+
         self.btn_save = PushButton(self.topBar, type="success")
         self.btn_save.setObjectName(u"btn_save")
         self.horizontalLayout_2.addWidget(self.btn_save)

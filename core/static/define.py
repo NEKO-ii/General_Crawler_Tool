@@ -38,6 +38,21 @@ class Define:
     PATH_CACHE: str = "file\\cache"
     PATH_HELP: str = "file\\help"
 
+    TYPE_COLOR: dict = {
+        "default": "#aaaabb",
+        "success": "#20cc5f",
+        "info": "#6c99f4",
+        "warn": "#f0f020",
+        "error": "#ff4040",
+    }
+    TYPE_ICON: dict = {
+        "default": "",
+        "success": "[√]",
+        "info": "[▣]",
+        "warn": "[▲]",
+        "error": "[⨂]",
+    }
+    TYPE_ICON_LIST: list = ["[√]", "[▣]", "[▲]", "[⨂]"]
     LOCAL_CONF_STATE_TYPE: dict = {"success": [LocalConfigState.RP, LocalConfigState.R, LocalConfigState.P], "error": [LocalConfigState.N, LocalConfigState.FL], "warning": [LocalConfigState.U]}
 
     # 默认主题

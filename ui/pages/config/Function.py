@@ -3,7 +3,7 @@ from json import loads, dumps
 
 from core.static import Define
 from core.support import MsgType, Tools, console_printer
-from core.sys import DataType, File, SysPath
+from core.sys import DataType, File, SysPath, Globalv, GlvKey, Themes
 from ui.preload.imp_qt import QFileDialog, QUrl
 from ui.dialog import Dialog_ConfigMessageInput, Question, Notice, Inputer
 from ui.widgets import ComboBox
@@ -14,12 +14,13 @@ from .Ui_ConfigurationPage import Ui_ConfigurationPage
 class Func_ConfigPage:
     ui: Ui_ConfigurationPage
 
-    editPageMode: str = None
+    editPageMode: str = None  # 当前配置编辑页面所处的功能模式,新建配置时为:new,编辑配置时为:edit
     editData: dict = None
     editFilePath: str = None
     overviewTableEditRowIndex: int = None
 
     def __init__(self, ui: Ui_ConfigurationPage) -> None:
+        self.themes: Themes = Globalv.get(GlvKey.THEMES)
         self.ui = ui
         self._btnConnect()
         self._signalConnect()
@@ -40,6 +41,7 @@ class Func_ConfigPage:
         self.ui.editorPage_ui.btn_back.clicked.connect(self.btn_edit_back)
         self.ui.editorPage_ui.btn_default.clicked.connect(self.btn_edit_default)
         self.ui.editorPage_ui.btn_editInJson.clicked.connect(self.btn_edit_in_json)
+        self.ui.editorPage_ui.btn_check.clicked.connect(self.btn_edit_check)
         self.ui.editorPage_ui.btn_save.clicked.connect(self.btn_edit_config_save)
         self.ui.editorPage_ui.btn_chooseFile.clicked.connect(self.btn_edit_choose_file)
         self.ui.editorPage_ui.btn_urlSetConfirm.clicked.connect(self.btn_edit_url_set_confirm)
@@ -265,6 +267,9 @@ class Func_ConfigPage:
         self.ui.jsonEditPage_ui.tedit_editor.setText(data_str)
         self.ui.pages.setCurrentWidget(self.ui.jsonEditPage)
 
+    def btn_edit_check(self) -> None:
+        self._configCheck_ui()
+
     def btn_edit_config_save(self) -> None:
         if self.editPageMode == "new":
             if self.dialog_configSaveMsgInput.exec():
@@ -292,6 +297,7 @@ class Func_ConfigPage:
             url = self.ui.editorPage_ui.ledit_urlSource.text()
             urls: list = []
             firstPara = True
+            f_continue = True
             if self.ui.editorPage_ui.group_parameter.isEnabled():
                 for item in self.ui.editorPage_ui.table_parameter.c_getData():
                     if firstPara:
@@ -316,12 +322,14 @@ class Func_ConfigPage:
                                 urls.append(F"{url}&{i_name}={i}")
                     except:
                         self.notice.exec("错误", "输入数据存在错误\n起始值,结束值以及步长只能输入数字", "error", "warning")
-            if urls:
-                self.ui.editorPage_ui.list_urlView.c_addRows(urls)
-            elif url:
-                self.ui.editorPage_ui.list_urlView.c_addRows([url])
-            else:
-                self.notice.exec("提示", "未输入任何内容")
+                        f_continue = False
+            if f_continue:
+                if urls:
+                    self.ui.editorPage_ui.list_urlView.c_addRows(urls)
+                elif url:
+                    self.ui.editorPage_ui.list_urlView.c_addRows([url])
+                else:
+                    self.notice.exec("提示", "未输入任何内容")
 
         elif self.ui.editorPage_ui.combo_urlSource.currentIndex() == 1:
             self.notice.exec("提示", "该功能暂未实现...")
@@ -527,7 +535,14 @@ class Func_ConfigPage:
         self.ui.editorPage_ui.ledit_saveImage_fileName.setText(data["file_save_setting"]["bin"]["file_name"])
 
     def _configCheck_ui(self) -> None:
-        pass
+        # TODO: 完成配置检查功能
+        list_urlView = self.ui.editorPage_ui.list_urlView
+        list_urlView.c_RemoveAllState()
+        index = -1
+        for data in list_urlView.c_getData():
+            index += 1
+            if data == "":
+                list_urlView.c_setRowState(index, "warn", "存在无意义的空值")
 
     def _configCheck_json(self) -> None:
         pass
