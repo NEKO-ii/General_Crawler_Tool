@@ -5,12 +5,12 @@
 * Qt Designer
 
 **使用语言** :
-* Python
+* Python3.11
 
 **开发环境** :
-* Python 3.10.6 64-bit
+* Python 3.11
 * Qt6
-* Windows 11 22H2 22623.870
+* Windows11
 
 **使用 Python 模块** :
 * PySide6__6.3.2
@@ -20,3 +20,5 @@
 * lxml__4.9.1
 * PyExecJS__1.5.1
 * openpyxl__3.0.10
+
+**早期开发阶段**
