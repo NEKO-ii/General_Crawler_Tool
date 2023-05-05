@@ -79,6 +79,6 @@ class Inputer(QDialog):
     def btn_reject_clicked(self):
         self.reject()
 
-    def exec(self) -> str | None:
-        super().exec()
-        return self.textEdit.toPlainText()
+    def exec(self) -> tuple[int, str]:
+        data = (super().exec(), self.textEdit.toPlainText())
+        return data

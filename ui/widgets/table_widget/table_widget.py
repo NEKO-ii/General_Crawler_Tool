@@ -328,7 +328,6 @@ class TableWidget(QTableWidget):
             else:
                 for item in stretchCols:
                     self.horizontalHeader().setSectionResizeMode(item, QHeaderView.Stretch)
-        self.horizontalHeaderItem(0).setToolTip("这是工具提示文字")
 
     def c_setHeaderTooltip(self, tooltips: list) -> None:
         """设置表头的悬停提示文字,按输入列表从左到右依次设置,多则忽略,少则跳过
@@ -378,13 +377,13 @@ class TableWidget(QTableWidget):
         for item in data:
             self.c_addRow(item)
 
-    def c_getData(self, widgetCols: list = [], onlyCol: list = [], onlySelectedRows: bool = False) -> list:
+    def c_getData(self, widgetCols: list = [], onlyCol: list = [], onlySelectedRows: bool = False, strip: bool = True) -> list:
         """获取表格数据列表(二维),最外层固定位列表,若表格为空则不会添加内层列表,只返回一个空列表
 
         Args:
-            widget_cols (list, optional): 标记表格中存在组件的列. Defaults to [].
-            only_col (list, optional): 设置输出列,若设置,未在列表中的列的数据将忽略. Defaults to [].
-            only_selected_rows (bool, optional): 是否只输出选中行的数据. Defaults to [].
+            widgetCols (list, optional): 标记表格中存在组件的列. Defaults to [].
+            onlyCol (list, optional): 设置输出列,若设置,未在列表中的列的数据将忽略. Defaults to [].
+            onlySelectedRows (bool, optional): 是否只输出选中行的数据. Defaults to False.
 
         Returns:
             list: 返回数据列表(二维)
@@ -401,7 +400,9 @@ class TableWidget(QTableWidget):
                     itemData = self.cellWidget(rindex, cindex)
                 else:
                     item = self.item(rindex, cindex)
-                    if item: itemData = item.text()
+                    if item:
+                        itemData = item.text()
+                        if strip: itemData = itemData.strip()
                     else: itemData = ""
                 row.append(itemData)
             if row != []: returnData.append(row)

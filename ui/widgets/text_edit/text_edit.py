@@ -200,8 +200,23 @@ class TextEdit(QTextEdit):
         for item in data:
             self.append(item)
 
-    def c_getLines(self) -> list:
-        return self.toPlainText().strip().split("\n")
+    def c_getLines(self, throwEmptyLines: bool = True, strip: bool = True) -> list:
+        """获取每行数据
+
+        Args:
+            throwEmptyLines (bool, optional): 是否去除空行. Defaults to True.
+            strip (bool, optional): 是否去除每行前后空内容. Defaults to True.
+
+        Returns:
+            list: 返回每行数据组成的列表
+        """
+        dataList = self.toPlainText().split("\n")
+        if throwEmptyLines:
+            while dataList.count("") > 0:
+                dataList.remove("")
+        if strip:
+            dataList = [item.strip() for item in dataList]
+        return dataList
 
     def c_appendWithColor(self, text: str, ctype="default", pre=None, after=None) -> None:
         """添加一行文本,设置文字颜色类型"""

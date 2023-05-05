@@ -11,57 +11,60 @@
 from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
 from PySide6.QtWidgets import (QDialog, QStyleFactory, QFormLayout, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
 from core.sys import File, SysPath, DataType
+from core.static import Define
 from ui.widgets import PushButton, LineEdit, TextEdit
 
 
 class Dialog_ConfigMessageInput(QDialog):
 
-    config_name: str = "新建配置"
+    configName: str = "新建配置"
     fileName: str = "new_config.json"
     comment: str = ""
     flag_accept: bool = False
-    flag_check_pass: bool = False
+    flag_checkPass: bool = False
+    color: dict
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+        self.color = Define.TYPE_COLOR
         self.setWindowTitle("配置保存")
         self.setStyleSheet("background-color: #2c313c; color: #aaaabb;")
         self.setFixedSize(400, 220)
         self.setupUi()
-        self.btn_connect()
+        self._btnConnect()
 
-    def btn_connect(self) -> None:
+    def _btnConnect(self) -> None:
         """按钮点击事件链接"""
         self.btn_reject.clicked.connect(self.btn_reject_clicked)
         self.btn_check.clicked.connect(self.btn_check_clicked)
         self.btn_save.clicked.connect(self.btn_save_clicked)
 
-    def init_data(self) -> None:
+    def _initData(self) -> None:
         """初始化控件内容数据"""
         self.flag_accept = False
-        self.flag_check_pass = False
-        self.config_name = "新建配置"
+        self.flag_checkPass = False
+        self.configName = "新建配置"
         self.fileName = "new_config.json"
         self.comment = ""
-        self.ledit_configName.setText(self.config_name)
+        self.ledit_configName.setText(self.configName)
         self.ledit_fileName.setText(self.fileName)
         self.tedit_comment.setText(self.comment)
-        self.set_check_state()
+        self._setCheckState()
 
-    def set_check_state(self, state: str = "default", msg: str = "") -> None:
+    def _setCheckState(self, state: str = "default", msg: str = "") -> None:
         """更新检查结果显示标签"""
         if state == "default":
-            self.label_check_msg.setText("未检查")
-            self.label_check_msg.setStyleSheet("color: #aaaabb;")
+            self.label_checkMsg.setText("未检查")
+            self.label_checkMsg.setStyleSheet("color: #aaaabb;")
         elif state == "pass":
-            self.label_check_msg.setText("数据可用")
-            self.label_check_msg.setStyleSheet("color: #20b05f;")
+            self.label_checkMsg.setText("数据可用")
+            self.label_checkMsg.setStyleSheet("color: #20b05f;")
         elif state == "warn":
-            self.label_check_msg.setText(msg)
-            self.label_check_msg.setStyleSheet("color: #f0f020;")
-        elif state == "err":
-            self.label_check_msg.setText(msg)
-            self.label_check_msg.setStyleSheet("color: #ff4040;")
+            self.label_checkMsg.setText(msg)
+            self.label_checkMsg.setStyleSheet("color: #f0f020;")
+        elif state == "error":
+            self.label_checkMsg.setText(msg)
+            self.label_checkMsg.setStyleSheet("color: #ff4040;")
 
     def setupUi(self):
         if not self.objectName():
@@ -104,10 +107,10 @@ class Dialog_ConfigMessageInput(QDialog):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
-        self.label_check_msg = QLabel(self)
-        self.label_check_msg.setObjectName(u"label_check_msg")
+        self.label_checkMsg = QLabel(self)
+        self.label_checkMsg.setObjectName(u"label_check_msg")
 
-        self.horizontalLayout_2.addWidget(self.label_check_msg)
+        self.horizontalLayout_2.addWidget(self.label_checkMsg)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -147,14 +150,14 @@ class Dialog_ConfigMessageInput(QDialog):
         self.label.setText(QCoreApplication.translate("self", u"\u914d\u7f6e\u540d\u79f0", None))
         self.label_2.setText(QCoreApplication.translate("self", u"\u6587\u4ef6\u540d\u79f0", None))
         self.label_3.setText(QCoreApplication.translate("self", u"\u5907\u6ce8:", None))
-        self.label_check_msg.setText(QCoreApplication.translate("self", u"\u4fe1\u606f\u53ef\u7528", None))
+        self.label_checkMsg.setText(QCoreApplication.translate("self", u"\u4fe1\u606f\u53ef\u7528", None))
         self.btn_reject.setText(QCoreApplication.translate("self", u"\u53d6\u6d88", None))
         self.btn_check.setText(QCoreApplication.translate("self", u"\u68c0\u67e5", None))
         self.btn_save.setText(QCoreApplication.translate("self", u"\u4fdd\u5b58", None))
 
     # 每次打开时初始化数据并在控件中显示
     def showEvent(self, event) -> None:
-        self.init_data()
+        self._initData()
         return super().showEvent(event)
 
     def btn_reject_clicked(self) -> None:
@@ -166,10 +169,10 @@ class Dialog_ConfigMessageInput(QDialog):
         warnf = False
         if self.ledit_fileName.text() == "":
             passf = False
-            self.set_check_state("err", "文件名不能为空")
+            self._setCheckState("error", "文件名不能为空")
         if self.ledit_configName.text() == "":
             passf = False
-            self.set_check_state("err", "配置名不能为空")
+            self._setCheckState("error", "配置名不能为空")
         if passf:
             fileName = self.ledit_fileName.text()
             if fileName.endswith(".json") is False:
@@ -178,11 +181,11 @@ class Dialog_ConfigMessageInput(QDialog):
             path = File.path(SysPath.CONFIGURATION, self.ledit_fileName.text())
             if File.checkFileName(fileName) is False:
                 passf = False
-                self.set_check_state("err", "文件名无效(包含非法字符)")
+                self._setCheckState("error", "文件名无效(包含非法字符)")
                 return
             if File.isFileExists(path):
                 passf = False
-                self.set_check_state("err", "文件已存在")
+                self._setCheckState("error", "文件已存在")
                 return
             else:
                 try:
@@ -191,21 +194,21 @@ class Dialog_ConfigMessageInput(QDialog):
                     File.delete(path)
                 except:
                     passf = False
-                    self.set_check_state("err", "文件名无效")
+                    self._setCheckState("error", "文件名无效")
             for item in File.read_opt(File.path(SysPath.CACHE, "local_configuration.dat"), DataType.LIST, "#"):
                 if self.ledit_configName.text() == eval(item)[0]:
-                    self.set_check_state("warn", "存在同名配置(不会覆盖)")
+                    self._setCheckState("warn", "存在同名配置(不会覆盖)")
                     warnf = True
                     break
         if passf:
-            self.flag_check_pass = True
-            if not warnf: self.set_check_state("pass")
+            self.flag_checkPass = True
+            if not warnf: self._setCheckState("pass")
 
     def btn_save_clicked(self) -> None:
         self.btn_check_clicked()
-        if self.flag_check_pass:
+        if self.flag_checkPass:
             self.flag_accept = True
-            self.config_name = self.ledit_configName.text()
+            self.configName = self.ledit_configName.text()
             self.fileName = self.ledit_fileName.text()
             self.comment = self.tedit_comment.toPlainText()
             self.accept()

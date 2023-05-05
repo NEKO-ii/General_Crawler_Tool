@@ -12,15 +12,18 @@ from PySide6.QtCore import (QCoreApplication, QMetaObject)
 from PySide6.QtGui import (QFont)
 from PySide6.QtWidgets import (QDialog, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
 from ui.widgets import PushButton
+from core.static import Define
 
 
 class Question(QDialog):
     flag_accept: bool = False
-
-    color: dict = {"default": "#aaaabb", "info": "rgb(17, 169, 225)", "warning": "#f0f020", "error": "#ff4040", "success": "#20cc5f"}
+    color: dict
+    ticon: dict
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+        self.color = Define.TYPE_COLOR
+        self.ticon = Define.TYPE_ICON
         self.setWindowTitle("提示窗口")
         self.setStyleSheet("background-color: #2c313c;")
         self.setFixedSize(400, 160)
@@ -32,7 +35,7 @@ class Question(QDialog):
         self.btn_accept.clicked.connect(self.btn_accept_clicked)
 
     def exec(self, title="标题", msg="信息", titleType="info", msgType="default", btnRejectText="取消", btnAcceptText="确认") -> bool:
-        self.label_title.setText(title)
+        self.label_title.setText(F"{self.ticon[titleType]} {title}")
         self.label_text.setText(msg)
         self.btn_reject.setText(btnRejectText)
         self.btn_accept.setText(btnAcceptText)

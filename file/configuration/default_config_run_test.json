@@ -1,10 +1,5 @@
 {
-  "urls": [
-    "[\u25b2]",
-    "[\u25b2]",
-    "[\u25b2]",
-    "[\u25b2]"
-  ],
+  "urls": [],
   "request_method": "get",
   "encoding": "utf-8",
   "timeout": 10,
@@ -17,7 +12,7 @@
   "cookies": {},
   "user_agent_pool": [],
   "ip_proxy_pool": [],
-  "parser_enable": false,
+  "parser_enable": true,
   "data_type": "text",
   "pretreatment_enable": false,
   "pretreatment_setting": {

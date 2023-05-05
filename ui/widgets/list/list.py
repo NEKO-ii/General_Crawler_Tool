@@ -1,7 +1,7 @@
 # 自定义列表组件
 # ///////////////////////////////////////////////////////////////
 from core.static import Define
-from ui.preload.imp_qt import QListWidget, QAbstractItemView, Qt, QModelIndex, QWheelEvent, QKeyEvent, QListWidgetItem, QColor, QLabel
+from ui.preload.imp_qt import QListWidget, QAbstractItemView, Qt, QModelIndex, QWheelEvent, QKeyEvent, QListWidgetItem, QColor, QBrush
 
 # 样式表
 # ///////////////////////////////////////////////////////////////
@@ -172,11 +172,13 @@ class List(QListWidget):
         for item in data:
             self.addItem(QListWidgetItem(item))
 
-    def c_getData(self) -> list:
+    def c_getData(self, strip: bool = True) -> list:
         """获取列表数据"""
         returnList = []
         for i in range(0, self.count()):
-            returnList.append(self.item(i).text())
+            text = self.item(i).text()
+            if strip: text = text.strip()
+            returnList.append("" if text in Define.TYPE_ICON_LIST else text)
         return returnList
 
     def c_deleteSelectdRows(self) -> None:
@@ -186,15 +188,16 @@ class List(QListWidget):
             self.takeItem(rowIndex)
             if rowIndex in self._stateChangedRowList: self._stateChangedRowList.pop(self._stateChangedRowList.index(rowIndex))
 
-    def c_setTextColor(self, rowIndex: int, type: str) -> None:
+    def c_setTextColor(self, rowIndex: int, ctype: str) -> None:
         """设置列表行文本颜色
 
         Args:
             rowIndex (int): 行号
             type (str): 颜色类型[default, success, info, warn, error]
         """
-        self.item(rowIndex).setForeground(QColor(self.color[type]))
-        self.item(rowIndex).setText(self.icon[type])
+        item = self.item(rowIndex)
+        item.setForeground(QBrush(QColor(self.color[ctype])))
+        item.setText(self.icon[ctype])
 
     def c_setRowState(self, rowIndex: int, colorType: str, tooltip: str) -> None:
         """设置行状态
@@ -216,11 +219,17 @@ class List(QListWidget):
         """
         if rowIndex in self._stateChangedRowList:
             self._stateChangedRowList.pop(self._stateChangedRowList.index(rowIndex))
-            self.item(rowIndex).setForeground(QColor(self.color["default"]))
-            self.item(rowIndex).setToolTip(None)
+            item = self.item(rowIndex)
+            if item:
+                if item.text() in Define.TYPE_ICON_LIST: item.setText("")
+                item.setForeground(QBrush(QColor(self.color["default"])))
+                item.setToolTip(None)
 
     def c_RemoveAllState(self) -> None:
         for index in self._stateChangedRowList:
             self._stateChangedRowList.pop(self._stateChangedRowList.index(index))
-            self.item(index).setForeground(QColor(self.color["default"]))
-            self.item(index).setToolTip(None)
+            item = self.item(index)
+            if item:
+                if item.text() in Define.TYPE_ICON_LIST: item.setText("")
+                item.setForeground(QBrush(QColor(self.color["default"])))
+                item.setToolTip(None)

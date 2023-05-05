@@ -5,7 +5,7 @@ from core.static import Define
 from core.support import MsgType, Tools, console_printer
 from core.sys import DataType, File, SysPath, Globalv, GlvKey, Themes
 from ui.preload.imp_qt import QFileDialog, QUrl
-from ui.dialog import Dialog_ConfigMessageInput, Question, Notice, Inputer
+from ui.dialog import Dialog_ConfigMessageInput, Question, Notice, Inputer, Message
 from ui.widgets import ComboBox
 
 from .Ui_ConfigurationPage import Ui_ConfigurationPage
@@ -18,6 +18,8 @@ class Func_ConfigPage:
     editData: dict = None
     editFilePath: str = None
     overviewTableEditRowIndex: int = None
+
+    f_passToSave_ui: bool = True  # 此标记控制是否可以执行保存操作
 
     def __init__(self, ui: Ui_ConfigurationPage) -> None:
         self.themes: Themes = Globalv.get(GlvKey.THEMES)
@@ -90,6 +92,7 @@ class Func_ConfigPage:
         self.question = Question()
         self.notice = Notice()
         self.inputer = Inputer()
+        self.message = Message()
 
     # 函数定义
     # ///////////////////////////////////////////////////////////////
@@ -176,7 +179,7 @@ class Func_ConfigPage:
             else:
                 table.item(currentRow, currentCol).setText("U")
                 table.c_setCellColor(currentRow, currentCol, "warning")
-                self.notice.exec("注意", "输入状态标识无效, 请参考提示\n已修改为未知状态:U", titleType="warning", msgType="info")
+                self.notice.exec("注意", "输入状态标识无效, 请参考提示\n已修改为未知状态:U", titleType="warn", msgType="info")
 
     def btn_new_config(self) -> None:
         """新建配置"""
@@ -222,7 +225,7 @@ class Func_ConfigPage:
         """删除配置"""
         table = self.ui.overviewPage_ui.table_overview
         if table.c_getCurrentIndex()[0]:
-            if self.question.exec(title="是否确认删除", msg="删除配置会同时删除配置文件,若需保留请提前备份", msgType="warning"):
+            if self.question.exec(title="是否确认删除", msg="删除配置会同时删除配置文件,若需保留请提前备份", msgType="warn"):
                 for item in table.c_getData(onlyCol=[1], onlySelectedRows=True):
                     # print(item[0])
                     File.delete(item[0])
@@ -257,7 +260,7 @@ class Func_ConfigPage:
     def btn_edit_back(self) -> None:
         if self.editPageMode == "new": msg = "是否在未保存的情况下返回总览界面\n将不会创建新配置"
         elif self.editPageMode == "edit": msg = "是否在未保存的情况下返回总览界面\n本次所有修改将被舍弃"
-        if self.question.exec(title="请确认", msg=msg, msgType="warning"):
+        if self.question.exec(title="请确认", msg=msg, msgType="warn"):
             self.ui.pages.setCurrentWidget(self.ui.overviewPage)
 
     def btn_edit_in_json(self) -> None:
@@ -271,21 +274,25 @@ class Func_ConfigPage:
         self._configCheck_ui()
 
     def btn_edit_config_save(self) -> None:
-        if self.editPageMode == "new":
-            if self.dialog_configSaveMsgInput.exec():
+        # 保存操作之前检查UI设置正确性
+        self._configCheck_ui(noticeWhenPass=False)
+        # 只有检查通过才允许执行保存操作
+        if self.f_passToSave_ui:
+            if self.editPageMode == "new":
+                if self.dialog_configSaveMsgInput.exec():
+                    data = self._editPageFormDataGet()
+                    path = File.path(SysPath.CONFIGURATION, self.dialog_configSaveMsgInput.fileName)
+                    File.writeWithComment(path, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
+                    self.ui.overviewPage_ui.table_overview.c_addRow([self.dialog_configSaveMsgInput.configName, path, None, Define.LocalConfigState.U, self.dialog_configSaveMsgInput.comment])
+                    self.notice.exec("提示", "保存成功", msgType="success")
+                    self.ui.pages.setCurrentWidget(self.ui.overviewPage)
+            elif self.editPageMode == "edit":
                 data = self._editPageFormDataGet()
-                path = File.path(SysPath.CONFIGURATION, self.dialog_configSaveMsgInput.fileName)
-                File.writeWithComment(path, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
-                self.ui.overviewPage_ui.table_overview.c_addRow([self.dialog_configSaveMsgInput.config_name, path, None, Define.LocalConfigState.U, self.dialog_configSaveMsgInput.comment])
+                File.writeWithComment(self.editFilePath, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
+                table = self.ui.overviewPage_ui.table_overview
+                table.item(self.overviewTableEditRowIndex, 2).setText(Tools.datetime())
                 self.notice.exec("提示", "保存成功", msgType="success")
                 self.ui.pages.setCurrentWidget(self.ui.overviewPage)
-        elif self.editPageMode == "edit":
-            data = self._editPageFormDataGet()
-            File.writeWithComment(self.editFilePath, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
-            table = self.ui.overviewPage_ui.table_overview
-            table.item(self.overviewTableEditRowIndex, 2).setText(Tools.datetime())
-            self.notice.exec("提示", "保存成功", msgType="success")
-            self.ui.pages.setCurrentWidget(self.ui.overviewPage)
 
     def btn_edit_default(self) -> None:
         if self.question.exec("注意", "是否确认恢复默认配置?"):
@@ -321,7 +328,7 @@ class Func_ConfigPage:
                             else:
                                 urls.append(F"{url}&{i_name}={i}")
                     except:
-                        self.notice.exec("错误", "输入数据存在错误\n起始值,结束值以及步长只能输入数字", "error", "warning")
+                        self.notice.exec("错误", "输入数据存在错误\n起始值,结束值以及步长只能输入数字", "error", "warn")
                         f_continue = False
             if f_continue:
                 if urls:
@@ -348,17 +355,19 @@ class Func_ConfigPage:
         if url: self.ui.editorPage_ui.ledit_dataSavePath.setText(url.toLocalFile())
 
     def btn_parse_headers(self) -> None:
-        data = self.inputer.exec()
-        self.ui.editorPage_ui.table_headers.c_addRows([item.split(": ") for item in data.splitlines()])
+        flag, data = self.inputer.exec()
+        if flag and data:
+            self.ui.editorPage_ui.table_headers.c_addRows([item.split(": ") for item in data.splitlines()])
 
     def btn_parse_cookies(self) -> None:
-        data = self.inputer.exec()
-        self.ui.editorPage_ui.table_cookies.c_addRows([item.split("=") for item in data.split("; ")])
+        flag, data = self.inputer.exec()
+        if flag and data:
+            self.ui.editorPage_ui.table_cookies.c_addRows([item.split("=") for item in data.split("; ")])
 
     # 配置编辑页面:JSON
     # ///////////////////////////////////////////////////////////////
     def btn_json_back(self) -> None:
-        if self.question.exec(title="请确认", msg="是否在未保存的情况下返回总览界面\nJSON编辑页面的所有修改将被舍弃", msgType="warning"):
+        if self.question.exec(title="请确认", msg="是否在未保存的情况下返回总览界面\nJSON编辑页面的所有修改将被舍弃", msgType="warn"):
             self.ui.pages.setCurrentWidget(self.ui.editorPage)
 
     def btn_json_default(self) -> None:
@@ -426,7 +435,7 @@ class Func_ConfigPage:
         data["pretreatment_setting"] = {}
         data["pretreatment_setting"]["tag_name"] = self.ui.editorPage_ui.ledit_dataCut_tagName.text()
         for item in self.ui.editorPage_ui.tedit_dataCut_attrs.c_getLines():
-            item = item.split("=")
+            item = item.split("=", 1)
             if item.__len__() == 2:
                 dic[item[0].strip()] = item[1].strip()
         data["pretreatment_setting"]["attrs"] = deepcopy(dic)
@@ -497,6 +506,8 @@ class Func_ConfigPage:
         self.ui.editorPage_ui.tedit_ipProxy.c_addLines(lst)
         self.ui.editorPage_ui.group_parse.setChecked(data["parser_enable"])
         self.ui.editorPage_ui.combo_dataType.setCurrentText(data["data_type"].upper())
+        # TODO: 二进制数据解析时禁用数据切分
+        # 除此处外还需要定义下拉列表的切换信号处理函数
         self.ui.editorPage_ui.group_dataCut.setChecked(data["pretreatment_enable"])
         self.ui.editorPage_ui.ledit_dataCut_tagName.setText(data["pretreatment_setting"]["tag_name"])
         dic = data["pretreatment_setting"]["attrs"]
@@ -534,15 +545,60 @@ class Func_ConfigPage:
         self.ui.editorPage_ui.combo_saveImage_fileType.setCurrentText(data["file_save_setting"]["bin"]["file_type"].upper())
         self.ui.editorPage_ui.ledit_saveImage_fileName.setText(data["file_save_setting"]["bin"]["file_name"])
 
-    def _configCheck_ui(self) -> None:
+    def _configCheck_ui(self, noticeWhenPass: bool = True) -> None:
         # TODO: 完成配置检查功能
-        list_urlView = self.ui.editorPage_ui.list_urlView
+        # 初始化
+        self.f_passToSave_ui = True
+        self.message.clearMsg()
+        # 加载UI
+        ui = self.ui.editorPage_ui
+
+        # Url列表完整性检查
+        list_urlView = ui.list_urlView
         list_urlView.c_RemoveAllState()
-        index = -1
-        for data in list_urlView.c_getData():
+        urlList = list_urlView.c_getData()
+        if urlList:
+            index = -1
+            for data in urlList:
+                index += 1
+                if data == "":
+                    list_urlView.c_setRowState(index, "warn", "存在无意义的空值")
+                    self.message.appendMsg(F"Url列表第 {index + 1} 行存在空值", "warn")
+        else:
+            self.message.appendMsg("Url列表为空", "warn")
+        # 请求头列表完整性检查
+        index = 0
+        for row in ui.table_headers.c_getData():
             index += 1
-            if data == "":
-                list_urlView.c_setRowState(index, "warn", "存在无意义的空值")
+            if "" in row: self.message.appendMsg(F"请求头设置第 {index} 行数据不完整", "error")
+        # Cookie设置检查
+        index = 0
+        for row in ui.table_cookies.c_getData():
+            index += 1
+            if "" in row: self.message.appendMsg(F"Cookies设置第 {index} 行数据不完整", "error")
+        # 数据解析设置完整性检查
+        if ui.group_parse.isChecked():
+            if ui.group_dataCut.isChecked():
+                if ui.ledit_dataCut_tagName.text() == "" or ui.tedit_dataCut_attrs.toPlainText().strip() == "":
+                    self.message.appendMsg("数据切分设置不完整", "error")
+                else:
+                    index = 0
+                    for item in ui.tedit_dataCut_attrs.c_getLines():
+                        index += 1
+                        item = item.split("=", 1)
+                        if item.__len__() != 2:
+                            self.message.appendMsg(F"响应数据切分->标签属性第 {index} 行存在错误(已忽略空行)", "error")
+        # 文本类型数据解析设置完整性检查
+
+        # 依据消息列表是否为空判断有无出错
+        if noticeWhenPass and self.message.isEmptyMsg():
+            self.f_passToSave_ui = True
+            self.notice.exec("提示", "数据完整性检查通过", msgType="success")
+        else:
+            # 存在错误时设置标记
+            if self.message.getMsgCount("error") != 0: self.f_passToSave_ui = False
+            # 存在警告或错误时弹出消息列表
+            self.message.exec()
 
     def _configCheck_json(self) -> None:
         pass

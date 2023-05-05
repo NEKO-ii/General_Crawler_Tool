@@ -99,7 +99,7 @@ class Ui_ConfigurationEditor(object):
         self.btn_editInJson.setObjectName(u"btn_edit_json")
         self.horizontalLayout_2.addWidget(self.btn_editInJson)
 
-        self.btn_check = PushButton(self.topBar, text="检查")
+        self.btn_check = PushButton(self.topBar, text="检查", type="primary")
         self.btn_check.setObjectName(u"btn_check")
         self.horizontalLayout_2.addWidget(self.btn_check)
 
@@ -393,7 +393,7 @@ class Ui_ConfigurationEditor(object):
         self.spin_requestTimeout.setObjectName(u"spin_request_timeout")
         self.spin_requestTimeout.setMinimumSize(QSize(60, 0))
         self.spin_requestTimeout.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.spin_requestTimeout.setMaximum(600)
+        self.spin_requestTimeout.setMaximum(60)
 
         self.requestTopLayout.addWidget(self.spin_requestTimeout)
 
@@ -520,6 +520,11 @@ class Ui_ConfigurationEditor(object):
         self.verticalLayout_10.setContentsMargins(3, 3, 3, 3)
         self.cookiesBtnLayout = QHBoxLayout()
         self.cookiesBtnLayout.setObjectName(u"cookies_btn_layout")
+
+        self.cookies_lable = QLabel(self.group_cookies)
+
+        self.cookiesBtnLayout.addWidget(self.cookies_lable)
+
         self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.cookiesBtnLayout.addItem(self.horizontalSpacer_8)
@@ -637,7 +642,7 @@ class Ui_ConfigurationEditor(object):
 
         self.verticalLayout_14.addWidget(self.dataCut_label2)
 
-        self.tedit_dataCut_attrs = TextEdit(self.group_dataCut, heightScope=[50, 150], heightByDocument=True)
+        self.tedit_dataCut_attrs = TextEdit(self.group_dataCut, placeHolderText="每个属性设置独占一行,使用 name=value 的格式", heightScope=[50, 150], heightByDocument=True)
         self.tedit_dataCut_attrs.setObjectName(u"tedit_data_cut_attrs")
         self.tedit_dataCut_attrs.setMinimumSize(QSize(0, 0))
 
@@ -880,6 +885,11 @@ class Ui_ConfigurationEditor(object):
         self.btn_dataForm_script_add.setText(QCoreApplication.translate("ConfigurationEditor", u"\u65b0\u589e", None))
         self.btn_dataForm_script_delete.setText(QCoreApplication.translate("ConfigurationEditor", u"\u5220\u9664", None))
         self.group_cookies.setTitle(QCoreApplication.translate("ConfigurationEditor", u"Cookies", None))
+        self.cookies_lable.setText(
+            QCoreApplication.translate(
+                "ConfigurationEditor",
+                u"\u6ce8\u610f\u003a\u0020\u6b64\u5904\u8bbe\u7f6e\u0043\u006f\u006f\u006b\u0069\u0065\u0073\u5c06\u4f1a\u8986\u76d6\u0048\u0065\u0061\u0064\u0065\u0072\u4e2d\u7684\u0043\u006f\u006f\u006b\u0069\u0065\u0073\u8bbe\u7f6e",
+                None))
         self.btn_cookiesParse.setText(QCoreApplication.translate("ConfigurationEditor", u"\u7c98\u8d34", None))
         self.btn_cookiesAdd.setText(QCoreApplication.translate("ConfigurationEditor", u"\u65b0\u589e", None))
         self.btn_cookiesDelete.setText(QCoreApplication.translate("ConfigurationEditor", u"\u5220\u9664", None))
