@@ -53,7 +53,7 @@ class Define:
         "error": "[⨂]",
     }
     TYPE_ICON_LIST: list = ["[√]", "[▣]", "[▲]", "[⨂]"]
-    LOCAL_CONF_STATE_TYPE: dict = {"success": [LocalConfigState.RP, LocalConfigState.R, LocalConfigState.P], "error": [LocalConfigState.N, LocalConfigState.FL], "warning": [LocalConfigState.U]}
+    LOCAL_CONF_STATE_TYPE: dict = {"success": [LocalConfigState.RP, LocalConfigState.R, LocalConfigState.P], "error": [LocalConfigState.N, LocalConfigState.FL], "warn": [LocalConfigState.U]}
 
     # 默认主题
     # ///////////////////////////////////////////////////////////////

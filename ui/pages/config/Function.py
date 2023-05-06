@@ -141,7 +141,7 @@ class Func_ConfigPage:
             if item != []:
                 if item[0] in Define.LOCAL_CONF_STATE_TYPE["success"]: table.c_setCellColor(rindex, 3, "success")
                 elif item[0] in Define.LOCAL_CONF_STATE_TYPE["error"]: table.c_setCellColor(rindex, 3, "error")
-                elif item[0] in Define.LOCAL_CONF_STATE_TYPE["warning"]: table.c_setCellColor(rindex, 3, "warning")
+                elif item[0] in Define.LOCAL_CONF_STATE_TYPE["warn"]: table.c_setCellColor(rindex, 3, "warn")
             rindex += 1
         table.flag_initComplete = True
 
@@ -153,15 +153,22 @@ class Func_ConfigPage:
         datas = File.read_opt(File.path(SysPath.CACHE, "local_configuration.dat"), DataType.LIST, "#")
         for data in datas:
             dataList = eval(data)
+            # 检查文件是否存在
+            if File.isFileExists(dataList[1]):
+                # 若刷新前为文件丢失状态且刷新后文件存在,将状态改为未知
+                if dataList[3] == Define.LocalConfigState.FL: dataList[3] = Define.LocalConfigState.U
+            else: dataList[3] = Define.LocalConfigState.FL
             table.c_addRow(dataList)
         rindex = 0
         for item in table.c_getData(onlyCol=[3]):
             if item != []:
                 if item[0] in Define.LOCAL_CONF_STATE_TYPE["success"]: table.c_setCellColor(rindex, 3, "success")
                 elif item[0] in Define.LOCAL_CONF_STATE_TYPE["error"]: table.c_setCellColor(rindex, 3, "error")
-                elif item[0] in Define.LOCAL_CONF_STATE_TYPE["warning"]: table.c_setCellColor(rindex, 3, "warning")
+                elif item[0] in Define.LOCAL_CONF_STATE_TYPE["warn"]: table.c_setCellColor(rindex, 3, "warn")
             rindex += 1
         table.flag_initComplete = True
+        data = table.c_getData()
+        File.writeWithComment(File.path(SysPath.CACHE, "local_configuration.dat"), data, top_comment=Define.FILE_DAT_TOP_COMMENT["local_configuration"])
 
     def ov_table_overview_data_changed(self, currentIndex: list) -> None:
         """表格数据变化后更新文件数据"""
@@ -175,10 +182,10 @@ class Func_ConfigPage:
             text = table.item(currentRow, currentCol).text()
             if text in Define.LOCAL_CONF_STATE_TYPE["success"]: table.c_setCellColor(currentRow, currentCol, "success")
             elif text in Define.LOCAL_CONF_STATE_TYPE["error"]: table.c_setCellColor(currentRow, currentCol, "error")
-            elif text in Define.LOCAL_CONF_STATE_TYPE["warning"]: table.c_setCellColor(currentRow, currentCol, "warning")
+            elif text in Define.LOCAL_CONF_STATE_TYPE["warn"]: table.c_setCellColor(currentRow, currentCol, "warn")
             else:
                 table.item(currentRow, currentCol).setText("U")
-                table.c_setCellColor(currentRow, currentCol, "warning")
+                table.c_setCellColor(currentRow, currentCol, "warn")
                 self.notice.exec("注意", "输入状态标识无效, 请参考提示\n已修改为未知状态:U", titleType="warn", msgType="info")
 
     def btn_new_config(self) -> None:
@@ -546,7 +553,6 @@ class Func_ConfigPage:
         self.ui.editorPage_ui.ledit_saveImage_fileName.setText(data["file_save_setting"]["bin"]["file_name"])
 
     def _configCheck_ui(self, noticeWhenPass: bool = True) -> None:
-        # TODO: 完成配置检查功能
         # 初始化
         self.f_passToSave_ui = True
         self.message.clearMsg()
@@ -589,11 +595,26 @@ class Func_ConfigPage:
                         if item.__len__() != 2:
                             self.message.appendMsg(F"响应数据切分->标签属性第 {index} 行存在错误(已忽略空行)", "error")
         # 文本类型数据解析设置完整性检查
+        if ui.group_parse.isChecked() and ui.combo_dataType.currentText() == "TEXT":
+            index = 0
+            for row in ui.table_psetText.c_getData(onlyCol=[1]):
+                index += 1
+                if "" in row: self.message.appendMsg(F"数据解析设置->文本类型第 {index} 行缺少匹配语法", "error")
+        # 保存相关设置
+        if ui.group_save.isChecked():
+            FILE_EXTEND_NAME: dict = {"txt": ["txt"], "excel": ["xlsx", "xls"], "sql": ["sql"]}
+            # 文本数据类型相关
+            fileNameArr = ui.ledit_saveText_fileName.text().rsplit(".", 1)
+            if fileNameArr.__len__() != 2: self.message.appendMsg("数据存储设置->文本数据->文件名称缺少扩展名,将自动设置", "warn")
+            elif fileNameArr[1] not in FILE_EXTEND_NAME[ui.combo_saveText_fileType.currentText().lower()]:
+                self.message.appendMsg("数据存储设置->文本数据->文件扩展名不匹配,将自动设置", "warn")
+            if ui.check_saveText_paging.isChecked():
+                if ui.spin_saveText_dataLimit.value() < 100: self.message.appendMsg("数据存储设置->文本数据->单页数据上限过低,可能导致页数过多", "warn")
 
         # 依据消息列表是否为空判断有无出错
-        if noticeWhenPass and self.message.isEmptyMsg():
+        if self.message.isEmptyMsg():
             self.f_passToSave_ui = True
-            self.notice.exec("提示", "数据完整性检查通过", msgType="success")
+            if noticeWhenPass: self.notice.exec("提示", "数据完整性检查通过", msgType="success")
         else:
             # 存在错误时设置标记
             if self.message.getMsgCount("error") != 0: self.f_passToSave_ui = False

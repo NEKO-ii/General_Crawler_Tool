@@ -54,8 +54,8 @@ QListWidget::item::selected:active {{
 class List(QListWidget):
 
     _stateChangedRowList: list = []
-    color = Define.TYPE_COLOR
-    icon = Define.TYPE_ICON
+    color: dict
+    icon: dict
 
     def __init__(self,
                  parent=None,
@@ -80,6 +80,8 @@ class List(QListWidget):
         """padding仅为每一项上下的padding,左右已经固定
         """
         super().__init__()
+        self.color = Define.TYPE_COLOR
+        self.icon = Define.TYPE_ICON
         self._scrollParent = scrollParent
         self._sp_lock = False
         if scrollParent:

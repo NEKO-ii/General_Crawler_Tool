@@ -685,7 +685,7 @@ class Ui_ConfigurationEditor(object):
 
         self.verticalLayout_16.addLayout(self.psetTextPageBtnLayout)
 
-        self.table_psetText = TableWidget(self.psetTextPage, fixedColWidth=True)
+        self.table_psetText = TableWidget(self.psetTextPage, fixedColWidth=True, height=250)
         self.table_psetText.setObjectName(u"table_pset_text")
 
         self.verticalLayout_16.addWidget(self.table_psetText)
@@ -789,7 +789,7 @@ class Ui_ConfigurationEditor(object):
         self.spin_saveText_dataLimit = SpinBox(self.group_saveText)
         self.spin_saveText_dataLimit.setObjectName(u"spin_save_text_data_limit")
         self.spin_saveText_dataLimit.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.spin_saveText_dataLimit.setMinimum(1)
+        self.spin_saveText_dataLimit.setMinimum(10)
         self.spin_saveText_dataLimit.setMaximum(9999999)
         self.spin_saveText_dataLimit.setValue(1000)
 

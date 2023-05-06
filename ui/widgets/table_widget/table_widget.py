@@ -1,8 +1,9 @@
 from ui.preload.imp_qt import QTableWidget, Qt, QAbstractItemView, QWheelEvent, QTableWidgetItem, QHeaderView, Signal, QColor
+from core.static import Define
 
 
 class TableWidget(QTableWidget):
-    color: dict = {"default": "#aaaabb", "info": "rgb(17, 169, 225)", "warning": "#f0f020", "error": "#ff4040", "success": "#20cc5f"}
+    color: dict
     style: str = '''
     QWidget {{
         color: {_color};
@@ -229,6 +230,7 @@ class TableWidget(QTableWidget):
             scroll_parent (_type_, optional): 滚动传递组件. Defaults to None.
         """
         super().__init__(parent)
+        self.color = Define.TYPE_COLOR
         self._autoColWidth = autoColWidth
         self._defaultRowHeight = defaultRowHeight
         self._scrollParent = scrollParent
@@ -377,12 +379,12 @@ class TableWidget(QTableWidget):
         for item in data:
             self.c_addRow(item)
 
-    def c_getData(self, widgetCols: list = [], onlyCol: list = [], onlySelectedRows: bool = False, strip: bool = True) -> list:
+    def c_getData(self, widgetCols: list[int] = [], onlyCol: list[int] = [], onlySelectedRows: bool = False, strip: bool = True) -> list:
         """获取表格数据列表(二维),最外层固定位列表,若表格为空则不会添加内层列表,只返回一个空列表
 
         Args:
-            widgetCols (list, optional): 标记表格中存在组件的列. Defaults to [].
-            onlyCol (list, optional): 设置输出列,若设置,未在列表中的列的数据将忽略. Defaults to [].
+            widgetCols (list[int], optional): 标记表格中存在组件的列,从0开始. Defaults to [].
+            onlyCol (list[int], optional): 设置输出列,若设置,未在列表中的列的数据将忽略,从0开始. Defaults to [].
             onlySelectedRows (bool, optional): 是否只输出选中行的数据. Defaults to False.
 
         Returns:
