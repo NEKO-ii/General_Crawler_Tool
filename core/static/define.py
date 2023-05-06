@@ -403,8 +403,12 @@ class Define:
     # ///////////////////////////////////////////////////////////////
     # 起始
     FILE_DAT_TOP_COMMENT: dict = {
-        "local_configuration": '# ID::NAME::PATH::DATETIME::STATUS::COMMENT\n'
-        '# STATUS => [RP:ALL_PASS][R:ONLY_HTTP_REQUEST][P:ONLY_DATA_PARSE][E:ERROR]\n\n'
+        "local_configuration": '# TYPE: LIST\n'
+        '# [NAME,PATH,UPDATE_TIME,STATUS,COMMENT]\n'
+        '# STATUS => [RP:ALL_PASS][R:ONLY_HTTP_REQUEST][P:ONLY_DATA_PARSE][E:ERROR]\n\n',
+        "custom_script": '# TYPE: LIST\n'
+        '# [NAME,TYPE,PATH,UPDATE_TIME,COMMENT]\n'
+        '# TYPE => [PYTHON,JS]\n\n'
     }
     # 结尾
     FILE_DAT_BOTTOM_COMMENT: dict = {}

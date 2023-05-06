@@ -1,4 +1,5 @@
-# ID::NAME::PATH::DATETIME::STATUS::COMMENT
+# TYPE: LIST
+# [NAME,PATH,UPDATE_TIME,STATUS,COMMENT]
 # STATUS => [RP:ALL_PASS][R:ONLY_HTTP_REQUEST][P:ONLY_DATA_PARSE][E:ERROR]
 
 ['Demo_DoubanTop250_DataCut', ':/file/configuration/test.json', '2022.12.13 17:24:58', 'FL', '可执行配置文件']

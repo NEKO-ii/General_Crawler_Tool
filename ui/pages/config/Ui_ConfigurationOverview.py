@@ -8,12 +8,11 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from core.sys import Themes
 from ui.preload.imp_qt import (QCoreApplication, QHBoxLayout, QMetaObject, QSizePolicy, QSpacerItem, QTableWidgetItem, QVBoxLayout)
 from ui.widgets import PushButton, TableWidget
 
 
-class Ui_ConfigurationOverview(object):
+class Ui_ConfigurationOverview:
 
     def __init__(self, ConfigurationOverview) -> None:
         self.setupUi(ConfigurationOverview)
@@ -56,11 +55,11 @@ class Ui_ConfigurationOverview(object):
 
         self.verticalLayout.addLayout(self.overviewTopLayout)
 
-        self.table_overview = TableWidget(ConfigurationOverview, defaultRowHeight=25, headerPadding=3, fixedColWidth=True, extendHeight=True)
+        self.table_overview = TableWidget(ConfigurationOverview, defaultRowHeight=25, headerPadding=3, extendHeight=True)
         self.table_overview.setObjectName(u"table_overview")
-        self.table_overview.c_setHeader(["名称", "文件位置", "时间", "状态", "备注"], [1])
+        self.table_overview.c_setHeader(["名称", "文件位置", "更新时间", "状态", "备注"], [1])
         self.table_overview.c_setHeaderTooltip([None, "该配置对应的JSON文件路径", "最后修改的时间", "R:可运行网络请求\nP:可运行数据解析\nN:不可运行\nFL:配置文件丢失\nU:未知"])
-        self.table_overview.noEditCols = [1]
+        self.table_overview.noEditCols = [1, 2]
         self.table_overview.c_setColWidth([240, None, 160, 50, 350])
 
         self.verticalLayout.addWidget(self.table_overview)

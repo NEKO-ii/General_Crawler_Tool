@@ -1,9 +1,9 @@
 from core.sys import Themes
-from ui.preload.imp_qt import (QCoreApplication, QMetaObject, QStackedWidget,
-                               QVBoxLayout, QWidget)
+from ui.preload.imp_qt import (QCoreApplication, QMetaObject, QStackedWidget, QVBoxLayout, QWidget)
 
 from .config import ConfigurationPage
 from .start import StartPage
+from .script import ScriptPage
 from .ui_test_page3 import Ui_test_page3
 
 
@@ -17,10 +17,8 @@ class Ui_MainPagesContainer:
             MainPagesContainer.setObjectName(u"MainPagesContainer")
         self.mainPagesLayout = QVBoxLayout(MainPagesContainer)
         self.mainPagesLayout.setSpacing(0)
-        self.mainPagesLayout.setObjectName(u"main_pages_layout")
         self.mainPagesLayout.setContentsMargins(0, 0, 0, 0)
         self.pages = QStackedWidget(MainPagesContainer)
-        self.pages.setObjectName(u"pages")
 
         # 添加页面
         # ///////////////////////////////////////////////////////////////
@@ -31,6 +29,10 @@ class Ui_MainPagesContainer:
         self.configPage = QWidget(self.pages)
         self.configPage_inner = ConfigurationPage(self.configPage)
         self.pages.addWidget(self.configPage)
+
+        self.scriptPage = QWidget(self.pages)
+        self.scriptPage_inner = ScriptPage(self.scriptPage)
+        self.pages.addWidget(self.scriptPage)
 
         self.page_3 = QWidget()
         self.test_page3 = Ui_test_page3()

@@ -88,7 +88,8 @@ class Func_MainWindow:
 
     def nav_script(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
-        console_printer(MsgType.INFOMATION, "btn script clicked")
+        self.ui.setPage(self.ui.mainPages_ui.scriptPage)
+        # console_printer(MsgType.INFOMATION, "btn script clicked")
 
     def nav_temp(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)

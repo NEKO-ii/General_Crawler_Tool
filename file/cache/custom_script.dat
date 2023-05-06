@@ -1,0 +1,5 @@
+# TYPE: LIST
+# [NAME,TYPE,PATH,UPDATE_TIME,COMMENT]
+# TYPE => [PYTHON,JS]
+
+['有道翻译临时参数生成', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\func.js', '2022.12.13 17:24:58', '']

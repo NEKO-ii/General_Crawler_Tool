@@ -1,21 +1,12 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'page_config_json.ui'
-##
-## Created by: Qt User Interface Compiler version 6.3.2
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
+# 复制并修改自: Ui_ConfigJsonEditor.py
+# ///////////////////////////////////////////////////////////////
 from PySide6.QtCore import (QCoreApplication, QMetaObject)
 from PySide6.QtWidgets import (QHBoxLayout, QSizePolicy, QSpacerItem, QVBoxLayout)
 
-from core.sys import Themes
 from ui.widgets import PushButton, TextEdit
 
 
-class Ui_ConfigJsonEditor:
+class Ui_ScriptEditor:
 
     def __init__(self, ConfigurationJson) -> None:
         self.setupUi(ConfigurationJson)

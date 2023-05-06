@@ -213,7 +213,6 @@ class TableWidget(QTableWidget):
                  height=140,
                  extendHeight=False,
                  autoColWidth=False,
-                 fixedColWidth=False,
                  show_h_header=True,
                  show_v_header=True,
                  scrollParent=None):
@@ -224,7 +223,6 @@ class TableWidget(QTableWidget):
             height (int, optional): 设置固定高度(extend_height为True时将被忽略). Defaults to 140.
             extend_height (bool, optional): 高度自动填充. Defaults to False.
             auto_col_width (bool, optional): 自动列宽(将表格宽度平分给每一列且不可改变). Defaults to False.
-            fixed_col_width (bool, optional): 固定列宽(设置自动列宽时将被忽略). Defaults to False.
             show_h_header (bool, optional): 显示水平标题. Defaults to True.
             show_v_header (bool, optional): 显示垂直行号. Defaults to True.
             scroll_parent (_type_, optional): 滚动传递组件. Defaults to None.
@@ -239,8 +237,6 @@ class TableWidget(QTableWidget):
             self._sp_lock = True
         if autoColWidth:
             self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        elif fixedColWidth:
-            self.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
         if extendHeight is False:
             if height: self.setFixedHeight(height)
 
@@ -416,7 +412,8 @@ class TableWidget(QTableWidget):
         self.show()
 
     def c_setColWidth(self, width: list) -> None:
-        """设置每列的列宽,根据输入数组从左到右设置列宽,输入数组项数不足以及过多时多余部分忽略,设置了自动列宽时该设置将被忽略
+        """设置每列的列宽,根据输入数组从左到右设置列宽,输入数组项数不足以及过多时多余部分忽略,设置了自动列宽时该设置将被忽略,可使用None跳过某一列.
+        通过此方法设置列宽后该列将改为固定宽度
 
         Args:
             width (list): 列宽数据数组
@@ -426,7 +423,9 @@ class TableWidget(QTableWidget):
             listLength = width.__len__()
             for i in range(0, colCount):
                 if i == listLength: break
-                if width[i] is not None: self.setColumnWidth(i, width[i])
+                if width[i] is not None:
+                    self.setColumnWidth(i, width[i])
+                    self.horizontalHeader().setSectionResizeMode(i, QHeaderView.Fixed)
 
     def c_deleteSelectdRows(self) -> None:
         """删除所有选中行,注意:当flag_init_complete=True时会触发sig_data_changed信号"""

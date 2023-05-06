@@ -15,7 +15,7 @@ from core.sys import Themes, Globalv, GlvKey
 from ui.widgets import (ComboBox, LineEdit, List, PushButton, ScrollArea, SpinBox, TableWidget, TextEdit, GroupBox)
 
 
-class Ui_ConfigurationEditor(object):
+class Ui_ConfigurationEditor:
 
     def __init__(self, ConfigurationEditor: QWidget) -> None:
         self.themes: Themes = Globalv.get(GlvKey.THEMES)
@@ -56,12 +56,13 @@ class Ui_ConfigurationEditor(object):
         self.table_headers.c_setHeader(["参数名", "参数值"])
         self.table_headers.setColumnWidth(0, 200)
         self.table_dataForm.c_setHeader(["参数名", "参数值"])
-        self.table_dataForm_script.c_setHeader(["参数名", "来源模块", "输入参数", "输出列表索引"])
-        self.table_dataForm_script.c_setHeaderTooltip([None, "该参数名对应的值由哪个模块输出\n输入模块名(需要后缀)", "若该模块需要输入参数则在此填写\n若不需要则留空", "若该模块输出一个列表而参数值只需要其中一项\n在此处输入该项的索引(起始为1)"])
+        self.table_dataForm_script.c_setHeader(["", "脚本名称", "脚本文件名", "输入参数", ""], stretchCols=[1, 2, 3])
+        self.table_dataForm_script.c_setColWidth([80, None, None, None, 80])
+        self.table_dataForm_script.c_setHeaderTooltip([None, None, None, "脚本需要接收的输入参数\n参考命令行传参,多参数以空格分割"])
         self.table_cookies.c_setHeader(["键", "值"])
         self.table_cookies.setColumnWidth(0, 200)
-        self.table_psetText.c_setHeader(["方法", "匹配语法", "索引值", "间隔字符"])
-        self.table_psetText.c_setColWidth([120, 700, 200])
+        self.table_psetText.c_setHeader(["方法", "匹配语法", "索引值", "间隔字符"], stretchCols=[1])
+        self.table_psetText.c_setColWidth([120, None, 200, 200])
         self.table_psetText.c_setHeaderTooltip(["文本匹配方式\nRE:正则表达式匹配\nBS4:BeautifulSoup标签搜索语法\nXPATH:XML路径定位语法", "所选方法对应的匹配语句", "若前面的语法匹配到的结果不止一个\n可在此填写所需结果的索引\n(起始为0,空表示选择所有,可多选索引间用逗号分隔)", "若有多个匹配结果,可在此填写多个结果间的分隔符\n默认为空代表空格"])
 
     def setupUi(self, ConfigurationEditor: QWidget):
@@ -685,7 +686,7 @@ class Ui_ConfigurationEditor(object):
 
         self.verticalLayout_16.addLayout(self.psetTextPageBtnLayout)
 
-        self.table_psetText = TableWidget(self.psetTextPage, fixedColWidth=True, height=250)
+        self.table_psetText = TableWidget(self.psetTextPage, height=250)
         self.table_psetText.setObjectName(u"table_pset_text")
 
         self.verticalLayout_16.addWidget(self.table_psetText)

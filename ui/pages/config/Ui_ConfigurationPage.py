@@ -11,14 +11,12 @@
 from PySide6.QtCore import QCoreApplication, QMetaObject
 from PySide6.QtWidgets import QStackedWidget, QVBoxLayout, QWidget
 
-from core.sys import Themes
-
 from .Ui_ConfigurationEditor import Ui_ConfigurationEditor
 from .Ui_ConfigJsonEditor import Ui_ConfigJsonEditor
 from .Ui_ConfigurationOverview import Ui_ConfigurationOverview
 
 
-class Ui_ConfigurationPage(object):
+class Ui_ConfigurationPage:
 
     def __init__(self, Configuration) -> None:
         self.setupUi(Configuration)
@@ -28,10 +26,8 @@ class Ui_ConfigurationPage(object):
         if not Configuration.objectName():
             Configuration.setObjectName(u"Configuration")
         self.verticalLayout = QVBoxLayout(Configuration)
-        self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.pages = QStackedWidget(Configuration)
-        self.pages.setObjectName(u"pages")
 
         # 添加页面
         # ///////////////////////////////////////////////////////////////
