@@ -30,10 +30,10 @@ class Navigation:
         "show_top": True,
         "is_active": False
     }, {
-        "btn_icon": "icon_request.svg",
-        "btn_id": "btn_nav_request",
-        "btn_text": "端口测试",
-        "btn_tooltip": "端口测试",
+        "btn_icon": "icon_cloud.svg",
+        "btn_id": "btn_nav_cloud",
+        "btn_text": "数据云",
+        "btn_tooltip": "数据云",
         "show_top": True,
         "is_active": False
     }, {
