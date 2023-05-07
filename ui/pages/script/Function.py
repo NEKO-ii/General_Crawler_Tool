@@ -195,6 +195,3 @@ class Func_ScriptPage:
 
     def sig_edit_text_changed(self) -> None:
         self.flag_currentTextChanged = True
-
-    # 私有方法
-    # ///////////////////////////////////////////////////////////////
