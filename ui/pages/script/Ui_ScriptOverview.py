@@ -1,6 +1,6 @@
 # 由Ui_ConfigurationOverview.py复制并修改
 # ///////////////////////////////////////////////////////////////
-from ui.preload.imp_qt import (QCoreApplication, QHBoxLayout, QMetaObject, QSizePolicy, QSpacerItem, QTableWidgetItem, QVBoxLayout)
+from ui.preload.imp_qt import (QCoreApplication, QHBoxLayout, QMetaObject, QSizePolicy, QSpacerItem, QVBoxLayout)
 from ui.widgets import PushButton, TableWidget
 
 
@@ -39,7 +39,7 @@ class Ui_ScriptOverview:
         self.table_overview = TableWidget(ScriptOverview, defaultRowHeight=25, headerPadding=3, extendHeight=True)
         self.table_overview.c_setHeader(["名称", "类型", "文件路径", "更新时间", "说明"], [2])
         self.table_overview.c_setHeaderTooltip([None, "脚本文件类型", "绝对路径", "最后修改的时间"])
-        self.table_overview.noEditCols = [1, 2]
+        self.table_overview.noEditCols = [1, 2, 3]
         self.table_overview.c_setColWidth([240, 50, None, 160, 350])
 
         self.verticalLayout.addWidget(self.table_overview)

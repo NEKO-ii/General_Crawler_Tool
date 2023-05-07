@@ -40,6 +40,7 @@ class Func_StartPage(QObject):
         self.sig_run.connect(self.runner.run)
         self.runner.sig_sleep.connect(self.thread_sleep)
         self.runner.sig_stop.connect(self._threadStop)
+        self._thread.finished.connect(self.runner.deleteLater)
 
     # 按钮事件定义
     # ///////////////////////////////////////////////////////////////

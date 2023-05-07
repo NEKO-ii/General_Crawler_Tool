@@ -2,4 +2,5 @@
 # [NAME,TYPE,PATH,UPDATE_TIME,COMMENT]
 # TYPE => [PYTHON,JS]
 
-['有道翻译临时参数生成', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\func.js', '2022.12.13 17:24:58', '']
+['有道翻译临时参数生成', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\func.js', '2022.12.13 17:24:58', '早期测试使用']
+['测试用脚本文件', 'PY', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\script_test.py', '2023.05.07 21:51:28', '测试专用']

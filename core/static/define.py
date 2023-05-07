@@ -155,6 +155,12 @@ class Define:
         '        }\n'
         '    }\n'
         '}\n',
+        # Python脚本文件模版
+        "script_py":
+        'py\n',
+        # JS脚本文件模版
+        "script_js":
+        'js\n',
         # 默认设置文件
         "settings":
         '{\n'

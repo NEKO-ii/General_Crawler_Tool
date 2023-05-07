@@ -110,14 +110,14 @@ class File:
             return_list: list = []
             line: str
             for line in file.readlines():
-                if line.startswith(comment_mark) or line == "\n": continue
+                if comment_mark and (line.startswith(comment_mark) or line == "\n"): continue
                 else:
                     if return_type == DataType.LIST: return_list.append(line.strip())
                     else: return_list.append(line)
             if return_type == DataType.LIST:
                 return return_list
             if return_type == DataType.STRING:
-                return str.join([s for s in return_list])
+                return "".join([s for s in return_list])
 
     @staticmethod
     def write(path: str, data, mode="w") -> None:

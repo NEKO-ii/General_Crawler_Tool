@@ -178,7 +178,9 @@ class TableWidget(QTableWidget):
     sig_flush = Signal(object)
 
     flag_opened: bool = False
+    """默认为False,当打开后为True"""
     flag_initComplete: bool = False
+    """默认为False,控制sig_dataChanged信号的触发"""
     _flag_dataChangeSigEnable: bool = True
 
     noEditCols: list = []

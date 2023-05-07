@@ -16,4 +16,4 @@ class ScriptPage:
 
     def __init__(self, scriptPageWidget) -> None:
         self.ui = Ui_ScriptPage(scriptPageWidget)
-        self.func = Func_ScriptPage()
+        self.func = Func_ScriptPage(self.ui)

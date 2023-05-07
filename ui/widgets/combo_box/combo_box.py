@@ -49,8 +49,8 @@ QComboBox::down-arrow {{
 
 
 class ComboBox(QComboBox):
-    sig_currentTextChanged = Signal(object)
-    sig_currentIndexChanged = Signal(object)
+    sig_currentTextChanged = Signal(str)
+    sig_currentIndexChanged = Signal(int)
 
     def __init__(self,
                  parent=None,

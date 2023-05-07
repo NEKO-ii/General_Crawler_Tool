@@ -1,33 +1,21 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'dialog_config_save_message_input.ui'
-##
-## Created by: Qt User Interface Compiler version 6.3.2
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
+# 复制并修改自Dialog_ConfigMessageInput.py
+# ///////////////////////////////////////////////////////////////
 from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
-from PySide6.QtWidgets import (QDialog, QStyleFactory, QFormLayout, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
+from PySide6.QtWidgets import (QDialog, QWidget, QFormLayout, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
 from core.sys import File, SysPath, DataType
 from core.static import Define
 from ui.widgets import PushButton, LineEdit, TextEdit
 
 
-class Dialog_ConfigMessageInput(QDialog):
+class Dialog_ScriptMessageInput(QDialog):
 
-    configName: str = "新建配置"
-    fileName: str = "new_config.json"
-    comment: str = ""
-    flag_accept: bool = False
-    flag_checkPass: bool = False
+    fileType: str
     color: dict
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.color = Define.TYPE_COLOR
-        self.setWindowTitle("配置保存")
+        self.setWindowTitle("脚本保存")
         self.setStyleSheet("background-color: #2c313c; color: #aaaabb;")
         self.setFixedSize(400, 220)
         self.setupUi()
@@ -35,20 +23,21 @@ class Dialog_ConfigMessageInput(QDialog):
 
     def _btnConnect(self) -> None:
         """按钮点击事件链接"""
-        self.btn_reject.clicked.connect(self.btn_reject_clicked)
-        self.btn_check.clicked.connect(self.btn_check_clicked)
+        self.btn_reject.clicked.connect(self.reject)
+        self.btn_check.clicked.connect(self.checkData)
         self.btn_save.clicked.connect(self.btn_save_clicked)
 
     def _initData(self) -> None:
         """初始化控件内容数据"""
-        self.flag_accept = False
-        self.flag_checkPass = False
-        self.configName = "新建配置"
-        self.fileName = "new_config.json"
-        self.comment = ""
-        self.ledit_configName.setText(self.configName)
-        self.ledit_fileName.setText(self.fileName)
-        self.tedit_comment.setText(self.comment)
+        self.ledit_scriptName.setText("新建脚本")
+        self.ledit_fileBaseName.setText("new_script")
+        if self.fileType:
+            self.ledit_fileExtendName.setText(F".{self.fileType}")
+            self.ledit_fileExtendName.setEnabled(False)
+        else:
+            self.ledit_fileExtendName.clear()
+            self.ledit_fileExtendName.setEnabled(True)
+        self.tedit_comment.clear()
         self._setCheckState()
 
     def _setCheckState(self, state: str = "default", msg: str = "") -> None:
@@ -71,73 +60,61 @@ class Dialog_ConfigMessageInput(QDialog):
             self.setObjectName(u"self")
         self.setLayoutDirection(Qt.LeftToRight)
         self.verticalLayout = QVBoxLayout(self)
-        self.verticalLayout.setObjectName(u"verticalLayout")
         self.formLayout = QFormLayout()
-        self.formLayout.setObjectName(u"formLayout")
-        self.label = QLabel(self)
-        self.label.setObjectName(u"label")
 
+        self.label = QLabel(self)
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label)
 
-        self.ledit_configName = LineEdit(self)
-        self.ledit_configName.setObjectName(u"ledit_config_name")
-
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.ledit_configName)
+        self.ledit_scriptName = LineEdit(self)
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.ledit_scriptName)
 
         self.label_2 = QLabel(self)
-        self.label_2.setObjectName(u"label_2")
-
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_2)
 
-        self.ledit_fileName = LineEdit(self)
-        self.ledit_fileName.setObjectName(u"ledit_file_name")
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.ledit_fileName)
+        self.ledit_fileBaseName = LineEdit(self, placeHolderText="文件名")
+        self.horizontalLayout_3.addWidget(self.ledit_fileBaseName)
+
+        self.ledit_fileExtendName = LineEdit(self, placeHolderText="扩展名")
+        self.ledit_fileExtendName.setEnabled(False)
+        self.ledit_fileExtendName.setMaximumWidth(100)
+        self.horizontalLayout_3.addWidget(self.ledit_fileExtendName)
+
+        self.fileNameWidget = QWidget(self)
+        self.fileNameWidget.setLayout(self.horizontalLayout_3)
+
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.fileNameWidget)
 
         self.verticalLayout.addLayout(self.formLayout)
 
         self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label_3 = QLabel(self)
-        self.label_3.setObjectName(u"label_3")
-
         self.horizontalLayout_2.addWidget(self.label_3)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
         self.label_checkMsg = QLabel(self)
-        self.label_checkMsg.setObjectName(u"label_check_msg")
-
         self.horizontalLayout_2.addWidget(self.label_checkMsg)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.tedit_comment = TextEdit(self)
-        self.tedit_comment.setObjectName(u"tedit_comment")
-
         self.verticalLayout.addWidget(self.tedit_comment)
 
         self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.btn_reject = PushButton(self, type="error")
-        self.btn_reject.setObjectName(u"btn_reject")
-
         self.horizontalLayout.addWidget(self.btn_reject)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
         self.btn_check = PushButton(self, type="primary")
-        self.btn_check.setObjectName(u"btn_check")
-
         self.horizontalLayout.addWidget(self.btn_check)
 
         self.btn_save = PushButton(self, type="success")
-        self.btn_save.setObjectName(u"btn_save")
-
         self.horizontalLayout.addWidget(self.btn_save)
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -149,7 +126,7 @@ class Dialog_ConfigMessageInput(QDialog):
     def retranslateUi(self):
         self.label.setText(QCoreApplication.translate("self", u"\u914d\u7f6e\u540d\u79f0", None))
         self.label_2.setText(QCoreApplication.translate("self", u"\u6587\u4ef6\u540d\u79f0", None))
-        self.label_3.setText(QCoreApplication.translate("self", u"\u5907\u6ce8:", None))
+        self.label_3.setText(QCoreApplication.translate("self", u"\u8bf4\u660e\u003a", None))
         self.label_checkMsg.setText(QCoreApplication.translate("self", u"\u4fe1\u606f\u53ef\u7528", None))
         self.btn_reject.setText(QCoreApplication.translate("self", u"\u53d6\u6d88", None))
         self.btn_check.setText(QCoreApplication.translate("self", u"\u68c0\u67e5", None))
@@ -160,48 +137,44 @@ class Dialog_ConfigMessageInput(QDialog):
         self._initData()
         return super().showEvent(event)
 
-    def btn_reject_clicked(self) -> None:
-        self.flag_accept = False
-        self.reject()
-
-    def btn_check_clicked(self) -> None:
+    def checkData(self) -> bool:
         passf = True
-        if self.ledit_fileName.text() == "":
+        if self.ledit_fileBaseName.text() == "":
             passf = False
             self._setCheckState("error", "文件名不能为空")
-        if self.ledit_configName.text() == "":
+        elif self.ledit_fileExtendName.text() == "":
             passf = False
-            self._setCheckState("error", "配置名不能为空")
+            self._setCheckState("error", "扩展名不能为空")
+        elif self.ledit_fileExtendName.text() not in [".py",".js"]:
+            passf = False
+            self._setCheckState("error", "只支持Python和JS脚本")
+        elif self.ledit_scriptName.text() == "":
+            passf = False
+            self._setCheckState("error", "脚本名称不能为空")
         if passf:
-            fileName = self.ledit_fileName.text()
-            if fileName.endswith(".json") is False:
-                fileName = fileName + ".json"
-                self.ledit_fileName.setText(fileName)
-            path = File.path(SysPath.CONFIGURATION, self.ledit_fileName.text())
+            fileName = F"{self.ledit_fileBaseName.text()}{self.ledit_fileExtendName.text()}"
+            path = File.path(SysPath.SCRIPT, fileName)
             if File.checkFileName(fileName) is False:
                 passf = False
                 self._setCheckState("error", "文件名无效(包含非法字符)")
-            if File.isFileExists(path):
+            elif File.isFileExists(path):
                 passf = False
                 self._setCheckState("error", "文件已存在")
             else:
-                for item in File.read_opt(File.path(SysPath.CACHE, "local_configuration.dat"), DataType.LIST, "#"):
-                    if self.ledit_configName.text() == eval(item)[0]:
+                for item in File.read_opt(File.path(SysPath.CACHE, "custom_script.dat"), DataType.LIST, "#"):
+                    if self.ledit_scriptName.text() == eval(item)[0]:
                         self._setCheckState("error", "存在同名配置")
                         passf = False
                         break
         if passf: self._setCheckState("pass")
-        self.flag_checkPass = passf
+        return passf
 
     def btn_save_clicked(self) -> None:
-        self.btn_check_clicked()
-        if self.flag_checkPass:
-            self.flag_accept = True
-            self.configName = self.ledit_configName.text()
-            self.fileName = self.ledit_fileName.text()
-            self.comment = self.tedit_comment.toPlainText()
+        if self.checkData():
             self.accept()
 
-    def exec(self) -> bool:
-        super().exec()
-        return self.flag_accept
+    def exec(self, fileType: str) -> tuple[int, dict]:
+        self.fileType = fileType
+        code = super().exec()
+        data = {"script_name": self.ledit_scriptName.text(), "file_name": F"{self.ledit_fileBaseName.text()}{self.ledit_fileExtendName.text()}", "comment": self.tedit_comment.toPlainText()}
+        return (code, data)

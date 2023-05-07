@@ -39,6 +39,6 @@ class Ui_ScriptPage:
     # setupUi
 
     def retranslateUi(self, Script):
-        Script.setWindowTitle(QCoreApplication.translate("Configuration", u"Form", None))
+        Script.setWindowTitle(QCoreApplication.translate("Script", u"Form", None))
 
     # retranslateUi

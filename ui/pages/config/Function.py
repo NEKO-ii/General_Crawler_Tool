@@ -221,7 +221,7 @@ class Func_ConfigPage:
                     table.c_setCellColor(currentRow, 3, "error")
                     self.notice.exec("出现错误", "配置文件解析失败,文件内容格式可能出现错误", "error", "info")
             else:
-                console_printer(MsgType.ERROR, "该配置JSON文件已被移动")
+                # console_printer(MsgType.ERROR, "该配置JSON文件已被移动")
                 table.item(currentRow, 3).setText(Define.LocalConfigState.FL)
                 table.c_setCellColor(currentRow, 3, "error")
                 self.notice.exec("出现错误", "文件路径不存在,该配置JSON文件可能已被移动或删除", "error", "info")
@@ -238,7 +238,7 @@ class Func_ConfigPage:
                     File.delete(item[0])
                 table.c_deleteSelectdRows()
         else:
-            self.notice.exec("提示", "未选中任何配置文件")
+            self.notice.exec("提示", "未选中任何配置")
 
     # 配置编辑页面
     # ///////////////////////////////////////////////////////////////
