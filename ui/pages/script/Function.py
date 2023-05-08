@@ -35,6 +35,7 @@ class Func_ScriptPage:
         # 编辑界面
         self.ui.editor_ui.btn_back.clicked.connect(self.btn_back_to_overview)
         self.ui.editor_ui.btn_default.clicked.connect(self.btn_back_to_default)
+        self.ui.editor_ui.btn_save_as.clicked.connect(self.btn_save_as)
         self.ui.editor_ui.btn_save.clicked.connect(self.btn_save)
 
     def _signalConnect(self) -> None:
@@ -60,6 +61,7 @@ class Func_ScriptPage:
         self.flag_currentTextChanged = False
         self.ui.editor_ui.combo_template.setCurrentIndex(0)
         self.ui.editor_ui.combo_template.setEnabled(True)
+        self.ui.editor_ui.btn_save_as.hide()
         self.ui.pages.setCurrentWidget(self.ui.editor)
 
     def btn_import_script(self) -> None:
@@ -87,6 +89,7 @@ class Func_ScriptPage:
                 data = File.read_opt(path, DataType.STRING)
                 self.ui.editor_ui.tedit_editor.setPlainText(data)
                 self.flag_currentTextChanged = False
+                self.ui.editor_ui.btn_save_as.show()
                 self.ui.pages.setCurrentWidget(self.ui.editor)
             else:
                 self.notice.exec("出现错误", "文件路径不存在,该脚本文件可能已被移动或删除", "error", "info")
@@ -136,6 +139,13 @@ class Func_ScriptPage:
                 self.ui.pages.setCurrentWidget(self.ui.overview)
         else:
             self.ui.pages.setCurrentWidget(self.ui.overview)
+
+    def btn_save_as(self) -> None:
+        # 修改编辑模式调用新建分支
+        self.editPageMode = "new"
+        self.btn_save()
+        # 修改为原模式
+        self.editPageMode = "edit"
 
     def btn_save(self) -> None:
         if self.editPageMode == "new":
