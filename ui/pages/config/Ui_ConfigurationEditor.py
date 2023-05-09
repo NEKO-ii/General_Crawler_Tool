@@ -9,10 +9,11 @@
 ################################################################################
 
 from PySide6.QtCore import QCoreApplication, QMetaObject, QRect, QSize, Qt
-from PySide6.QtWidgets import (QAbstractSpinBox, QTableWidget, QCheckBox, QComboBox, QFormLayout, QFrame, QGroupBox, QHBoxLayout, QLabel, QListWidget, QSizePolicy, QSpacerItem, QSpinBox, QStackedWidget, QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QCheckBox, QComboBox, QFormLayout, QFrame, QGroupBox, QHBoxLayout, QLabel, QListWidget, QSizePolicy, QSpacerItem, QSpinBox, QStackedWidget, QTableWidget, QTextEdit, QVBoxLayout, QWidget)
 
-from core.sys import Themes, Globalv, GlvKey
-from ui.widgets import (ComboBox, LineEdit, List, PushButton, ScrollArea, SpinBox, TableWidget, TextEdit, GroupBox)
+from core.sys.globalv import Globalv, GlvKey
+from core.sys.themes import Themes
+from ui.widgets import (ComboBox, GroupBox, LineEdit, List, PushButton, ScrollArea, SpinBox, TableWidget, TextEdit)
 
 
 class Ui_ConfigurationEditor:

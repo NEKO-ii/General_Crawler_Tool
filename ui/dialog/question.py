@@ -12,7 +12,7 @@ from PySide6.QtCore import (QCoreApplication, QMetaObject)
 from PySide6.QtGui import (QFont)
 from PySide6.QtWidgets import (QDialog, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
 from ui.widgets import PushButton
-from core.static import Define
+from core.static.define import Define
 
 
 class Question(QDialog):

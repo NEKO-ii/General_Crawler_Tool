@@ -1,4 +1,3 @@
-from core.sys import Themes
 from ui.preload.imp_qt import (QCoreApplication, QMetaObject, QStackedWidget, QVBoxLayout, QWidget)
 
 from .config import ConfigurationPage

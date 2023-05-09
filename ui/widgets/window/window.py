@@ -1,7 +1,8 @@
 # 界面窗口
 # ///////////////////////////////////////////////////////////////
 from typing import Any
-from core.sys import Themes, Settings
+from core.sys.themes import Themes
+from core.sys.settings import Settings
 from ui.preload.imp_qt import QFrame, QHBoxLayout, QGraphicsDropShadowEffect, QColor
 
 

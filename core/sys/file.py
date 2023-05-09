@@ -6,7 +6,7 @@ from os.path import join, normpath, isfile, exists, abspath, basename
 from os import remove, removedirs, getcwd
 from pandas import DataFrame, ExcelWriter
 
-from core.support import remove_json_comments
+from core.support.json_minify import remove_json_comments
 from core.sys.globalv import Globalv, GlvKey
 
 

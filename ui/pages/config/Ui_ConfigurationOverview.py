@@ -21,42 +21,29 @@ class Ui_ConfigurationOverview:
         if not ConfigurationOverview.objectName():
             ConfigurationOverview.setObjectName(u"ConfigurationOverview")
         self.verticalLayout = QVBoxLayout(ConfigurationOverview)
-        self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.overviewTopLayout = QHBoxLayout()
-        self.overviewTopLayout.setObjectName(u"overview_top_layout")
         self.btn_newConfig = PushButton(ConfigurationOverview, type="success")
-        self.btn_newConfig.setObjectName(u"btn_new_config")
-
         self.overviewTopLayout.addWidget(self.btn_newConfig)
 
-        self.btn_import = PushButton(ConfigurationOverview, type="primary")
-        self.btn_import.setObjectName(u"btn_import")
-
-        self.overviewTopLayout.addWidget(self.btn_import)
-
         self.btn_edit = PushButton(ConfigurationOverview, type="primary", tooltip="编辑选中的配置文件\n多选时编辑第一个选中配置")
-        self.btn_edit.setObjectName(u"btn_edit")
-
         self.overviewTopLayout.addWidget(self.btn_edit)
 
-        self.btn_delete = PushButton(ConfigurationOverview, type="error")
-        self.btn_delete.setObjectName(u"btn_delete")
+        self.btn_import = PushButton(ConfigurationOverview, type="primary")
+        self.overviewTopLayout.addWidget(self.btn_import)
 
+        self.btn_delete = PushButton(ConfigurationOverview, type="error")
         self.overviewTopLayout.addWidget(self.btn_delete)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.overviewTopLayout.addItem(self.horizontalSpacer)
 
         self.btn_flush = PushButton(ConfigurationOverview, type="primary", text="刷新列表")
-        self.btn_flush.setObjectName(u"btn_flush")
-
         self.overviewTopLayout.addWidget(self.btn_flush)
 
         self.verticalLayout.addLayout(self.overviewTopLayout)
 
         self.table_overview = TableWidget(ConfigurationOverview, defaultRowHeight=25, headerPadding=3, extendHeight=True)
-        self.table_overview.setObjectName(u"table_overview")
         self.table_overview.c_setHeader(["名称", "文件位置", "更新时间", "状态", "备注"], [1])
         self.table_overview.c_setHeaderTooltip([None, "该配置对应的JSON文件路径", "最后修改的时间", "R:可运行网络请求\nP:可运行数据解析\nN:不可运行\nFL:配置文件丢失\nU:未知"])
         self.table_overview.noEditCols = [1, 2]

@@ -2,7 +2,7 @@
 # ///////////////////////////////////////////////////////////////
 from typing import Any
 
-from core.sys import Themes
+from core.sys.themes import Themes
 from ui.func.iconsetter import IconSetter
 from ui.preload.imp_qt import (QCursor, QFrame, QHBoxLayout, QLabel, QSize,
                                QSvgWidget, Qt, QVBoxLayout, QWidget, Signal)

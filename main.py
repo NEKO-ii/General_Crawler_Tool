@@ -4,9 +4,11 @@ import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
-from core.sys import Settings, Themes, Path, Globalv, GlvKey
+from core.sys.settings import Settings
+from core.sys.themes import Themes
+from core.sys.path import Path
+from core.sys.globalv import Globalv, GlvKey
 from ui.windows.main.MainWindow import MainWindow
-import test
 
 
 class System:
@@ -20,7 +22,7 @@ class System:
         # 初始化全局变量
         Globalv.init()
         Globalv.set(GlvKey.SETTINGS, Settings())
-        Globalv.set(GlvKey.THEMES,Themes(Globalv.get(GlvKey.SETTINGS).theme_name))
+        Globalv.set(GlvKey.THEMES, Themes(Globalv.get(GlvKey.SETTINGS).theme_name))
         Globalv.set(GlvKey.PATH, Path())
 
         self.app = QApplication(sys.argv)

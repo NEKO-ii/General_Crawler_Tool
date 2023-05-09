@@ -2,7 +2,7 @@
 # ///////////////////////////////////////////////////////////////
 import json
 
-from core.static import Define
+from core.static.define import Define
 from core.support.json_minify import remove_json_comments
 from core.support.decorator import Decorator as deco
 

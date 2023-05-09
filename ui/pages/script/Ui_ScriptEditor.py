@@ -31,6 +31,10 @@ class Ui_ScriptEditor:
         self.btn_default = PushButton(ScriptEditor, type="warning")
         self.topLayout.addWidget(self.btn_default)
 
+        self.btn_test = PushButton(ScriptEditor, type="primary")
+        self.btn_test.setObjectName("edit_script_test_btn")
+        self.topLayout.addWidget(self.btn_test)
+
         self.btn_save_as = PushButton(ScriptEditor, type="primary")
         self.topLayout.addWidget(self.btn_save_as)
 
@@ -49,9 +53,9 @@ class Ui_ScriptEditor:
     # setupUi
 
     def retranslateUi(self, ScriptEditor):
-        ScriptEditor.setWindowTitle(QCoreApplication.translate("ScriptEditor", u"Form", None))
         self.btn_back.setText(QCoreApplication.translate("ScriptEditor", u"\u8fd4\u56de", None))
         self.btn_default.setText(QCoreApplication.translate("ScriptEditor", u"\u6062\u590d\u9ed8\u8ba4", None))
+        self.btn_test.setText(QCoreApplication.translate("ScriptEditor", u"\u6d4b\u8bd5", None))
         self.btn_save_as.setText(QCoreApplication.translate("ScriptEditor", u"\u53e6\u5b58\u4e3a", None))
         self.btn_save.setText(QCoreApplication.translate("ScriptEditor", u"\u4fdd\u5b58", None))
 

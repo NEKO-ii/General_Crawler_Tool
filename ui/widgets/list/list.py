@@ -1,6 +1,6 @@
 # 自定义列表组件
 # ///////////////////////////////////////////////////////////////
-from core.static import Define
+from core.static.define import Define
 from ui.preload.imp_qt import QListWidget, QAbstractItemView, Qt, QModelIndex, QWheelEvent, QKeyEvent, QListWidgetItem, QColor, QBrush
 
 # 样式表

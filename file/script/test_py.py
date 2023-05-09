@@ -14,12 +14,11 @@ args = sys.argv  # 使用此方式接收参数
 
 
 def build() -> None:
-    pass
+    data["result"] = args[1]
 
 
 # ///////////////////////////////////////////////////////////////
 
-# 函数调用和数据输出
 if __name__ == "__main__":
     build()
-    print(data.__str__())
+    print(str(data))

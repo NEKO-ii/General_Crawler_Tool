@@ -1,5 +1,5 @@
 from ui.preload.imp_qt import QTableWidget, Qt, QAbstractItemView, QWheelEvent, QTableWidgetItem, QHeaderView, Signal, QColor
-from core.static import Define
+from core.static.define import Define
 
 
 class TableWidget(QTableWidget):

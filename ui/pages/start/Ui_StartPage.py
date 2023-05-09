@@ -11,8 +11,6 @@
 from PySide6.QtCore import QCoreApplication, QMetaObject
 from PySide6.QtWidgets import QStackedWidget, QVBoxLayout, QWidget
 
-from core.sys import Themes
-
 from .Ui_StartPageBtn import Ui_StartPageBtn
 from .Ui_ProgramRunner import Ui_ProgramRunner
 

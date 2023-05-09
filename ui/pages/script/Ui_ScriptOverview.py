@@ -19,11 +19,15 @@ class Ui_ScriptOverview:
         self.btn_new = PushButton(ScriptOverview, type="success")
         self.overviewTopLayout.addWidget(self.btn_new)
 
+        self.btn_edit = PushButton(ScriptOverview, type="primary", tooltip="编辑选中的配置文件\n多选时编辑第一个选中配置")
+        self.overviewTopLayout.addWidget(self.btn_edit)
+
         self.btn_import = PushButton(ScriptOverview, type="primary")
         self.overviewTopLayout.addWidget(self.btn_import)
 
-        self.btn_edit = PushButton(ScriptOverview, type="primary", tooltip="编辑选中的配置文件\n多选时编辑第一个选中配置")
-        self.overviewTopLayout.addWidget(self.btn_edit)
+        self.btn_test = PushButton(ScriptOverview, type="primary")
+        self.btn_test.setObjectName("overview_script_test_btn")
+        self.overviewTopLayout.addWidget(self.btn_test)
 
         self.btn_delete = PushButton(ScriptOverview, type="error")
         self.overviewTopLayout.addWidget(self.btn_delete)
@@ -51,10 +55,10 @@ class Ui_ScriptOverview:
     # setupUi
 
     def retranslateUi(self, ScriptOverview):
-        ScriptOverview.setWindowTitle(QCoreApplication.translate("ScriptOverview", u"Form", None))
         self.btn_new.setText(QCoreApplication.translate("ScriptOverview", u"\u65b0\u5efa", None))
         self.btn_import.setText(QCoreApplication.translate("ScriptOverview", u"\u5bfc\u5165", None))
         self.btn_edit.setText(QCoreApplication.translate("ScriptOverview", u"\u7f16\u8f91", None))
+        self.btn_test.setText(QCoreApplication.translate("ScriptOverview", u"\u6d4b\u8bd5", None))
         self.btn_delete.setText(QCoreApplication.translate("ScriptOverview", u"\u5220\u9664", None))
 
     # retranslateUi

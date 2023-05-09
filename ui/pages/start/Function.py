@@ -3,10 +3,13 @@ from time import sleep
 
 from requests import Response
 
-from core.data import Parse, Request
-from core.sys import Configuration, DataType, File, Settings, SysPath
-from core.support import Tools
-from core.static import Define
+from core.data.request import Request
+from core.data.parse import Parse
+from core.sys.configuration import Configuration
+from core.sys.settings import Settings
+from core.sys.file import DataType, File, SysPath
+from core.support.tools import Tools
+from core.static.define import Define
 from ui.preload.imp_qt import QObject, QThread, Signal
 
 from .Ui_StartPage import Ui_StartPage
@@ -40,7 +43,7 @@ class Func_StartPage(QObject):
         self.sig_run.connect(self.runner.run)
         self.runner.sig_sleep.connect(self.thread_sleep)
         self.runner.sig_stop.connect(self._threadStop)
-        self._thread.finished.connect(self.runner.deleteLater)
+        self._thread.finished.connect(self._thread.wait)
 
     # 按钮事件定义
     # ///////////////////////////////////////////////////////////////

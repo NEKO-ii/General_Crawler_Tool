@@ -1,7 +1,6 @@
 # 主窗口
 # ///////////////////////////////////////////////////////////////
-from core.sys import Settings, Themes
-from core.static import Define
+from core.static.define import Define
 from .Ui_MainWindow import Ui_MainWindow
 from .Function import Func_MainWindow
 

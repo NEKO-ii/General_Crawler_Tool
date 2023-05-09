@@ -8,15 +8,14 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import QCoreApplication, QMetaObject, Qt
-from PySide6.QtWidgets import (QHBoxLayout, QLabel, QSizePolicy, QSpacerItem,
-                               QVBoxLayout, QWidget)
+from PySide6.QtCore import QCoreApplication, QMetaObject
+from PySide6.QtWidgets import (QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
-from core.sys import Themes
 from ui.widgets import ComboBox, PushButton, TextEdit
 
 
 class Ui_ProgramRunner(object):
+
     def __init__(self, ProgramRunner: QWidget) -> None:
         self.setupUi(ProgramRunner)
 

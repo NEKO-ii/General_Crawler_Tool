@@ -2,8 +2,8 @@
 # ///////////////////////////////////////////////////////////////
 from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
 from PySide6.QtWidgets import (QDialog, QWidget, QFormLayout, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
-from core.sys import File, SysPath, DataType
-from core.static import Define
+from core.sys.file import File, SysPath, DataType
+from core.static.define import Define
 from ui.widgets import PushButton, LineEdit, TextEdit
 
 

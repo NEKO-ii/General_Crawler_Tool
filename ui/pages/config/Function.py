@@ -1,12 +1,19 @@
 from copy import deepcopy
-from json import loads, dumps
+from json import dumps, loads
 
-from core.static import Define
-from core.support import MsgType, Tools, console_printer
-from core.sys import DataType, File, SysPath, Globalv, GlvKey, Themes
+from core.static.define import Define
+from core.support.msg_printer import MsgType, console_printer
+from core.support.tools import Tools
+from core.sys.file import DataType, File, SysPath
+from core.sys.globalv import Globalv, GlvKey
+from core.sys.themes import Themes
+from ui.dialog.Dialog_ConfigMessageInput import Dialog_ConfigMessageInput
+from ui.dialog.Input import Inputer
+from ui.dialog.Message import Message
+from ui.dialog.Notice import Notice
+from ui.dialog.Question import Question
 from ui.preload.imp_qt import QFileDialog, QUrl
-from ui.dialog import Dialog_ConfigMessageInput, Question, Notice, Inputer, Message
-from ui.widgets import ComboBox
+from ui.widgets.combo_box import ComboBox
 
 from .Ui_ConfigurationPage import Ui_ConfigurationPage
 

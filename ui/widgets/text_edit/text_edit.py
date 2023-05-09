@@ -1,4 +1,4 @@
-from ui.preload.imp_qt import QTextEdit, QWheelEvent, QTextCursor, QColor, QApplication
+from ui.preload.imp_qt import QTextEdit, QWheelEvent, QColor, QApplication
 
 # 样式表
 # ///////////////////////////////////////////////////////////////

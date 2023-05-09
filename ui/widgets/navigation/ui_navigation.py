@@ -2,7 +2,7 @@
 # ///////////////////////////////////////////////////////////////
 from typing import Any
 
-from core.sys import Themes
+from core.sys.themes import Themes
 from ui.preload.imp_qt import (QEasingCurve, QFrame, QPropertyAnimation, QPushButton, Qt, QVBoxLayout, QWidget, Signal)
 
 from .nav_button import NavButton

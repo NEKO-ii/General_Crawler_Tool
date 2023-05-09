@@ -1,7 +1,9 @@
 # 主窗口UI
 # ///////////////////////////////////////////////////////////////
-from core.static import Define
-from core.sys import Globalv, GlvKey, Settings, Themes
+from core.static.define import Define
+from core.sys.globalv import Globalv, GlvKey
+from core.sys.settings import Settings
+from core.sys.themes import Themes
 from ui.pages import Ui_MainPagesContainer
 from ui.preload.imp_qt import (QFrame, QHBoxLayout, QMainWindow, QObject, QPushButton, Qt, QVBoxLayout, QWidget)
 from ui.widgets import Credits, Grips, IconButton, Navigation, TitleBar, Window

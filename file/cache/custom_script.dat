@@ -2,6 +2,8 @@
 # [NAME,TYPE,PATH,UPDATE_TIME,COMMENT]
 # TYPE => [PYTHON,JS]
 
-['有道翻译临时参数生成', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\func.js', '2022.12.13 17:24:58', '早期测试使用']
-['测试用脚本文件', 'PY', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\script_test.py', '2023.05.07 21:51:28', '测试专用']
-['测试用脚本', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\test_js_script.js', '2023.05.08 13:06:39', '']
+['有道翻译临时参数生成', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\func.js', '2023.05.09 13:25:40', '早期测试使用']
+['默认Python脚本', 'PY', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\default_python.py', '2023.05.08 14:28:56', 'Python脚本模版内容']
+['默认JS脚本', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\default_js.js', '2023.05.08 14:31:32', 'JS模版默认内容']
+['测试用JS脚本', 'JS', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\test_js.js', '2023.05.09 10:29:14', '']
+['测试用Python脚本', 'PY', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\test_py.py', '2023.05.09 10:55:30', '']

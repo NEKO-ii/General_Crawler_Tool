@@ -11,7 +11,8 @@
 from PySide6.QtCore import QCoreApplication, QMetaObject, QSize, Qt
 from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel, QLayout, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
-from core.sys import Themes, Globalv, GlvKey
+from core.sys.themes import Themes
+from core.sys.globalv import Globalv, GlvKey
 from ui.widgets import PushButton
 
 

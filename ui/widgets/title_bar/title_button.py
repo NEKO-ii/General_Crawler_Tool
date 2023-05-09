@@ -2,7 +2,7 @@
 # ///////////////////////////////////////////////////////////////
 from typing import Any
 
-from core.sys import Themes
+from core.sys.themes import Themes
 from ui.preload.imp_qt import (QBrush, QColor, QEvent, QPainter, QPixmap,
                                QPoint, QPushButton, QRect, Qt, Signal)
 

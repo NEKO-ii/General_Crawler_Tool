@@ -11,7 +11,6 @@
 from PySide6.QtCore import (QCoreApplication, QMetaObject)
 from PySide6.QtWidgets import (QHBoxLayout, QSizePolicy, QSpacerItem, QVBoxLayout)
 
-from core.sys import Themes
 from ui.widgets import PushButton, TextEdit
 
 

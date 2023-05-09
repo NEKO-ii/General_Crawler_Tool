@@ -171,7 +171,7 @@ md5 = function (e) {
     return (p(s) + p(m) + p(g) + p(v)).toLowerCase()
 }
 
-run1 = function (e) {
+run = function (e) {
     var t = md5("5.0 (Windows)"),
         r = '' + (new Date).getTime(),
         i = r + parseInt(10 * Math.random(), 10);
@@ -183,8 +183,8 @@ run1 = function (e) {
     }
 }
 
-inp = "字典"
-console.log(run(inp))
+//inp = "字典"
+//console.log(run(inp))
 
 // x1 = 1
 // x2 = 2

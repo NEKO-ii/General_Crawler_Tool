@@ -1,6 +1,5 @@
 # 导航栏
 # ///////////////////////////////////////////////////////////////
-from core.static import Define
 from .ui_navigation import Navigation_UI
 
 

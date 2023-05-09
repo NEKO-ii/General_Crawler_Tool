@@ -1,6 +1,6 @@
 import os
 
-from core.static import Define
+from core.static.define import Define
 from core.support.msg_printer import MsgType, console_printer
 from core.sys.globalv import Globalv, GlvKey
 from core.support.decorator import Decorator as deco
