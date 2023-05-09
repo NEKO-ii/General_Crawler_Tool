@@ -50,9 +50,14 @@ class Func_StartPage(QObject):
     # 按钮界面
     def btn_to_run_page(self) -> None:
         datas = File.read_opt(File.path(SysPath.CACHE, "local_configuration.dat"), DataType.LIST, "#")
+        rmlist = []
         for item in datas:
             data = eval(item)
-            self.runner.configFilePaths[data[0]] = data[1]
+            if data[3] in Define.LOCAL_CONF_STATE_TYPE["error"]:
+                rmlist.append(item)
+            else:
+                self.runner.configFilePaths[data[0]] = data[1]
+        for item in rmlist: datas.remove(item)
         self.ui.runPage_ui.combo_configSelector.clear()
         self.ui.runPage_ui.combo_configSelector.addItems([eval(data)[0] for data in datas])
         self.ui.runPage_ui.tedit_msgOutput.clear()
