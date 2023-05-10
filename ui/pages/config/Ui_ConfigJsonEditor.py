@@ -53,14 +53,13 @@ class Ui_ConfigJsonEditor:
 
         self.verticalLayout.addWidget(self.tedit_editor)
 
-        self.retranslateUi(ConfigurationJson)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(ConfigurationJson)
 
     # setupUi
 
-    def retranslateUi(self, ConfigurationJson):
-        ConfigurationJson.setWindowTitle(QCoreApplication.translate("ConfigurationJson", u"Form", None))
+    def retranslateUi(self):
         self.btn_back.setText(QCoreApplication.translate("ConfigurationJson", u"\u8fd4\u56de", None))
         self.btn_default.setText(QCoreApplication.translate("ConfigurationJson", u"\u6062\u590d\u9ed8\u8ba4", None))
         self.btn_confirm.setText(QCoreApplication.translate("ConfigurationJson", u"完成", None))

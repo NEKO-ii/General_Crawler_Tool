@@ -46,13 +46,13 @@ class Ui_ScriptEditor:
         self.tedit_editor = TextEdit(ScriptEditor, fontSize=10, placeHolderText="选择一个模版后开始编辑")
         self.verticalLayout.addWidget(self.tedit_editor)
 
-        self.retranslateUi(ScriptEditor)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(ScriptEditor)
 
     # setupUi
 
-    def retranslateUi(self, ScriptEditor):
+    def retranslateUi(self):
         self.btn_back.setText(QCoreApplication.translate("ScriptEditor", u"\u8fd4\u56de", None))
         self.btn_default.setText(QCoreApplication.translate("ScriptEditor", u"\u6062\u590d\u9ed8\u8ba4", None))
         self.btn_test.setText(QCoreApplication.translate("ScriptEditor", u"\u6d4b\u8bd5", None))

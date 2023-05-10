@@ -61,14 +61,13 @@ class Ui_ProgramRunner(object):
 
         self.verticalLayout.addWidget(self.tedit_msgOutput)
 
-        self.retranslateUi(ProgramRunner)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(ProgramRunner)
 
     # setupUi
 
-    def retranslateUi(self, ProgramRunner):
-        ProgramRunner.setWindowTitle(QCoreApplication.translate("ProgramRunner", u"Form", None))
+    def retranslateUi(self):
         self.btn_back.setText(QCoreApplication.translate("ProgramRunner", u"\u8fd4\u56de", None))
         self.label.setText(QCoreApplication.translate("ProgramRunner", u"\u9009\u62e9\u914d\u7f6e", None))
         self.btn_run.setText(QCoreApplication.translate("ProgramRunner", u"\u8fd0\u884c", None))

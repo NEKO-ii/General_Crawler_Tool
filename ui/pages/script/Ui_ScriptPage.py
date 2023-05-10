@@ -32,13 +32,13 @@ class Ui_ScriptPage:
 
         self.verticalLayout.addWidget(self.pages)
 
-        self.retranslateUi(Script)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(Script)
 
     # setupUi
 
-    def retranslateUi(self, Script):
-        Script.setWindowTitle(QCoreApplication.translate("Script", u"Form", None))
+    def retranslateUi(self):
+        pass
 
     # retranslateUi

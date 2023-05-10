@@ -9,7 +9,7 @@
 ################################################################################
 
 from ui.preload.imp_qt import (QCoreApplication, QHBoxLayout, QMetaObject, QSizePolicy, QSpacerItem, QTableWidgetItem, QVBoxLayout)
-from ui.widgets import PushButton, TableWidget
+from ui.widgets import PushButton, TableWidget, LineEdit
 
 
 class Ui_ConfigurationOverview:
@@ -38,6 +38,13 @@ class Ui_ConfigurationOverview:
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.overviewTopLayout.addItem(self.horizontalSpacer)
 
+        self.ledit_search = LineEdit(ConfigurationOverview, placeHolderText="输入关键词搜索")
+        self.ledit_search.setMinimumWidth(400)
+        self.overviewTopLayout.addWidget(self.ledit_search)
+
+        self.btn_clear = PushButton(ConfigurationOverview)
+        self.overviewTopLayout.addWidget(self.btn_clear)
+
         self.btn_flush = PushButton(ConfigurationOverview, type="primary", text="刷新列表")
         self.overviewTopLayout.addWidget(self.btn_flush)
 
@@ -51,17 +58,17 @@ class Ui_ConfigurationOverview:
 
         self.verticalLayout.addWidget(self.table_overview)
 
-        self.retranslateUi(ConfigurationOverview)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(ConfigurationOverview)
 
     # setupUi
 
-    def retranslateUi(self, ConfigurationOverview):
-        ConfigurationOverview.setWindowTitle(QCoreApplication.translate("ConfigurationOverview", u"Form", None))
+    def retranslateUi(self):
         self.btn_newConfig.setText(QCoreApplication.translate("ConfigurationOverview", u"\u65b0\u5efa", None))
         self.btn_import.setText(QCoreApplication.translate("ConfigurationOverview", u"\u5bfc\u5165", None))
         self.btn_edit.setText(QCoreApplication.translate("ConfigurationOverview", u"\u7f16\u8f91", None))
         self.btn_delete.setText(QCoreApplication.translate("ConfigurationOverview", u"\u5220\u9664", None))
+        self.btn_clear.setText(QCoreApplication.translate("ConfigurationOverview", u"\u6e05\u7a7a", None))
 
     # retranslateUi

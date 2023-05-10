@@ -45,13 +45,13 @@ class Ui_ConfigurationPage:
 
         self.verticalLayout.addWidget(self.pages)
 
-        self.retranslateUi(Configuration)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(Configuration)
 
     # setupUi
 
-    def retranslateUi(self, Configuration):
-        Configuration.setWindowTitle(QCoreApplication.translate("Configuration", u"Form", None))
+    def retranslateUi(self):
+        pass
 
     # retranslateUi

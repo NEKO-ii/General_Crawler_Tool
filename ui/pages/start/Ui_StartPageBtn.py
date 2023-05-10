@@ -152,14 +152,13 @@ class Ui_StartPageBtn(object):
 
         self.verticalLayout.addItem(self.verticalSpacer_bottom)
 
-        self.retranslateUi(StartPageBtn)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(StartPageBtn)
 
     # setupUi
 
-    def retranslateUi(self, StartPageBtn):
-        StartPageBtn.setWindowTitle(QCoreApplication.translate("StartPageBtn", u"Form", None))
+    def retranslateUi(self):
         self.label_welcome.setText(QCoreApplication.translate("StartPageBtn", u"\u6b22\u8fce\u4f7f\u7528\u901a\u7528\u81ea\u52a8\u5316\u722c\u866b\u7a0b\u5e8f", None))
         self.tip_1.setText(
             QCoreApplication.translate(

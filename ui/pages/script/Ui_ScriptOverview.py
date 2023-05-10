@@ -1,7 +1,7 @@
 # 由Ui_ConfigurationOverview.py复制并修改
 # ///////////////////////////////////////////////////////////////
 from ui.preload.imp_qt import (QCoreApplication, QHBoxLayout, QMetaObject, QSizePolicy, QSpacerItem, QVBoxLayout)
-from ui.widgets import PushButton, TableWidget
+from ui.widgets import PushButton, TableWidget, LineEdit
 
 
 class Ui_ScriptOverview:
@@ -35,6 +35,12 @@ class Ui_ScriptOverview:
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.overviewTopLayout.addItem(self.horizontalSpacer)
 
+        self.ledit_search = LineEdit(ScriptOverview, placeHolderText="输入关键词搜索")
+        self.overviewTopLayout.addWidget(self.ledit_search)
+
+        self.btn_clear = PushButton(ScriptOverview)
+        self.overviewTopLayout.addWidget(self.btn_clear)
+
         self.btn_flush = PushButton(ScriptOverview, type="primary", text="刷新列表")
         self.overviewTopLayout.addWidget(self.btn_flush)
 
@@ -48,17 +54,18 @@ class Ui_ScriptOverview:
 
         self.verticalLayout.addWidget(self.table_overview)
 
-        self.retranslateUi(ScriptOverview)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(ScriptOverview)
 
     # setupUi
 
-    def retranslateUi(self, ScriptOverview):
+    def retranslateUi(self):
         self.btn_new.setText(QCoreApplication.translate("ScriptOverview", u"\u65b0\u5efa", None))
         self.btn_import.setText(QCoreApplication.translate("ScriptOverview", u"\u5bfc\u5165", None))
         self.btn_edit.setText(QCoreApplication.translate("ScriptOverview", u"\u7f16\u8f91", None))
         self.btn_test.setText(QCoreApplication.translate("ScriptOverview", u"\u6d4b\u8bd5", None))
         self.btn_delete.setText(QCoreApplication.translate("ScriptOverview", u"\u5220\u9664", None))
+        self.btn_clear.setText(QCoreApplication.translate("ScriptOverview", u"\u6e05\u7a7a", None))
 
     # retranslateUi

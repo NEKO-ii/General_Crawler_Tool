@@ -68,12 +68,13 @@ class Func_MainWindow:
     # ///////////////////////////////////////////////////////////////
     def nav_start(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
-        self.ui.setPage(self.ui.mainPages_ui.startPage)
         self.ui.mainPages_ui.startPage_inner.ui.pages.setCurrentWidget(self.ui.mainPages_ui.startPage_inner.ui.btnPage)
+        self.ui.setPage(self.ui.mainPages_ui.startPage)
         # console_printer(MsgType.INFOMATION, "btn start clicked")
 
     def nav_config(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
+        self.ui.mainPages_ui.configPage_inner.ui.pages.setCurrentIndex(0)
         self.ui.setPage(self.ui.mainPages_ui.configPage)
         # console_printer(MsgType.INFOMATION, "btn configuration clicked")
 
@@ -88,6 +89,7 @@ class Func_MainWindow:
 
     def nav_script(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
+        self.ui.mainPages_ui.scriptPage_inner.ui.pages.setCurrentIndex(0)
         self.ui.setPage(self.ui.mainPages_ui.scriptPage)
         # console_printer(MsgType.INFOMATION, "btn script clicked")
 

@@ -42,13 +42,13 @@ class Ui_StartPage(object):
 
         self.verticalLayout.addWidget(self.pages)
 
-        self.retranslateUi(StartPage)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(StartPage)
 
     # setupUi
 
-    def retranslateUi(self, StartPage):
-        StartPage.setWindowTitle(QCoreApplication.translate("StartPage", u"Form", None))
+    def retranslateUi(self):
+        pass
 
     # retranslateUi

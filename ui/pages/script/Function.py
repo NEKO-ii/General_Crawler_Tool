@@ -38,6 +38,7 @@ class Func_ScriptPage:
         self.ui.overview_ui.btn_test.clicked.connect(self.btn_test_script)
         self.ui.overview_ui.btn_delete.clicked.connect(self.btn_delete_script)
         self.ui.overview_ui.btn_flush.clicked.connect(self.btn_flush_overview_table)
+        self.ui.overview_ui.btn_clear.clicked.connect(self.ui.overview_ui.ledit_search.clear)
         # 编辑界面
         self.ui.editor_ui.btn_back.clicked.connect(self.btn_back_to_overview)
         self.ui.editor_ui.btn_default.clicked.connect(self.btn_back_to_default)
@@ -50,6 +51,7 @@ class Func_ScriptPage:
         # 总览界面
         self.ui.overview_ui.table_overview.sig_open.connect(self.sig_overview_table_show)
         self.ui.overview_ui.table_overview.sig_dataChanged.connect(self.sig_overview_table_changed)
+        self.ui.overview_ui.ledit_search.textChanged.connect(self.solt_search)
         # 编辑界面
         self.ui.editor_ui.combo_template.sig_currentIndexChanged.connect(self.sig_combo_template_current_index_changed)
         self.ui.editor_ui.tedit_editor.textChanged.connect(self.sig_edit_text_changed)
@@ -296,6 +298,11 @@ class Func_ScriptPage:
         if self.scriptTestThread is not None:
             self.scriptTestThread.quit()
 
+    def solt_search(self, text) -> None:
+        if text == "":
+            self.ui.overview_ui.table_overview.c_setAllHidden(False)
+        else:
+            self.ui.overview_ui.table_overview.c_search(text)
 
 # TODO: 代码着色功能
 

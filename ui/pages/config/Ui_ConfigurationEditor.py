@@ -837,14 +837,13 @@ class Ui_ConfigurationEditor:
 
         self.verticalLayout.addWidget(self.editPlace)
 
-        self.retranslateUi(ConfigurationEditor)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(ConfigurationEditor)
 
     # setupUi
 
-    def retranslateUi(self, ConfigurationEditor):
-        ConfigurationEditor.setWindowTitle(QCoreApplication.translate("ConfigurationEditor", u"Form", None))
+    def retranslateUi(self):
         self.btn_back.setText(QCoreApplication.translate("ConfigurationEditor", u"\u8fd4\u56de", None))
         self.btn_editInJson.setText(QCoreApplication.translate("ConfigurationEditor", u"\u5728Json\u6587\u4ef6\u4e2d\u7f16\u8f91", None))
         self.btn_save.setText(QCoreApplication.translate("ConfigurationEditor", u"\u4fdd\u5b58", None))

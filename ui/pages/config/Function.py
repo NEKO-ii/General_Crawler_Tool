@@ -47,6 +47,7 @@ class Func_ConfigPage:
         self.ui.overviewPage_ui.btn_edit.clicked.connect(self.btn_edit_config)
         self.ui.overviewPage_ui.btn_flush.clicked.connect(self.ov_table_overview_flush)
         self.ui.overviewPage_ui.btn_delete.clicked.connect(self.btn_delete_config)
+        self.ui.overviewPage_ui.btn_clear.clicked.connect(self.ui.overviewPage_ui.ledit_search.clear)
 
         # 配置编辑页面
         self.ui.editorPage_ui.btn_back.clicked.connect(self.btn_edit_back)
@@ -87,6 +88,7 @@ class Func_ConfigPage:
         self.ui.overviewPage_ui.table_overview.sig_open.connect(self.ov_table_overview_init_data)
         self.ui.overviewPage_ui.table_overview.sig_dataChanged.connect(self.ov_table_overview_data_changed)
         self.ui.overviewPage_ui.table_overview.sig_flush.connect(self.ov_table_overview_flush)
+        self.ui.overviewPage_ui.ledit_search.textChanged.connect(self.solt_search)
 
         # 配置编辑页面
         self.ui.editorPage_ui.combo_dataType.sig_currentIndexChanged.connect(self.ed_combo_data_type_index_changed)
@@ -252,6 +254,12 @@ class Func_ConfigPage:
                 table.c_deleteSelectdRows()
         else:
             self.notice.exec("提示", "未选中任何配置")
+
+    def solt_search(self, text) -> None:
+        if text == "":
+            self.ui.overviewPage_ui.table_overview.c_setAllHidden(False)
+        else:
+            self.ui.overviewPage_ui.table_overview.c_search(text)
 
     # 配置编辑页面
     # ///////////////////////////////////////////////////////////////

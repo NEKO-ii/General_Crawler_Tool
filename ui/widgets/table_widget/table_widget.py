@@ -243,8 +243,8 @@ class TableWidget(QTableWidget):
             if height: self.setFixedHeight(height)
 
         self.setFocusPolicy(Qt.ClickFocus)
-        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
-        self.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.verticalHeader().setDefaultSectionSize(defaultRowHeight)
         self.horizontalHeader().setVisible(show_h_header)
         self.verticalHeader().setVisible(show_v_header)
