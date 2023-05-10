@@ -14,6 +14,7 @@ from ui.dialog.Notice import Notice
 from ui.dialog.Question import Question
 from ui.preload.imp_qt import QFileDialog, QUrl
 from ui.widgets.combo_box import ComboBox
+from ui.widgets.push_button import PushButton
 
 from .Ui_ConfigurationPage import Ui_ConfigurationPage
 
@@ -115,12 +116,16 @@ class Func_ConfigPage:
             self.ui.editorPage_ui.ledit_urlView_count.setText(str(self.ui.editorPage_ui.list_urlView.count()))
         if obj_name == "btn_headers_add": self.ui.editorPage_ui.table_headers.c_addRow()
         if obj_name == "btn_data_form_add": self.ui.editorPage_ui.table_dataForm.c_addRow()
-        if obj_name == "btn_data_form_script_add": self.ui.editorPage_ui.table_dataForm_script.c_addRow()
+        if obj_name == "btn_data_form_script_add":
+            btn = PushButton(None, "选择脚本", type="primary")
+            btn.clicked.connect(self.btn_script_add)
+            self.ui.editorPage_ui.table_dataForm_script.c_addRow([btn])
         if obj_name == "btn_cookies_add": self.ui.editorPage_ui.table_cookies.c_addRow()
-        cbox = ComboBox(scrollParent=self.ui.editorPage_ui.table_psetText)
-        cbox.addItems(["RE", "BS4", "XPATH"])
-        cbox.setCurrentText("RE")
-        if obj_name == "btn_pset_text_add": self.ui.editorPage_ui.table_psetText.c_addRow([cbox])
+        if obj_name == "btn_pset_text_add":
+            cbox = ComboBox(scrollParent=self.ui.editorPage_ui.table_psetText)
+            cbox.addItems(["RE", "BS4", "XPATH"])
+            cbox.setCurrentText("RE")
+            self.ui.editorPage_ui.table_psetText.c_addRow([cbox])
 
     def btns_delete_items(self, obj_name: str) -> None:
         """删除按钮对应的列表或表格的所有选中行"""
@@ -377,6 +382,10 @@ class Func_ConfigPage:
         flag, data = self.inputer.exec()
         if flag and data:
             self.ui.editorPage_ui.table_cookies.c_addRows([item.split("=") for item in data.split("; ")])
+
+    def btn_script_add(self, objname: str) -> None:
+        id = self.ui.editorPage_ui.table_dataForm_script.currentIndex().row()
+        print(id)
 
     # 配置编辑页面:JSON
     # ///////////////////////////////////////////////////////////////

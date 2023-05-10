@@ -477,3 +477,29 @@ class TableWidget(QTableWidget):
             ret = [None, None]
         # print(ret)
         return ret
+
+    def c_search(self, searchKey: str, flags: Qt.MatchFlag = Qt.MatchFlag.MatchContains, colFilter: list = None) -> None:
+        """查找表格内容, 不相关的行将被隐藏
+
+        Args:
+            searchKey (str): 搜索关键词
+            flags (Qt.MatchFlag, optional): 查找模式,默认为包含关键词即可被找到
+            colFilter (list, optional): 列过滤,若设置,则只会在设置的列中查找
+        """
+        matchItems = self.findItems(searchKey, flags)
+        rows = self.rowCount()
+        for rowindex in range(rows):
+            self.setRowHidden(rowindex, True)
+        for item in matchItems:
+            if colFilter and item.column() not in colFilter: continue
+            self.setRowHidden(item.row(), False)
+
+    def c_setAllHidden(self, flag: bool) -> None:
+        """设置所有行的隐藏属性
+
+        Args:
+            flag (bool): 布尔值,是否隐藏
+        """
+        rows = self.rowCount()
+        for rowindex in range(rows):
+            self.setRowHidden(rowindex, flag)
