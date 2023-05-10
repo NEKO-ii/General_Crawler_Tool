@@ -9,4 +9,4 @@
 ['ConfigurationSampleFile', ':/file/configuration/configuration_sample.json', '2022.12.15 17:47:03', 'FL', '默认配置,缺少必要URL']
 ['豆瓣Top250数据获取测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\test_output.json', '2023.04.25 20:00:23', 'RP', '']
 ['临时测试', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\new_config.json', '2023.04.27 18:19:58', 'RP', '']
-['测试1', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\default_config_run_test.json', '2023.05.06 17:06:12', 'U', '测试用配置文件']
+['测试1', 'D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\configuration\\default_config_run_test.json', '2023.05.10 17:16:29', 'U', '测试用配置文件']

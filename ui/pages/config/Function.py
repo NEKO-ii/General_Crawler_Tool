@@ -27,6 +27,7 @@ class Func_ConfigPage:
     editData: dict = None
     editFilePath: str = None
     overviewTableEditRowIndex: int = None
+    last_checkFlag: str = Define.LocalConfigState.U
 
     f_passToSave_ui: bool = True  # 此标记控制是否可以执行保存操作
 
@@ -313,6 +314,7 @@ class Func_ConfigPage:
                     File.writeWithComment(path, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
                     self.ui.overviewPage_ui.table_overview.c_addRow([self.dialog_configSaveMsgInput.configName, path, None, Define.LocalConfigState.U, self.dialog_configSaveMsgInput.comment])
                     self.notice.exec("提示", "保存成功", msgType="success")
+                    self.ui.overviewPage_ui.table_overview.item(self.overviewTableEditRowIndex, 3).setText(self.last_checkFlag)
                     self.ui.pages.setCurrentWidget(self.ui.overviewPage)
             elif self.editPageMode == "edit":
                 data = self._editPageFormDataGet()
@@ -320,6 +322,7 @@ class Func_ConfigPage:
                 table = self.ui.overviewPage_ui.table_overview
                 table.item(self.overviewTableEditRowIndex, 2).setText(Tools.datetime())
                 self.notice.exec("提示", "保存成功", msgType="success")
+                self.ui.overviewPage_ui.table_overview.item(self.overviewTableEditRowIndex, 3).setText(self.last_checkFlag)
                 self.ui.pages.setCurrentWidget(self.ui.overviewPage)
 
     def btn_edit_default(self) -> None:
@@ -445,8 +448,13 @@ class Func_ConfigPage:
             data["data_form"] = {}
         dic.clear()
         if self.ui.editorPage_ui.group_dataForm_script.isChecked():
-            for item in self.ui.editorPage_ui.table_dataForm_script.c_getData():
-                if item[0]: dic[item[0]] = [item[1], item[2], item[3]]
+            index = 0
+            for item in self.ui.editorPage_ui.table_dataForm_script.c_getData(onlyCol=[0, 4]):
+                if item[0] and item[1]:
+                    dic[F"script@{index}"] = {}
+                    dic[F"script@{index}"]["path"] = item[0]
+                    dic[F"script@{index}"]["args"] = item[1].strip().split()
+                    index += 1
             data["data_form_script"] = deepcopy(dic)
         else:
             data["data_form_script"] = {}
@@ -535,7 +543,17 @@ class Func_ConfigPage:
         dic = data["data_form_script"]
         if dic != {}: self.ui.editorPage_ui.group_dataForm_script.setChecked(True)
         for key in dic.keys():
-            self.ui.editorPage_ui.table_dataForm_script.c_addRow([key, dic[key][0], dic[key][1], dic[key][2]])
+            item = dic[key]
+            path = item["path"]
+            args = " ".join(item["args"])
+            fname = File.getBasenameFromUrl(path)
+            for row in File.read_opt(File.path(SysPath.CACHE, "custom_script.dat"),DataType.LIST, comment_mark="#"):
+                lst = eval(row)
+                if path in lst:
+                    name = lst[0]
+            btn = PushButton(None, "选择脚本", type="primary")
+            btn.clicked.connect(self.btn_script_add)
+            self.ui.editorPage_ui.table_dataForm_script.c_addRow([path, btn, name, fname, args])
         dic = data["cookies"]
         for key in dic.keys():
             self.ui.editorPage_ui.table_cookies.c_addRow([key, dic[key]])
@@ -588,6 +606,7 @@ class Func_ConfigPage:
 
     def _configCheck_ui(self, noticeWhenPass: bool = True) -> None:
         # 初始化
+        self.last_checkFlag = Define.LocalConfigState.U
         self.f_passToSave_ui = True
         self.message.clearMsg()
         # 加载UI
@@ -611,6 +630,11 @@ class Func_ConfigPage:
         for row in ui.table_headers.c_getData():
             index += 1
             if "" in row: self.message.appendMsg(F"请求头设置第 {index} 行数据不完整", "error")
+        # 数据表单设置完整性检查
+        index = 0
+        for row in ui.table_dataForm_script.c_getData(onlyCol=[0]):
+            index += 1
+            if row[0] == "": self.message.appendMsg(F"请求数据表单(脚本生成)第 {index} 行未选择脚本", "error")
         # Cookie设置检查
         index = 0
         for row in ui.table_cookies.c_getData():
@@ -651,7 +675,9 @@ class Func_ConfigPage:
             if noticeWhenPass: self.notice.exec("提示", "数据完整性检查通过", msgType="success")
         else:
             # 存在错误时设置标记
-            if self.message.getMsgCount("error") != 0: self.f_passToSave_ui = False
+            if self.message.getMsgCount("error") != 0:
+                self.f_passToSave_ui = False
+                self.last_checkFlag = Define.LocalConfigState.N
             # 存在警告或错误时弹出消息列表
             self.message.exec()
 
