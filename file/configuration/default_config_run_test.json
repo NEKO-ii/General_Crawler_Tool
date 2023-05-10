@@ -11,10 +11,10 @@
   },
   "data_form": {},
   "data_form_script": {
-    "script@0": {
-      "path": "D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\test_py.py",
+    "js@0": {
+      "path": "D:\\Workspace\\GitRepository\\General_Crawler_Tool\\file\\script\\func.js",
       "args": [
-        "1"
+        "\u5b57\u5178"
       ]
     }
   },

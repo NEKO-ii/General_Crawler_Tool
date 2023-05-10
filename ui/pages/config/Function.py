@@ -450,10 +450,11 @@ class Func_ConfigPage:
         if self.ui.editorPage_ui.group_dataForm_script.isChecked():
             index = 0
             for item in self.ui.editorPage_ui.table_dataForm_script.c_getData(onlyCol=[0, 4]):
-                if item[0] and item[1]:
-                    dic[F"script@{index}"] = {}
-                    dic[F"script@{index}"]["path"] = item[0]
-                    dic[F"script@{index}"]["args"] = item[1].strip().split()
+                if item[0] is not None and item[1] is not None:
+                    key = F"{item[0].rsplit('.',1)[-1]}@{index}"
+                    dic[key] = {}
+                    dic[key]["path"] = item[0]
+                    dic[key]["args"] = item[1].strip().split()
                     index += 1
             data["data_form_script"] = deepcopy(dic)
         else:

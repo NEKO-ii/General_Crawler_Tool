@@ -9,8 +9,10 @@ from core.sys.configuration import Configuration
 from core.sys.settings import Settings
 from core.sys.file import DataType, File, SysPath
 from core.support.tools import Tools
+from core.support.coderunner import runjs, runpy
 from core.static.define import Define
 from ui.preload.imp_qt import QObject, QThread, Signal
+import json
 
 from .Ui_StartPage import Ui_StartPage
 
@@ -57,7 +59,8 @@ class Func_StartPage(QObject):
                 rmlist.append(item)
             else:
                 self.runner.configFilePaths[data[0]] = data[1]
-        for item in rmlist: datas.remove(item)
+        for item in rmlist:
+            datas.remove(item)
         self.ui.runPage_ui.combo_configSelector.clear()
         self.ui.runPage_ui.combo_configSelector.addItems([eval(data)[0] for data in datas])
         self.ui.runPage_ui.tedit_msgOutput.clear()
@@ -128,6 +131,15 @@ class Runner(QObject):
             self.sig_msgAppend.emit("[stop] empty request url list, stop running.\n", "warn", None, None)
             self.f_continue = False
             return responses
+        # 数据表单构建
+        func = {"py": runpy, "js": runjs}
+        dataform: dict = config.data_form
+        for key in config.data_form_script:
+            stype = key.split("@")[0]
+            path = config.data_form_script[key]["path"]
+            args = config.data_form_script[key]["args"]
+            flag, data, msg = func[stype](path, args)
+            if flag: dataform.update(data)
         num = 1
         for url in config.urls:
             if url in Define.TYPE_ICON_LIST: continue
@@ -135,8 +147,9 @@ class Runner(QObject):
             num += 1
             self.sig_msgInsert.emit(F"Reading page NO. = {schedule} ", None, None, None)
             try:
+                print(json.dumps(dataform, indent=2))
                 response = None
-                response = Request.run(config.request_method, url, config.headers, config.data_form, config.cookies, config.verify, config.timeout)
+                response = Request.run(config.request_method, url, config.headers, dataform, config.cookies, config.verify, config.timeout)
                 responses.append(response)
                 self.sig_msgInsert.emit("successfully", "success", None, "  ")
                 self.sig_msgInsert.emit(F"{response.status_code}", "info", "Status: ", "  ")

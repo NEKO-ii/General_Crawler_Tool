@@ -14,7 +14,7 @@ args = sys.argv  # 使用此方式接收参数
 
 
 def build() -> None:
-    data["result"] = args[1]
+    data["result_py"] = args[1]
 
 
 # ///////////////////////////////////////////////////////////////

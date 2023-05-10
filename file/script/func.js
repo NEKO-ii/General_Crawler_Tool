@@ -175,12 +175,12 @@ run = function (e) {
     var t = md5("5.0 (Windows)"),
         r = '' + (new Date).getTime(),
         i = r + parseInt(10 * Math.random(), 10);
-    return {
+    return JSON.stringify({
         ts: r,
         bv: t,
         salt: i,
         sign: md5('fanyideskweb' + e + i + 'Ygy_4c=r#e#4EX^NUGUc5')
-    }
+    })
 }
 
 //inp = "字典"

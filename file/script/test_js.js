@@ -10,7 +10,7 @@ var data = {};  // 该字典用于存储脚本需要输出的数据
 
 
 build = function (a,b) {
-    data["result"] = a+b;
+    data["result_js"] = a+b;
 }
 
 
