@@ -57,10 +57,11 @@ class Ui_ConfigurationEditor:
         self.table_headers.c_setHeader(["参数名", "参数值"])
         self.table_headers.setColumnWidth(0, 200)
         self.table_dataForm.c_setHeader(["参数名", "参数值"])
-        self.table_dataForm_script.c_setHeader(["", "脚本名称", "脚本文件名", "输入参数"], )
-        self.table_dataForm_script.c_setColWidth([100, 150, 150])
-        self.table_dataForm_script.c_setHeaderTooltip([None, None, None, "脚本需要接收的输入参数\n参考命令行传参,多参数以空格分割"])
-        self.table_dataForm_script.noEditCols = [1, 2]
+        self.table_dataForm_script.c_setHeader(["path", "", "脚本名称", "脚本文件名", "输入参数"], )
+        self.table_dataForm_script.c_setColWidth([0, 100, 150, 150])
+        self.table_dataForm_script.c_setHeaderTooltip([None, None, None, None, "脚本需要接收的输入参数\n参考命令行传参,多参数以空格分割"])
+        self.table_dataForm_script.noEditCols = [2, 3]
+        self.table_dataForm_script.setColumnHidden(0, True)
         self.table_cookies.c_setHeader(["键", "值"])
         self.table_cookies.setColumnWidth(0, 200)
         self.table_psetText.c_setHeader(["方法", "匹配语法", "索引值", "间隔字符"], stretchCols=[1])

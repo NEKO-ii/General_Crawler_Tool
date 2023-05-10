@@ -12,6 +12,7 @@ from ui.dialog.Input import Inputer
 from ui.dialog.Message import Message
 from ui.dialog.Notice import Notice
 from ui.dialog.Question import Question
+from ui.dialog.Dialog_Select import Select
 from ui.preload.imp_qt import QFileDialog, QUrl
 from ui.widgets.combo_box import ComboBox
 from ui.widgets.push_button import PushButton
@@ -119,7 +120,7 @@ class Func_ConfigPage:
         if obj_name == "btn_data_form_script_add":
             btn = PushButton(None, "选择脚本", type="primary")
             btn.clicked.connect(self.btn_script_add)
-            self.ui.editorPage_ui.table_dataForm_script.c_addRow([btn])
+            self.ui.editorPage_ui.table_dataForm_script.c_addRow(["", btn])
         if obj_name == "btn_cookies_add": self.ui.editorPage_ui.table_cookies.c_addRow()
         if obj_name == "btn_pset_text_add":
             cbox = ComboBox(scrollParent=self.ui.editorPage_ui.table_psetText)
@@ -383,9 +384,18 @@ class Func_ConfigPage:
         if flag and data:
             self.ui.editorPage_ui.table_cookies.c_addRows([item.split("=") for item in data.split("; ")])
 
-    def btn_script_add(self, objname: str) -> None:
+    def btn_script_add(self) -> None:
         id = self.ui.editorPage_ui.table_dataForm_script.currentIndex().row()
-        print(id)
+        data = File.read_opt(File.path(SysPath.CACHE, "custom_script.dat"), DataType.LIST, comment_mark="#")
+        data = [eval(item) for item in data]
+        header = ["脚本名", "类型", "文件地址", "更新时间", "备注"]
+        select = Select()
+        code, ret = select.exec(header, data)
+        if code:
+            table = self.ui.editorPage_ui.table_dataForm_script
+            table.item(id, 0).setText(ret[0][2])
+            table.item(id, 2).setText(ret[0][0])
+            table.item(id, 3).setText(File.getBasenameFromUrl(ret[0][2]))
 
     # 配置编辑页面:JSON
     # ///////////////////////////////////////////////////////////////
