@@ -8,10 +8,10 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale, QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QGradient, QIcon, QImage, QKeySequence, QLinearGradient, QPainter, QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QStackedWidget, QApplication, QHBoxLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
-from ui.widgets import PushButton, LineEdit, ComboBox, TableWidget
+from PySide6.QtCore import QCoreApplication, QMetaObject, Qt
+from PySide6.QtWidgets import (QAbstractItemView, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout)
+
+from ui.widgets import ComboBox, LineEdit, PushButton, TableWidget
 
 
 class Ui_TempviewIndex(object):
@@ -38,6 +38,12 @@ class Ui_TempviewIndex(object):
         self.combo_chooseView = ComboBox(Ui_TempviewIndex)
         self.combo_chooseView.addItems(["网络请求临时数据", "数据解析临时数据"])
         self.horizontalLayout.addWidget(self.combo_chooseView)
+
+        self.btn_flush = PushButton(Ui_TempviewIndex)
+        self.horizontalLayout.addWidget(self.btn_flush)
+
+        self.horizontalSpacer_3 = QSpacerItem(20, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(self.horizontalSpacer_3)
 
         self.btn_clearSelect = PushButton(Ui_TempviewIndex)
         self.horizontalLayout.addWidget(self.btn_clearSelect)
@@ -69,7 +75,8 @@ class Ui_TempviewIndex(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.table_overview = TableWidget(Ui_TempviewIndex, extendHeight=True)
+        self.table_overview = TableWidget(Ui_TempviewIndex, extendHeight=True, autoColWidth=True)
+        self.table_overview.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.verticalLayout.addWidget(self.table_overview)
 
         self.retranslateUi()
@@ -83,6 +90,7 @@ class Ui_TempviewIndex(object):
         self.btn_export.setText(QCoreApplication.translate("Ui_TempviewIndex", u"\u5bfc\u51fa", None))
         self.btn_delete.setText(QCoreApplication.translate("Ui_TempviewIndex", u"\u5220\u9664", None))
         self.btn_clearSelect.setText(QCoreApplication.translate("Ui_TempviewIndex", u"\u6e05\u7a7a", None))
+        self.btn_flush.setText(QCoreApplication.translate("Ui_TempviewIndex", u"\u5237\u65b0\u5217\u8868", None))
         self.label.setText(QCoreApplication.translate("Ui_TempviewIndex", u"\u6587\u4ef6\u603b\u6570:", None))
         self.label_2.setText(QCoreApplication.translate("Ui_TempviewIndex", u"\u5b58\u50a8\u5360\u7528:", None))
 

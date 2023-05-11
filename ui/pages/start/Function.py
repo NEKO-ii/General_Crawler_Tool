@@ -117,6 +117,7 @@ class Runner(QObject):
     sig_stop = Signal()
 
     currentConfigPath: str = ""
+    currentRequTempFile: str = ""
 
     f_continue: bool
 
@@ -134,6 +135,8 @@ class Runner(QObject):
 
     def _doRequest(self, config: Configuration, settings: Settings) -> list:
         sleep_set = settings.sleep
+        host = ""
+        texts: list = []
         responses: list = []
         self.sig_msgAppend.emit("Start Reading\n", "info", None, None)
         count = config.urls.__len__()
@@ -160,6 +163,9 @@ class Runner(QObject):
                 # print(json.dumps(dataform, indent=2))
                 response = None
                 response = Request.run(config.request_method, url, config.headers, dataform, config.cookies, config.verify, config.timeout)
+                response.encoding = config.encoding
+                host = response.request.headers["host"]
+                texts.append(response.text)
                 responses.append(response)
                 self.sig_msgInsert.emit("successfully", "success", None, "  ")
                 self.sig_msgInsert.emit(F"{response.status_code}", "info", "Status: ", "  ")
@@ -170,6 +176,11 @@ class Runner(QObject):
                 self.sig_msgAppend.emit(F"{e}", "info", "msg = ", None)
             if sleep_set["enable"]: sleep(self._randomSleepTime(sleep_set["time"]))
         self.sig_msgAppend.emit("\nReading Complete\n", "info", None, None)
+        fname = F"request_{Tools.timestamp()}.txt"
+        self.currentRequTempFile = fname
+        path = File.path(SysPath.TEMP, "requestout", fname)
+        File.write(path, "\n".join(texts))
+        File.write(File.path(SysPath.CACHE, "temp_request.dat"), str([fname, host, config.request_method, Tools.datetime(), str(response.status_code), config.encoding, str(File.getSize(path))]), mode="a")
         return responses
 
     def _doParse(self, responses: list, config: Configuration) -> list:
@@ -215,6 +226,14 @@ class Runner(QObject):
             elif data:
                 returnList = [[item] for item in data]
             self.sig_msgAppend.emit("complete", "success", None, None)
+            fname = F"parse_{Tools.timestamp()}.txt"
+            path = File.path(SysPath.TEMP, "parseout", fname)
+            File.write(path, str(returnList))
+            File.write(File.path(SysPath.CACHE, "temp_parse.dat"),
+                       str([fname, config.data_type,
+                            Tools.datetime(), self.currentRequTempFile, "true" if config.file_save_enable else "false", config.file_save_setting["text"]["file_name"],
+                            str(File.getSize(path))]),
+                       mode="a")
             return returnList
         elif config.data_type == "bin":
             # TODO: 二进制数据解析

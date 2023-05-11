@@ -2,7 +2,7 @@
 # ///////////////////////////////////////////////////////////////
 from enum import Enum
 from json import dumps, loads
-from os.path import join, normpath, isfile, exists, abspath, basename, isdir, dirname
+from os.path import join, normpath, isfile, exists, abspath, basename, isdir, dirname, getsize
 from os import remove, removedirs, getcwd, makedirs
 from pandas import DataFrame, ExcelWriter
 
@@ -260,3 +260,39 @@ class File:
         except Exception as e:
             #TODO 错误日志记录
             print(e)
+
+    @staticmethod
+    def getSize(path: str) -> int:
+        """获取文件大小
+
+        Args:
+            path (str): 文件地址
+
+        Returns:
+            int: 返回文件大小(单位Byte)
+        """
+        return getsize(path)
+
+    @staticmethod
+    def fileSizeConversion(bytecount: int) -> str:
+        """获取文件大小,自动转换单位B~GB
+
+        Args:
+            path (str): 文件地址
+
+        Returns:
+            str: 返回结果
+        """
+        sizek = round(bytecount / float(1024))
+        if sizek > 1:
+            sizem = round(bytecount / float(1024 * 1024))
+            if sizem > 1:
+                sizeg = round(bytecount / float(1024 * 1024 * 1024))
+                if sizeg > 1:
+                    return F"{sizeg}GB"
+                else:
+                    return F"{sizem}MB"
+            else:
+                return F"{sizek}KB"
+        else:
+            return F"{bytecount}B"

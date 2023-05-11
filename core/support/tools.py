@@ -45,3 +45,7 @@ class Tools:
             else:
                 datadict[pagename] = datalist[limit * (i - 1):limit * i]
         return datadict
+
+    @staticmethod
+    def timestamp() -> str:
+        return str(time()).split(".")[0]

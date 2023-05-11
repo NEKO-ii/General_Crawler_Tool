@@ -314,8 +314,9 @@ class TableWidget(QTableWidget):
             header_names (list): 列标题名称列表
             stretch_cols (list, optional): 可随窗口大小改变宽度的列(起始为0),默认为最后一列,当设置自动列宽时该设置将被忽略. Defaults to [].
         """
-        if self.columnCount() == 0:
-            self.setColumnCount(headerNames.__len__())
+        for i in range(self.horizontalHeader().count()):
+            self.takeHorizontalHeaderItem(i)
+        self.setColumnCount(headerNames.__len__())
         colIndex: int = 0
         for name in headerNames:
             column = QTableWidgetItem(name)
@@ -324,10 +325,11 @@ class TableWidget(QTableWidget):
             colIndex += 1
         if self._autoColWidth is False:
             if stretchCols == []:
-                self.horizontalHeader().setSectionResizeMode(colIndex - 1, QHeaderView.Stretch)
+                for i in range(self.columnCount()):
+                    self.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeMode.ResizeToContents)
             else:
                 for item in stretchCols:
-                    self.horizontalHeader().setSectionResizeMode(item, QHeaderView.Stretch)
+                    self.horizontalHeader().setSectionResizeMode(item, QHeaderView.ResizeMode.Stretch)
 
     def c_setHeaderTooltip(self, tooltips: list) -> None:
         """设置表头的悬停提示文字,按输入列表从左到右依次设置,多则忽略,少则跳过
@@ -427,7 +429,7 @@ class TableWidget(QTableWidget):
                 if i == listLength: break
                 if width[i] is not None:
                     self.setColumnWidth(i, width[i])
-                    self.horizontalHeader().setSectionResizeMode(i, QHeaderView.Fixed)
+                    self.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeMode.Fixed)
 
     def c_deleteSelectdRows(self) -> None:
         """删除所有选中行,注意:当flag_init_complete=True时会触发sig_data_changed信号"""

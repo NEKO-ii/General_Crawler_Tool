@@ -1,0 +1,5 @@
+# TYPE: LIST
+# [FILE_NAME,DATA_TYPE,TIME,SOURCE_DATA_FROM,EXPORT,FILE_SIZE]
+# TYPE => [PARSE]
+
+['parse_1683813293.txt', 'text', '2023.05.11 21:54:53', 'request_1683813293.txt', 'true', 'default.txt', '719']
