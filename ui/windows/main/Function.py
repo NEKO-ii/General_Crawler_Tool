@@ -95,7 +95,9 @@ class Func_MainWindow:
 
     def nav_temp(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
-        console_printer(MsgType.INFOMATION, "btn temp clicked")
+        self.ui.mainPages_ui.tempviewPage_inner.ui.pages.setCurrentIndex(0)
+        self.ui.setPage(self.ui.mainPages_ui.tempviewPage)
+        # console_printer(MsgType.INFOMATION, "btn temp clicked")
 
     def nav_help(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)

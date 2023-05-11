@@ -2,8 +2,8 @@
 # ///////////////////////////////////////////////////////////////
 from enum import Enum
 from json import dumps, loads
-from os.path import join, normpath, isfile, exists, abspath, basename
-from os import remove, removedirs, getcwd
+from os.path import join, normpath, isfile, exists, abspath, basename, isdir, dirname
+from os import remove, removedirs, getcwd, makedirs
 from pandas import DataFrame, ExcelWriter
 
 from core.support.json_minify import remove_json_comments
@@ -45,29 +45,35 @@ class File:
         Returns:
             str: 返回组装好的绝对路径
         """
-        path = Globalv.get(GlvKey.PATH)
+        PATH = Globalv.get(GlvKey.PATH)
+        path = ""
         if sys_path == SysPath.BASE:
-            return normpath(join(abspath(getcwd()), *paths))
-        if sys_path == SysPath.CONFIGURATION:
-            return normpath(join(path.p_configuration, *paths))
-        if sys_path == SysPath.SCRIPT:
-            return normpath(join(path.p_script, *paths))
-        if sys_path == SysPath.THEMES:
-            return normpath(join(path.p_themes, *paths))
-        if sys_path == SysPath.SETTINGS:
-            return normpath(join(path.p_settings, *paths))
-        if sys_path == SysPath.TEMP:
-            return normpath(join(path.p_temp, *paths))
-        if sys_path == SysPath.LOG:
-            return normpath(join(path.p_log, *paths))
-        if sys_path == SysPath.HELP:
-            return normpath(join(path.p_help, *paths))
-        if sys_path == SysPath.INPUT:
-            return normpath(join(path.p_input, *paths))
-        if sys_path == SysPath.OUTPUT:
-            return normpath(join(path.p_output, *paths))
-        if sys_path == SysPath.CACHE:
-            return normpath(join(path.p_cache, *paths))
+            path = normpath(join(abspath(getcwd()), *paths))
+        elif sys_path == SysPath.CONFIGURATION:
+            path = normpath(join(PATH.p_configuration, *paths))
+        elif sys_path == SysPath.SCRIPT:
+            path = normpath(join(PATH.p_script, *paths))
+        elif sys_path == SysPath.THEMES:
+            path = normpath(join(PATH.p_themes, *paths))
+        elif sys_path == SysPath.SETTINGS:
+            path = normpath(join(PATH.p_settings, *paths))
+        elif sys_path == SysPath.TEMP:
+            path = normpath(join(PATH.p_temp, *paths))
+        elif sys_path == SysPath.LOG:
+            path = normpath(join(PATH.p_log, *paths))
+        elif sys_path == SysPath.HELP:
+            path = normpath(join(PATH.p_help, *paths))
+        elif sys_path == SysPath.INPUT:
+            path = normpath(join(PATH.p_input, *paths))
+        elif sys_path == SysPath.OUTPUT:
+            path = normpath(join(PATH.p_output, *paths))
+        elif sys_path == SysPath.CACHE:
+            path = normpath(join(PATH.p_cache, *paths))
+
+        dirn = dirname(path)
+        if not exists(dirn): makedirs(dirn)
+
+        return path
 
     @staticmethod
     def pathJoin(*paths: str) -> str:
@@ -177,7 +183,7 @@ class File:
     @staticmethod
     def isFolderExists(path) -> bool:
         """判断文件夹是否存在"""
-        if exists(path) and not isfile(path):
+        if exists(path) and isdir(path):
             return True
         else:
             return False
@@ -203,9 +209,14 @@ class File:
         elif exists(path): removedirs(path)
 
     @staticmethod
-    def getBasenameFromUrl(path) -> str:
+    def getBasenameFromPath(path) -> str:
         """返回路径中的文件名"""
         return basename(path)
+
+    @staticmethod
+    def getDirnameFromPath(path) -> str:
+        """返回路径中的文件夹路径"""
+        return dirname(path)
 
     @staticmethod
     def insertFileName(fileName: str, index: int, subStr: str) -> str:

@@ -140,14 +140,14 @@ class Func_ScriptPage:
                 return
             exname = {0: None, 1: "py", 2: "js"}
             if self.editPageMode == "new":
-                path = File.path(SysPath.TEMP, F"temp_script.{exname[self.currentTemplateIndex]}")
+                path = File.path(SysPath.TEMP, "tmpscript", F"temp_script.{exname[self.currentTemplateIndex]}")
                 File.write(path, self.ui.editor_ui.tedit_editor.toPlainText())
                 self.stest.exec("临时测试脚本", path)
                 File.delete(path)
             elif self.editPageMode == "edit":
                 name = self.ui.overview_ui.table_overview.item(self.overviewTableEditRowIndex, 0).text()
                 if self.flag_currentTextChanged:
-                    path = File.path(SysPath.TEMP, F"editing_script.{exname[self.currentTemplateIndex]}")
+                    path = File.path(SysPath.TEMP, "tmpscript", F"editing_script.{exname[self.currentTemplateIndex]}")
                     File.write(path, self.ui.editor_ui.tedit_editor.toPlainText())
                     self.stest.exec(F"{name}(正在编辑)", path)
                     File.delete(path)

@@ -406,7 +406,7 @@ class Func_ConfigPage:
             table = self.ui.editorPage_ui.table_dataForm_script
             table.item(id, 0).setText(ret[0][2])
             table.item(id, 2).setText(ret[0][0])
-            table.item(id, 3).setText(File.getBasenameFromUrl(ret[0][2]))
+            table.item(id, 3).setText(File.getBasenameFromPath(ret[0][2]))
 
     # 配置编辑页面:JSON
     # ///////////////////////////////////////////////////////////////
@@ -547,7 +547,7 @@ class Func_ConfigPage:
             item = dic[key]
             path = item["path"]
             args = " ".join(item["args"])
-            fname = File.getBasenameFromUrl(path)
+            fname = File.getBasenameFromPath(path)
             for row in File.read_opt(File.path(SysPath.CACHE, "custom_script.dat"),DataType.LIST, comment_mark="#"):
                 lst = eval(row)
                 if path in lst:

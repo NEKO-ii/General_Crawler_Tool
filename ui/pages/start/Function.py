@@ -12,14 +12,16 @@ from core.support.tools import Tools
 from core.support.coderunner import runjs, runpy
 from core.static.define import Define
 from ui.preload.imp_qt import QObject, QThread, Signal
-import json
-
+from ui.dialog.Dialog_Select import Select
+from ui.dialog.Notice import Notice
 from .Ui_StartPage import Ui_StartPage
 
 
 class Func_StartPage(QObject):
     ui: Ui_StartPage
     sig_run = Signal()
+
+    flag_configLoad: bool = False
 
     def __init__(self, ui: Ui_StartPage) -> None:
         super().__init__()
@@ -37,9 +39,9 @@ class Func_StartPage(QObject):
         # 运行界面
         self.ui.runPage_ui.btn_back.clicked.connect(self.btn_back)
         self.ui.runPage_ui.btn_run.clicked.connect(self.btn_run)
+        self.ui.runPage_ui.btn_configSelector.clicked.connect(self.btn_config_select)
 
     def _signalConnect(self) -> None:
-        self.ui.runPage_ui.combo_configSelector.sig_currentTextChanged.connect(self.current_config_name_changed)
         self.runner.sig_msgAppend.connect(self.ui.runPage_ui.tedit_msgOutput.c_appendWithColor)
         self.runner.sig_msgInsert.connect(self.ui.runPage_ui.tedit_msgOutput.c_insertWithColor)
         self.sig_run.connect(self.runner.run)
@@ -51,18 +53,8 @@ class Func_StartPage(QObject):
     # ///////////////////////////////////////////////////////////////
     # 按钮界面
     def btn_to_run_page(self) -> None:
-        datas = File.read_opt(File.path(SysPath.CACHE, "local_configuration.dat"), DataType.LIST, "#")
-        rmlist = []
-        for item in datas:
-            data = eval(item)
-            if data[3] in Define.LOCAL_CONF_STATE_TYPE["error"]:
-                rmlist.append(item)
-            else:
-                self.runner.configFilePaths[data[0]] = data[1]
-        for item in rmlist:
-            datas.remove(item)
-        self.ui.runPage_ui.combo_configSelector.clear()
-        self.ui.runPage_ui.combo_configSelector.addItems([eval(data)[0] for data in datas])
+        self.flag_configLoad = False
+        self.ui.runPage_ui.ledit_configShow.clear()
         self.ui.runPage_ui.tedit_msgOutput.clear()
         self.ui.runPage_ui.tedit_msgOutput.c_appendWithColor("提示", "info", "[", "]: 选择配置文件以启动运行")
         self.ui.pages.setCurrentWidget(self.ui.runPage)
@@ -73,14 +65,33 @@ class Func_StartPage(QObject):
         self.ui.pages.setCurrentWidget(self.ui.btnPage)
 
     def btn_run(self) -> None:
-        self.ui.runPage_ui.tedit_msgOutput.clear()
-        self._threadRun()
-        self.sig_run.emit()
+        if self.flag_configLoad:
+            self.ui.runPage_ui.tedit_msgOutput.clear()
+            self._threadRun()
+            self.sig_run.emit()
+        else:
+            notice = Notice()
+            notice.exec("提示", "未选择任何配置,无法启动")
+
+    def btn_config_select(self) -> None:
+        datas = File.read_opt(File.path(SysPath.CACHE, "local_configuration.dat"), DataType.LIST, "#")
+        datas = [eval(item) for item in datas]
+        data = []
+        for row in datas:
+            if row[3] not in Define.LOCAL_CONF_STATE_TYPE["error"]:
+                data.append(row)
+        header = ["配置名", "文件路径", "更新时间", "标记", "备注"]
+        select = Select()
+        code, ret = select.exec(header, data)
+        if code and ret:
+            self.flag_configLoad = True
+            self.runner.currentConfigPath = ret[0][1]
+            self.ui.runPage_ui.ledit_configShow.setText(ret[0][0])
+        else:
+            self.flag_configLoad = False
 
     # 信号事件定义
     # ///////////////////////////////////////////////////////////////
-    def current_config_name_changed(self, current_name) -> None:
-        self.runner.currentConfigName = current_name
 
     def thread_sleep(self, time) -> None:
         self._thread.sleep(time)
@@ -105,8 +116,7 @@ class Runner(QObject):
     sig_sleep = Signal(object)
     sig_stop = Signal()
 
-    configFilePaths: dict = {}
-    currentConfigName: str = ""
+    currentConfigPath: str = ""
 
     f_continue: bool
 
@@ -115,7 +125,7 @@ class Runner(QObject):
 
     def run(self) -> None:
         self.f_continue = True
-        config = Configuration(self.configFilePaths[self.currentConfigName])
+        config = Configuration(self.currentConfigPath)
         settings = Settings()
         data: list = self._doRequest(config, settings)
         if self.f_continue: data = self._doParse(data, config)
@@ -147,7 +157,7 @@ class Runner(QObject):
             num += 1
             self.sig_msgInsert.emit(F"Reading page NO. = {schedule} ", None, None, None)
             try:
-                print(json.dumps(dataform, indent=2))
+                # print(json.dumps(dataform, indent=2))
                 response = None
                 response = Request.run(config.request_method, url, config.headers, dataform, config.cookies, config.verify, config.timeout)
                 responses.append(response)

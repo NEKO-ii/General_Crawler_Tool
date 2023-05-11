@@ -3,6 +3,7 @@ from ui.preload.imp_qt import (QCoreApplication, QMetaObject, QStackedWidget, QV
 from .config import ConfigurationPage
 from .start import StartPage
 from .script import ScriptPage
+from .tempview import TempviewPage
 from .ui_test_page3 import Ui_test_page3
 
 
@@ -33,6 +34,10 @@ class Ui_MainPagesContainer:
         self.scriptPage_inner = ScriptPage(self.scriptPage)
         self.pages.addWidget(self.scriptPage)
 
+        self.tempviewPage = QWidget(self.pages)
+        self.tempviewPage_inner = TempviewPage(self.tempviewPage)
+        self.pages.addWidget(self.tempviewPage)
+
         self.page_3 = QWidget()
         self.test_page3 = Ui_test_page3()
         self.test_page3.setupUi(self.page_3)
@@ -42,13 +47,13 @@ class Ui_MainPagesContainer:
 
         self.mainPagesLayout.addWidget(self.pages)
 
-        self.retranslateUi(MainPagesContainer)
+        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(MainPagesContainer)
 
     # setupUi
 
-    def retranslateUi(self, MainPagesContainer):
-        MainPagesContainer.setWindowTitle(QCoreApplication.translate("MainPagesContainer", u"Form", None))
+    def retranslateUi(self):
+        pass
 
     # retranslateUi
