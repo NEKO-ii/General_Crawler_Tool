@@ -89,6 +89,7 @@ class Func_StartPage(QObject):
             self.ui.runPage_ui.ledit_configShow.setText(ret[0][0])
         else:
             self.flag_configLoad = False
+            self.ui.runPage_ui.ledit_configShow.clear()
 
     # 信号事件定义
     # ///////////////////////////////////////////////////////////////
@@ -180,7 +181,7 @@ class Runner(QObject):
         self.currentRequTempFile = fname
         path = File.path(SysPath.TEMP, "requestout", fname)
         File.write(path, "\n".join(texts))
-        File.write(File.path(SysPath.CACHE, "temp_request.dat"), str([fname, host, config.request_method, Tools.datetime(), str(response.status_code), config.encoding, str(File.getSize(path))]), mode="a")
+        File.write(File.path(SysPath.CACHE, "temp_request.dat"), str([fname, host, config.request_method, Tools.datetime(), str(response.status_code), config.encoding, str(File.getSize(path))]) + "\n", mode="a")
         return responses
 
     def _doParse(self, responses: list, config: Configuration) -> list:
@@ -228,12 +229,19 @@ class Runner(QObject):
             self.sig_msgAppend.emit("complete", "success", None, None)
             fname = F"parse_{Tools.timestamp()}.txt"
             path = File.path(SysPath.TEMP, "parseout", fname)
-            File.write(path, str(returnList))
-            File.write(File.path(SysPath.CACHE, "temp_parse.dat"),
-                       str([fname, config.data_type,
-                            Tools.datetime(), self.currentRequTempFile, "true" if config.file_save_enable else "false", config.file_save_setting["text"]["file_name"],
-                            str(File.getSize(path))]),
-                       mode="a")
+            data = "[\n"
+            index = -1
+            length = len(returnList)
+            for row in returnList:
+                index += 1
+                data = data + F"{str(row)},\n" if index < length else data + F"{str(row)}\n"
+            data = data + "]"
+            File.write(path, data)
+            File.write(
+                File.path(SysPath.CACHE, "temp_parse.dat"),
+                str([fname, config.data_type, Tools.datetime(), self.currentRequTempFile, "true" if config.file_save_enable else "false", config.file_save_setting["text"]["file_name"],
+                     str(File.getSize(path))]) + "\n",
+                mode="a")
             return returnList
         elif config.data_type == "bin":
             # TODO: 二进制数据解析

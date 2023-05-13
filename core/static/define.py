@@ -445,7 +445,13 @@ class Define:
         '# STATUS => [RP:ALL_PASS][R:ONLY_HTTP_REQUEST][P:ONLY_DATA_PARSE][E:ERROR]\n\n',
         "custom_script": '# TYPE: LIST\n'
         '# [NAME,TYPE,PATH,UPDATE_TIME,COMMENT]\n'
-        '# TYPE => [PYTHON,JS]\n\n'
+        '# TYPE => [PYTHON,JS]\n\n',
+        "temp_request.dat": '# TYPE: LIST\n'
+        '# [FILE_NAME,HOST,METHOD,TIME,STATUS_CODE,ENCODING,FILE_SIZE]\n'
+        '# TYPE => [REQUEST]\n\n',
+        "temp_parse.dat": '# TYPE: LIST\n'
+        '# [FILE_NAME,DATA_TYPE,TIME,SOURCE_DATA_FROM,EXPORT,FILE_SIZE]\n'
+        '# TYPE => [PARSE]\n\n'
     }
     # 结尾
     FILE_DAT_BOTTOM_COMMENT: dict = {}

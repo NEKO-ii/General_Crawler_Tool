@@ -96,6 +96,7 @@ class Func_MainWindow:
     def nav_temp(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
         self.ui.mainPages_ui.tempviewPage_inner.ui.pages.setCurrentIndex(0)
+        self.ui.mainPages_ui.tempviewPage_inner.func.solt_flush()
         self.ui.setPage(self.ui.mainPages_ui.tempviewPage)
         # console_printer(MsgType.INFOMATION, "btn temp clicked")
 

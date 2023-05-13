@@ -307,7 +307,7 @@ class TableWidget(QTableWidget):
         if self._sp_lock is False:
             self._scrollParent = sparent
 
-    def c_setHeader(self, headerNames: list, stretchCols: list = []) -> None:
+    def c_setHeader(self, headerNames: list, stretchCols: list = [], resizeToContents: bool = False) -> None:
         """设置横向标题栏
 
         Args:
@@ -325,8 +325,11 @@ class TableWidget(QTableWidget):
             colIndex += 1
         if self._autoColWidth is False:
             if stretchCols == []:
-                for i in range(self.columnCount()):
-                    self.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeMode.ResizeToContents)
+                if resizeToContents:
+                    for i in range(self.columnCount()):
+                        self.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeMode.ResizeToContents)
+                else:
+                    self.horizontalHeader().setSectionResizeMode(self.columnCount() - 1, QHeaderView.ResizeMode.Stretch)
             else:
                 for item in stretchCols:
                     self.horizontalHeader().setSectionResizeMode(item, QHeaderView.ResizeMode.Stretch)
