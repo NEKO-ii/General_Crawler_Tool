@@ -115,6 +115,9 @@ class Func_MainWindow:
     # 标题栏按钮
     # ///////////////////////////////////////////////////////////////
     def top_account(self) -> None:
+        from ui.dialog.Login import Login
+        login = Login()
+        login.exec()
         console_printer(MsgType.INFOMATION, "btn top account clicked")
 
     # 起始页按钮

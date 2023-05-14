@@ -1,11 +1,8 @@
-from ui.preload.imp_qt import QLineEdit
+from ui.preload.imp_qt import QLineEdit, QFont
 
 # 样式表
 # ///////////////////////////////////////////////////////////////
 style = '''
-QLineEdit {{
-    font: 9pt {_font_family}
-}}
 QLineEdit:enabled {{
     background-color: {_background_color_enabled};
     border: 2px solid {_border_color_enabled};
@@ -55,6 +52,8 @@ class LineEdit(QLineEdit):
             self.setText(text)
         if placeHolderText:
             self.setPlaceholderText(placeHolderText)
+
+        self.setFont(QFont(fontFamily, 9))
 
         _styleFormat = style.format(_color_enabled=color_enabled,
                                     _color_disabled=color_disabled,

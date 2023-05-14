@@ -1,0 +1,337 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'Login.ui'
+##
+## Created by: Qt User Interface Compiler version 6.5.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
+from PySide6.QtWidgets import (QDialog, QFormLayout, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
+from PySide6.QtGui import QFont
+from ui.widgets import PushButton, LineEdit
+from core.sys.emails import Emails
+
+
+class Login(QDialog):
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.setStyleSheet("background-color: #2c313c; color: #aaaabb;")
+        self.setupUi(self)
+        self._btnConnect()
+        self._sigConnect()
+
+    def _btnConnect(self) -> None:
+        self.btn_reject.clicked.connect(self.reject)
+        self.btn_retrieve.clicked.connect(lambda: self.page.setCurrentIndex(2))
+        self.btn_signup.clicked.connect(lambda: self.page.setCurrentIndex(1))
+        self.btn_login.clicked.connect(self.solt_login)
+
+        self.btn_sendvcode_su.clicked.connect(self.solt_sendvcode)
+        self.btn_back_su.clicked.connect(lambda: self.page.setCurrentIndex(0))
+        self.btn_check_su.clicked.connect(self.solt_check_signup_form)
+        self.btn_signup_su.clicked.connect(self.solt_signup)
+
+        self.btn_back_rt.clicked.connect(lambda: self.page.setCurrentIndex(0))
+        self.btn_check_rt.clicked.connect(self.solt_check_retrieve_form)
+        self.btn_retrieve_rt.clicked.connect(self.solt_check_retrieve_form)
+        self.btn_sendvcode_rt.clicked.connect(self.solt_sendvcode)
+
+    def _sigConnect(self) -> None:
+        pass
+
+    def setupUi(self, Login):
+        if not Login.objectName():
+            Login.setObjectName(u"Login")
+        Login.resize(450, 200)
+        self.horizontalLayout_3 = QHBoxLayout(Login)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.page = QStackedWidget(Login)
+        self.page_login = QWidget()
+        self.verticalLayout = QVBoxLayout(self.page_login)
+        self.formLayout = QFormLayout()
+        self.formLayout.setLabelAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        self.formLayout.setVerticalSpacing(15)
+
+        self.label = QLabel(self.page_login)
+        self.label.setFont(QFont(["JetBrains Mono", "微软雅黑"], 13))
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label)
+
+        self.ledit_username = LineEdit(self.page_login)
+        self.ledit_username.setMinimumHeight(40)
+        self.ledit_username.setFont(QFont(["JetBrains Mono", "微软雅黑"], 13))
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.ledit_username)
+
+        self.label_2 = QLabel(self.page_login)
+        self.label_2.setFont(QFont(["JetBrains Mono", "微软雅黑"], 13))
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_2)
+
+        self.ledit_password = LineEdit(self.page_login)
+        self.ledit_password.setMinimumHeight(40)
+        font = QFont(["JetBrains Mono", "微软雅黑"], 13)
+        font.setLetterSpacing(QFont.SpacingType.AbsoluteSpacing, 5.0)
+        self.ledit_password.setFont(font)
+        self.ledit_password.setEchoMode(LineEdit.EchoMode.Password)
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.ledit_password)
+
+        self.verticalLayout.addLayout(self.formLayout)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+        self.label_loginMsg = QLabel(self.page_login)
+        self.horizontalLayout_2.addWidget(self.label_loginMsg)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout.addItem(self.verticalSpacer)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.btn_reject = PushButton(self.page_login)
+        self.horizontalLayout.addWidget(self.btn_reject)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.btn_retrieve = PushButton(self.page_login, type="primary")
+        self.horizontalLayout.addWidget(self.btn_retrieve)
+
+        self.btn_signup = PushButton(self.page_login, type="primary")
+        self.horizontalLayout.addWidget(self.btn_signup)
+
+        self.btn_login = PushButton(self.page_login, type="success")
+        self.horizontalLayout.addWidget(self.btn_login)
+
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+        self.page.addWidget(self.page_login)
+
+        self.page_signup = QWidget()
+        self.verticalLayout_2 = QVBoxLayout(self.page_signup)
+
+        self.formLayout_2 = QFormLayout()
+        self.formLayout_2.setLabelAlignment(Qt.AlignRight)
+        self.label_4 = QLabel(self.page_signup)
+        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_4)
+
+        self.ledit_username_su = LineEdit(self.page_signup)
+        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.ledit_username_su)
+
+        self.label_5 = QLabel(self.page_signup)
+        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_5)
+
+        self.ledit_password_su = LineEdit(self.page_signup)
+        self.ledit_password_su.setEchoMode(LineEdit.EchoMode.Password)
+        font = QFont(["JetBrains Mono", "微软雅黑"], 9)
+        font.setLetterSpacing(QFont.SpacingType.AbsoluteSpacing, 2.0)
+        self.ledit_password_su.setFont(font)
+        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.ledit_password_su)
+
+        self.label_6 = QLabel(self.page_signup)
+        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.label_6)
+
+        self.label_7 = QLabel(self.page_signup)
+        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.label_7)
+
+        self.ledit_vcode_su = LineEdit(self.page_signup)
+        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.ledit_vcode_su)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.ledit_email_su = LineEdit(self.page_signup)
+        self.horizontalLayout_5.addWidget(self.ledit_email_su)
+
+        self.btn_sendvcode_su = PushButton(self.page_signup, type="primary")
+        self.btn_sendvcode_su.setObjectName("svcsu")
+        self.horizontalLayout_5.addWidget(self.btn_sendvcode_su)
+
+        self.formLayout_2.setLayout(2, QFormLayout.FieldRole, self.horizontalLayout_5)
+
+        self.verticalLayout_2.addLayout(self.formLayout_2)
+
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_4)
+
+        self.lable_check_su = QLabel(self.page_signup)
+        self.horizontalLayout_6.addWidget(self.lable_check_su)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_6)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 6, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(self.verticalSpacer_2)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.btn_back_su = PushButton(self.page_signup)
+        self.horizontalLayout_4.addWidget(self.btn_back_su)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_3)
+
+        self.btn_check_su = PushButton(self.page_signup, type="primary")
+        self.horizontalLayout_4.addWidget(self.btn_check_su)
+
+        self.btn_signup_su = PushButton(self.page_signup, type="success")
+        self.horizontalLayout_4.addWidget(self.btn_signup_su)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_4)
+        self.page.addWidget(self.page_signup)
+
+        self.page_retrieve = QWidget()
+        self.verticalLayout_3 = QVBoxLayout(self.page_retrieve)
+
+        self.formLayout_3 = QFormLayout()
+        self.formLayout_3.setLabelAlignment(Qt.AlignRight)
+        self.label_8 = QLabel(self.page_retrieve)
+        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_8)
+
+        self.ledit_username_rt = LineEdit(self.page_retrieve)
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.ledit_username_rt)
+
+        self.label_9 = QLabel(self.page_retrieve)
+        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_9)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.ledit_email_rt = LineEdit(self.page_retrieve)
+        self.horizontalLayout_7.addWidget(self.ledit_email_rt)
+
+        self.btn_sendvcode_rt = PushButton(self.page_retrieve, type="primary")
+        self.btn_sendvcode_rt.setObjectName("svcrt")
+        self.horizontalLayout_7.addWidget(self.btn_sendvcode_rt)
+
+        self.formLayout_3.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_7)
+
+        self.label_10 = QLabel(self.page_retrieve)
+        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_10)
+
+        self.ledit_vcode_rt = LineEdit(self.page_retrieve)
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.ledit_vcode_rt)
+
+        self.label_11 = QLabel(self.page_retrieve)
+        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_11)
+
+        self.ledit_password_rt = LineEdit(self.page_retrieve)
+        self.ledit_password_rt.setEchoMode(LineEdit.EchoMode.Password)
+        self.ledit_password_rt.setFont(font)
+        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.ledit_password_rt)
+
+        self.label_12 = QLabel(self.page_retrieve)
+        self.formLayout_3.setWidget(4, QFormLayout.LabelRole, self.label_12)
+
+        self.ledit_password_re_rt = LineEdit(self.page_retrieve)
+        self.ledit_password_re_rt.setEchoMode(LineEdit.EchoMode.Password)
+        self.ledit_password_re_rt.setFont(font)
+        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.ledit_password_re_rt)
+
+        self.verticalLayout_3.addLayout(self.formLayout_3)
+
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_5)
+
+        self.lable_check_rt = QLabel(self.page_retrieve)
+        self.horizontalLayout_8.addWidget(self.lable_check_rt)
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_8)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 6, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(self.verticalSpacer_3)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.btn_back_rt = PushButton(self.page_retrieve)
+        self.horizontalLayout_9.addWidget(self.btn_back_rt)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(self.horizontalSpacer_6)
+
+        self.btn_check_rt = PushButton(self.page_retrieve, type="primary")
+        self.horizontalLayout_9.addWidget(self.btn_check_rt)
+
+        self.btn_retrieve_rt = PushButton(self.page_retrieve, type="success")
+        self.horizontalLayout_9.addWidget(self.btn_retrieve_rt)
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_9)
+        self.page.addWidget(self.page_retrieve)
+
+        self.horizontalLayout_3.addWidget(self.page)
+
+        self.retranslateUi(Login)
+
+        QMetaObject.connectSlotsByName(Login)
+
+    def retranslateUi(self, Login):
+        Login.setWindowTitle(QCoreApplication.translate("Login", u"\u767b\u9646", None))
+        self.label.setText(QCoreApplication.translate("Login", u"\u7528\u6237\u540d:", None))
+        self.label_2.setText(QCoreApplication.translate("Login", u"\u5bc6\u7801:", None))
+        self.label_loginMsg.setText(QCoreApplication.translate("Login", u"msg", None))
+        self.btn_reject.setText(QCoreApplication.translate("Login", u"\u53d6\u6d88", None))
+        self.btn_retrieve.setText(QCoreApplication.translate("Login", u"\u5bc6\u7801\u627e\u56de", None))
+        self.btn_signup.setText(QCoreApplication.translate("Login", u"\u6ce8\u518c", None))
+        self.btn_login.setText(QCoreApplication.translate("Login", u"\u767b\u9646", None))
+        self.label_4.setText(QCoreApplication.translate("Login", u"\u7528\u6237\u540d:", None))
+        self.label_5.setText(QCoreApplication.translate("Login", u"\u5bc6\u7801:", None))
+        self.label_6.setText(QCoreApplication.translate("Login", u"\u90ae\u7bb1:", None))
+        self.label_7.setText(QCoreApplication.translate("Login", u"\u9a8c\u8bc1\u7801:", None))
+        self.btn_sendvcode_su.setText(QCoreApplication.translate("Login", u"\u83b7\u53d6\u9a8c\u8bc1\u7801", None))
+        self.lable_check_su.setText(QCoreApplication.translate("Login", u"\u672a\u68c0\u6d4b", None))
+        self.btn_back_su.setText(QCoreApplication.translate("Login", u"\u8fd4\u56de", None))
+        self.btn_check_su.setText(QCoreApplication.translate("Login", u"\u68c0\u67e5", None))
+        self.btn_signup_su.setText(QCoreApplication.translate("Login", u"\u6ce8\u518c", None))
+        self.label_8.setText(QCoreApplication.translate("Login", u"\u7528\u6237\u540d:", None))
+        self.label_9.setText(QCoreApplication.translate("Login", u"\u90ae\u7bb1:", None))
+        self.label_10.setText(QCoreApplication.translate("Login", u"\u9a8c\u8bc1\u7801:", None))
+        self.label_11.setText(QCoreApplication.translate("Login", u"\u65b0\u5bc6\u7801:", None))
+        self.label_12.setText(QCoreApplication.translate("Login", u"\u518d\u6b21\u8f93\u5165\u65b0\u5bc6\u7801:", None))
+        self.lable_check_rt.setText(QCoreApplication.translate("Login", u"\u672a\u68c0\u67e5", None))
+        self.btn_back_rt.setText(QCoreApplication.translate("Login", u"\u8fd4\u56de", None))
+        self.btn_check_rt.setText(QCoreApplication.translate("Login", u"\u68c0\u67e5", None))
+        self.btn_retrieve_rt.setText(QCoreApplication.translate("Login", u"\u786e\u8ba4", None))
+        self.btn_sendvcode_rt.setText(QCoreApplication.translate("Login", u"\u53d1\u9001\u9a8c\u8bc1\u7801", None))
+
+    # 槽函数
+    # ///////////////////////////////////////////////////////////////
+    def solt_login(self) -> None:
+        print("login")
+
+    def solt_sendvcode(self, objname) -> None:
+        # emailAddrs = self.ledit_email_su.text()
+        # emails = Emails()
+        # if emails.flag_connect:
+        #     flag, code, msg = emails.sendVerificationCode(emailAddrs)
+        #     emails.close()
+        #     print(F"{flag}, {code}, {msg}")
+        #     if flag:
+        #         pass
+        #     else:
+        #         pass
+        # else:
+        #     print(emails.errmsg)
+        emailAddrs = self.ledit_email_su.text()
+        emails = Emails()
+        flag, code, msg = emails.sendVerificationCode(emailAddrs)
+        if objname == "svcsu":
+            self.ledit_vcode_su.setText(code)
+        elif objname == "svcrt":
+            self.ledit_vcode_rt.setText(code)
+
+    def solt_check_signup_form(self) -> None:
+        print("check")
+
+    def solt_signup(self) -> None:
+        pass
+
+    def solt_check_retrieve_form(self) -> None:
+        pass
+
+    def solt_retrieve(self) -> None:
+        pass
+
+    def exec(self) -> None:
+        self.page.setCurrentIndex(0)
+        self.label_loginMsg.hide()
+        super().exec()
