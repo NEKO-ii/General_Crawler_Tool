@@ -2,3 +2,4 @@
 # [FILE_NAME,DATA_TYPE,TIME,SOURCE_DATA_FROM,EXPORT,FILE_SIZE]
 # TYPE => [PARSE]
 
+['parse_1684325757.txt', 'text', '2023.05.17 20:15:57', 'request_1684325757.txt', 'true', 'default.xlt', '733']
