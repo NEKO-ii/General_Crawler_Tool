@@ -26,8 +26,8 @@ class Login(QDialog):
 
     def _btnConnect(self) -> None:
         self.btn_reject.clicked.connect(self.reject)
-        self.btn_retrieve.clicked.connect(lambda: self.page.setCurrentIndex(2))
-        self.btn_signup.clicked.connect(lambda: self.page.setCurrentIndex(1))
+        self.btn_retrieve.clicked.connect(self.solt_to_retrieve_page)
+        self.btn_signup.clicked.connect(self.solt_to_signup_page)
         self.btn_login.clicked.connect(self.solt_login)
 
         self.btn_sendvcode_su.clicked.connect(self.solt_sendvcode)
@@ -267,15 +267,15 @@ class Login(QDialog):
     def retranslateUi(self, Login):
         Login.setWindowTitle(QCoreApplication.translate("Login", u"\u767b\u9646", None))
         self.label.setText(QCoreApplication.translate("Login", u"\u7528\u6237\u540d:", None))
-        self.label_2.setText(QCoreApplication.translate("Login", u"\u5bc6\u7801:", None))
+        self.label_2.setText(QCoreApplication.translate("Login", u"\u5bc6\u3000\u7801:", None))
         self.label_loginMsg.setText(QCoreApplication.translate("Login", u"msg", None))
         self.btn_reject.setText(QCoreApplication.translate("Login", u"\u53d6\u6d88", None))
         self.btn_retrieve.setText(QCoreApplication.translate("Login", u"\u5bc6\u7801\u627e\u56de", None))
         self.btn_signup.setText(QCoreApplication.translate("Login", u"\u6ce8\u518c", None))
         self.btn_login.setText(QCoreApplication.translate("Login", u"\u767b\u9646", None))
         self.label_4.setText(QCoreApplication.translate("Login", u"\u7528\u6237\u540d:", None))
-        self.label_5.setText(QCoreApplication.translate("Login", u"\u5bc6\u7801:", None))
-        self.label_6.setText(QCoreApplication.translate("Login", u"\u90ae\u7bb1:", None))
+        self.label_5.setText(QCoreApplication.translate("Login", u"\u5bc6\u3000\u7801:", None))
+        self.label_6.setText(QCoreApplication.translate("Login", u"\u90ae\u3000\u7bb1:", None))
         self.label_7.setText(QCoreApplication.translate("Login", u"\u9a8c\u8bc1\u7801:", None))
         self.btn_sendvcode_su.setText(QCoreApplication.translate("Login", u"\u83b7\u53d6\u9a8c\u8bc1\u7801", None))
         self.lable_check_su.setText(QCoreApplication.translate("Login", u"\u672a\u68c0\u6d4b", None))
@@ -283,7 +283,7 @@ class Login(QDialog):
         self.btn_check_su.setText(QCoreApplication.translate("Login", u"\u68c0\u67e5", None))
         self.btn_signup_su.setText(QCoreApplication.translate("Login", u"\u6ce8\u518c", None))
         self.label_8.setText(QCoreApplication.translate("Login", u"\u7528\u6237\u540d:", None))
-        self.label_9.setText(QCoreApplication.translate("Login", u"\u90ae\u7bb1:", None))
+        self.label_9.setText(QCoreApplication.translate("Login", u"\u90ae\u3000\u7bb1:", None))
         self.label_10.setText(QCoreApplication.translate("Login", u"\u9a8c\u8bc1\u7801:", None))
         self.label_11.setText(QCoreApplication.translate("Login", u"\u65b0\u5bc6\u7801:", None))
         self.label_12.setText(QCoreApplication.translate("Login", u"\u518d\u6b21\u8f93\u5165\u65b0\u5bc6\u7801:", None))
@@ -330,6 +330,31 @@ class Login(QDialog):
 
     def solt_retrieve(self) -> None:
         pass
+
+    def solt_to_signup_page(self) -> None:
+        self.solt_clear_signup_page()
+        self.page.setCurrentIndex(1)
+
+    def solt_to_retrieve_page(self) -> None:
+        self.solt_clear_retrieve_page()
+        self.page.setCurrentIndex(2)
+
+    def solt_clear_signup_page(self) -> None:
+        self.ledit_username_su.clear()
+        self.ledit_password_su.clear()
+        self.ledit_email_su.clear()
+        self.ledit_vcode_su.clear()
+        self.lable_check_su.setText("未检查")
+        self.lable_check_su.setStyleSheet("color: #aaaabb;")
+
+    def solt_clear_retrieve_page(self) -> None:
+        self.ledit_username_rt.clear()
+        self.ledit_email_rt.clear()
+        self.ledit_vcode_rt.clear()
+        self.ledit_password_rt.clear()
+        self.ledit_password_re_rt.clear()
+        self.lable_check_rt.setText("未检查")
+        self.lable_check_rt.setStyleSheet("color: #aaaabb;")
 
     def exec(self) -> None:
         self.page.setCurrentIndex(0)
