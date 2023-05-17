@@ -2,3 +2,4 @@
 # [FILE_NAME,HOST,METHOD,TIME,STATUS_CODE,ENCODING,FILE_SIZE]
 # TYPE => [REQUEST]
 
+['request_1684325757.txt', 'hld.fang.ke.com', 'get', '2023.05.17 20:15:57', '200', 'utf-8', '648736']
