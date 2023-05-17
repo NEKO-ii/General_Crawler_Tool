@@ -69,7 +69,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="hly_accmsg">
      <property name="spacing">
       <number>5</number>
      </property>

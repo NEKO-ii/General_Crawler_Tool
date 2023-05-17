@@ -4,6 +4,7 @@ from .config import ConfigurationPage
 from .start import StartPage
 from .script import ScriptPage
 from .tempview import TempviewPage
+from .account import AccountPage
 from .ui_test_page3 import Ui_test_page3
 
 
@@ -37,6 +38,10 @@ class Ui_MainPagesContainer:
         self.tempviewPage = QWidget(self.pages)
         self.tempviewPage_inner = TempviewPage(self.tempviewPage)
         self.pages.addWidget(self.tempviewPage)
+
+        self.accountPage = QWidget(self.pages)
+        self.accountPage_inner = AccountPage(self.accountPage)
+        self.pages.addWidget(self.accountPage)
 
         self.page_3 = QWidget()
         self.test_page3 = Ui_test_page3()

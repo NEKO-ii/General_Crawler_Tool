@@ -115,10 +115,12 @@ class Func_MainWindow:
     # 标题栏按钮
     # ///////////////////////////////////////////////////////////////
     def top_account(self) -> None:
-        from ui.dialog.Login import Login
-        login = Login()
-        login.exec()
-        console_printer(MsgType.INFOMATION, "btn top account clicked")
+        # from ui.dialog.Login import Login
+        # login = Login()
+        # login.exec()
+        # console_printer(MsgType.INFOMATION, "btn top account clicked")
+        self.ui.navigation.ui.c_selectOnlyOne(None)
+        self.ui.setPage(self.ui.mainPages_ui.accountPage)
 
     # 起始页按钮
     # ///////////////////////////////////////////////////////////////
