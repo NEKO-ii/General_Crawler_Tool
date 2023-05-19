@@ -21,6 +21,18 @@ class Tools:
         return strftime(format, localtime(time()))
 
     @staticmethod
+    def dateformat(ts: int, format: str = "%Y.%m.%d %H:%M:%S") -> str:
+        """返回格式化时间字符串
+
+        Args:
+            format (str, optional): 时间格式. Defaults to "%Y.%m.%d %H:%M:%S".
+
+        Returns:
+            str:
+        """
+        return strftime(format, localtime(float(ts)))
+
+    @staticmethod
     def toPagingDict(datalist: list, limit: int) -> dict:
         """数据列表转为分页数据字典
 

@@ -8,14 +8,19 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt, Signal)
 from PySide6.QtWidgets import (QDialog, QFormLayout, QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
 from PySide6.QtGui import QFont
 from ui.widgets import PushButton, LineEdit
 from core.sys.emails import Emails
+from core.sys.cloud import login, signup, isUserExists, updatePassword
+from core.sys.globalv import Globalv, GlvKey
+from core.sys.accountstate import AccountState
 
 
 class Login(QDialog):
+    sig_loginSucceed = Signal(dict)
+    sig_passwordUpdated = Signal()
 
     def __init__(self) -> None:
         super().__init__()
@@ -23,6 +28,9 @@ class Login(QDialog):
         self.setupUi(self)
         self._btnConnect()
         self._sigConnect()
+        self.setWindowTitle("登陆")
+        self.page.setCurrentIndex(0)
+        self.accountState: AccountState = Globalv.get(GlvKey.ACCOUNT_STATE)
 
     def _btnConnect(self) -> None:
         self.btn_reject.clicked.connect(self.reject)
@@ -37,11 +45,11 @@ class Login(QDialog):
 
         self.btn_back_rt.clicked.connect(lambda: self.page.setCurrentIndex(0))
         self.btn_check_rt.clicked.connect(self.solt_check_retrieve_form)
-        self.btn_retrieve_rt.clicked.connect(self.solt_check_retrieve_form)
+        self.btn_retrieve_rt.clicked.connect(self.solt_retrieve)
         self.btn_sendvcode_rt.clicked.connect(self.solt_sendvcode)
 
     def _sigConnect(self) -> None:
-        pass
+        self.page.currentChanged.connect(self.solt_set_window_title)
 
     def setupUi(self, Login):
         if not Login.objectName():
@@ -85,6 +93,7 @@ class Login(QDialog):
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
         self.label_loginMsg = QLabel(self.page_login)
+        self.label_loginMsg.setStyleSheet("color: red;")
         self.horizontalLayout_2.addWidget(self.label_loginMsg)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -159,6 +168,7 @@ class Login(QDialog):
         self.horizontalLayout_6.addItem(self.horizontalSpacer_4)
 
         self.lable_check_su = QLabel(self.page_signup)
+        self.lable_check_su.setStyleSheet("color: red;")
         self.horizontalLayout_6.addWidget(self.lable_check_su)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_6)
@@ -235,6 +245,7 @@ class Login(QDialog):
         self.horizontalLayout_8.addItem(self.horizontalSpacer_5)
 
         self.lable_check_rt = QLabel(self.page_retrieve)
+        self.lable_check_rt.setStyleSheet("color: red;")
         self.horizontalLayout_8.addWidget(self.lable_check_rt)
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_8)
@@ -296,7 +307,17 @@ class Login(QDialog):
     # 槽函数
     # ///////////////////////////////////////////////////////////////
     def solt_login(self) -> None:
-        print("login")
+        resp = login(self.ledit_username.text().strip(), self.ledit_password.text().strip())
+        flag: bool = resp["flag"]
+        data: dict = resp["data"]
+        msg: str = resp["msg"]
+        if flag:
+            self.sig_loginSucceed.emit(data)
+            self.accountState._isLoginSucceed = True
+            self.accept()
+        else:
+            self.label_loginMsg.setText(msg)
+            self.label_loginMsg.show()
 
     def solt_sendvcode(self, objname) -> None:
         # emailAddrs = self.ledit_email_su.text()
@@ -323,13 +344,59 @@ class Login(QDialog):
         print("check")
 
     def solt_signup(self) -> None:
-        pass
+        username = self.ledit_username_su.text().strip()
+        password = self.ledit_password_su.text().strip()
+        email = self.ledit_email_su.text().strip()
+        resp = signup(username, password, email)
+        flag = resp["flag"]
+        msg = resp["msg"]
+        self.accept()
+        # TODO: 注册时查询已有账户避免重复
 
-    def solt_check_retrieve_form(self) -> None:
-        pass
+    def solt_check_retrieve_form(self) -> bool:
+        flag: bool = False
+        username = self.ledit_username_rt.text().strip()
+        # email = self.ledit_email_rt.text().strip()
+        # vcode = self.ledit_vcode_rt.text().strip()
+        # TODO: 验证码邮箱验证
+        passw1 = self.ledit_password_rt.text().strip()
+        passw2 = self.ledit_password_re_rt.text().strip()
+        if username == "":
+            self.lable_check_rt.setText("用户名不能为空")
+        else:
+            if passw1 == "" and passw2 == "":
+                self.lable_check_rt.setText("密码不能为空")
+            else:
+                if passw1 == self.accountState._password:
+                    self.lable_check_rt.setText("不能使用当前密码")
+                else:
+                    if passw1 != passw2:
+                        self.lable_check_rt.setText("两次密码输入不一致")
+                    else:
+                        resp = isUserExists("username", username)
+                        if resp["flag"]:
+                            flag = True
+                        else:
+                            self.lable_check_rt.setText("用户名不存在")
+        if flag:
+            self.lable_check_rt.setStyleSheet("color: green;")
+            self.lable_check_rt.setText("数据可用")
+        else:
+            self.lable_check_rt.setStyleSheet("color: red;")
+
+        return flag
 
     def solt_retrieve(self) -> None:
-        pass
+        if self.solt_check_retrieve_form():
+            username = self.ledit_username_rt.text().strip()
+            passw1 = self.ledit_password_rt.text().strip()
+            resp = updatePassword(username, passw1)
+            if resp["flag"]:
+                self.hide()
+                self.sig_passwordUpdated.emit()
+                self.accept()
+            else:
+                self.lable_check_rt.setText("密码更新失败")
 
     def solt_to_signup_page(self) -> None:
         self.solt_clear_signup_page()
@@ -356,7 +423,14 @@ class Login(QDialog):
         self.lable_check_rt.setText("未检查")
         self.lable_check_rt.setStyleSheet("color: #aaaabb;")
 
+    def solt_set_window_title(self) -> None:
+        if self.page.currentIndex() == 0:
+            self.setWindowTitle("登陆")
+        elif self.page.currentIndex() == 1:
+            self.setWindowTitle("注册账户")
+        elif self.page.currentIndex() == 2:
+            self.setWindowTitle("修改密码")
+
     def exec(self) -> None:
-        self.page.setCurrentIndex(0)
         self.label_loginMsg.hide()
         super().exec()

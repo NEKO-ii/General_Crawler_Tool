@@ -2,19 +2,25 @@
 # ///////////////////////////////////////////////////////////////
 from .settings import Settings
 from .themes import Themes
+from .accountstate import AccountState
 from enum import Enum
 
 _SETTINGS: Settings = None
 _THEMES: Themes = None
 _PATH = None
+_ACCOUNT_STATE: AccountState = None
 
 _GLOBAL_DICT: dict = {}
+
+IS_LOGIN_SUCCEED: bool = False
+USER_INFO: dict = {}
 
 
 class GlvKey(Enum):
     SETTINGS = "SETTINGS"
     THEMES = "THEMES"
     PATH = "PATH"
+    ACCOUNT_STATE = "ACCOUNT_STATE"
 
 
 class Globalv:
@@ -23,9 +29,9 @@ class Globalv:
     @staticmethod
     def init() -> None:
         """初始化全局变量"""
-        global _SETTINGS, _THEMES, _PATH
+        global _SETTINGS, _THEMES, _PATH, _ACCOUNT_STATE
         global _GLOBAL_DICT
-        _GLOBAL_DICT = {"SETTINGS": _SETTINGS, "THEMES": _THEMES, "PATH": _PATH}
+        _GLOBAL_DICT = {"SETTINGS": _SETTINGS, "THEMES": _THEMES, "PATH": _PATH, "ACCOUNT_STATE": _ACCOUNT_STATE}
 
     @staticmethod
     def get(key: GlvKey):

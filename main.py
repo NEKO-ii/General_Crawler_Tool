@@ -8,6 +8,7 @@ from core.sys.settings import Settings
 from core.sys.themes import Themes
 from core.sys.path import Path
 from core.sys.globalv import Globalv, GlvKey
+from core.sys.accountstate import AccountState
 from ui.windows.main.MainWindow import MainWindow
 
 
@@ -24,6 +25,7 @@ class System:
         Globalv.set(GlvKey.SETTINGS, Settings())
         Globalv.set(GlvKey.THEMES, Themes(Globalv.get(GlvKey.SETTINGS).theme_name))
         Globalv.set(GlvKey.PATH, Path())
+        Globalv.set(GlvKey.ACCOUNT_STATE, AccountState())
 
         self.app = QApplication(sys.argv)
         self.app.setWindowIcon(QIcon("icon.ico"))
