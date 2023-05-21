@@ -7,6 +7,8 @@ from core.support.tools import Tools
 from core.sys.file import DataType, File, SysPath
 from core.sys.globalv import Globalv, GlvKey
 from core.sys.themes import Themes
+from core.sys.accountstate import AccountState
+from core.sys.cloud import uploadConfiguration, getConfigFileList, updateLocalAccountState
 from ui.dialog.Dialog_ConfigMessageInput import Dialog_ConfigMessageInput
 from ui.dialog.Input import Inputer
 from ui.dialog.Message import Message
@@ -22,6 +24,7 @@ from .Ui_ConfigurationPage import Ui_ConfigurationPage
 
 class Func_ConfigPage:
     ui: Ui_ConfigurationPage
+    accountState: AccountState
 
     editPageMode: str = None  # 当前配置编辑页面所处的功能模式,新建配置时为:new,编辑配置时为:edit
     editData: dict = None
@@ -33,6 +36,7 @@ class Func_ConfigPage:
 
     def __init__(self, ui: Ui_ConfigurationPage) -> None:
         self.themes: Themes = Globalv.get(GlvKey.THEMES)
+        self.accountState = Globalv.get(GlvKey.ACCOUNT_STATE)
         self.ui = ui
         self._btnConnect()
         self._signalConnect()
@@ -49,6 +53,7 @@ class Func_ConfigPage:
         self.ui.overviewPage_ui.btn_flush.clicked.connect(self.ov_table_overview_flush)
         self.ui.overviewPage_ui.btn_delete.clicked.connect(self.btn_delete_config)
         self.ui.overviewPage_ui.btn_clear.clicked.connect(self.ui.overviewPage_ui.ledit_search.clear)
+        self.ui.overviewPage_ui.btn_upload.clicked.connect(self.solt_upload)
 
         # 配置编辑页面
         self.ui.editorPage_ui.btn_back.clicked.connect(self.btn_edit_back)
@@ -261,6 +266,44 @@ class Func_ConfigPage:
             self.ui.overviewPage_ui.table_overview.c_setAllHidden(False)
         else:
             self.ui.overviewPage_ui.table_overview.c_search(text)
+
+    def solt_upload(self) -> None:
+        if self.accountState._isLoginSucceed:
+            datas = self.ui.overviewPage_ui.table_overview.c_getData(onlyCol=[0, 1, 4], onlySelectedRows=True)
+            if datas:
+                conffs: list = getConfigFileList(self.accountState._userId)["data"]
+                if self.question.exec("请确认", F"是否要将选中的配置文件(共{len(datas)}个)上传到云端"):
+                    files: dict = {}
+                    form: dict = {
+                        "userId": self.accountState._userId,
+                        "confInfo": "",
+                    }
+                    build: dict = {}
+                    for row in datas:
+                        if File.isFileExists(row[1]) is False:
+                            self.message.appendMsg(F"本地文件不存在: {row[1]}", mtype="error")
+                            continue
+                        fname = File.getBasenameFromPath(row[1])
+                        if fname in conffs:
+                            self.message.appendMsg(F"云端已存在同名文件: {fname}", mtype="info")
+                        else:
+                            files[fname] = open(row[1], "rb")
+                            build[fname] = {"confName": row[0], "comment": row[2]}
+                    if files:
+                        form["confInfo"] = dumps(build)
+                        resp = uploadConfiguration(form, files)
+                        if resp["flag"]:
+                            count = files.keys().__len__()
+                            updateLocalAccountState()
+                            self.notice.exec("提示", F"成功上传{count}条配置", titleType="success")
+                        else:
+                            self.notice.exec("错误", resp["msg"], titleType="error")
+                    if self.message.getMsgCount("info") or self.message.getMsgCount("error"):
+                        self.message.exec()
+            else:
+                self.notice.exec("提示", "未选择任何配置")
+        else:
+            self.notice.exec("提示", "软件处于离线状态,请先登录")
 
     # 配置编辑页面
     # ///////////////////////////////////////////////////////////////
@@ -548,7 +591,7 @@ class Func_ConfigPage:
             path = item["path"]
             args = " ".join(item["args"])
             fname = File.getBasenameFromPath(path)
-            for row in File.read_opt(File.path(SysPath.CACHE, "custom_script.dat"),DataType.LIST, comment_mark="#"):
+            for row in File.read_opt(File.path(SysPath.CACHE, "custom_script.dat"), DataType.LIST, comment_mark="#"):
                 lst = eval(row)
                 if path in lst:
                     name = lst[0]

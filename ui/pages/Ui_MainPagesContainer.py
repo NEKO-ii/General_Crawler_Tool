@@ -5,6 +5,7 @@ from .start import StartPage
 from .script import ScriptPage
 from .tempview import TempviewPage
 from .account import AccountPage
+from .cloud import CloudPage
 from .ui_test_page3 import Ui_test_page3
 
 
@@ -42,6 +43,10 @@ class Ui_MainPagesContainer:
         self.accountPage = QWidget(self.pages)
         self.accountPage_inner = AccountPage(self.accountPage)
         self.pages.addWidget(self.accountPage)
+
+        self.cloudPage = QWidget(self.pages)
+        self.cloudPage_inner = CloudPage(self.cloudPage)
+        self.pages.addWidget(self.cloudPage)
 
         self.page_3 = QWidget()
         self.test_page3 = Ui_test_page3()

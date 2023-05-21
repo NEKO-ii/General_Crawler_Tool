@@ -142,3 +142,61 @@ class PushButton(QPushButton):
         if event.button() == Qt.LeftButton:
             self.released.emit(self.objectName())
         return super().mouseReleaseEvent(event)
+
+    def setType(self, type: str = "default") -> None:
+        color_enabled = "#aaaabb"
+        color_disabled = "#4f5b6e"
+        color_pressed = "#3f6fd1"
+        border_color_enabled = "#3c4454"
+        border_color_disabled = "#343b48"
+        border_color_hover = "#6c99f4"
+        border_color_pressed = "#3f6fd1"
+        bg_color_enabled = "#1b1e23"
+        bg_color_disabled = "#21252d"
+        bg_color_hover = "#21252d"
+        bg_color_pressed = "#1b1e23"
+        borderWidth = 1
+        fontSize = 9
+        radius = 3
+        if type == "success":
+            bg_color_enabled = "#20b05f"
+            bg_color_hover = "#20cc5f"
+            bg_color_pressed = "#20b05f"
+            border_color_hover = "#dce1ec"
+            color_enabled = "#222222"
+            color_pressed = "#aaaaaa"
+        elif type == "primary":
+            bg_color_enabled = "#205090"
+            bg_color_hover = "#3070a0"
+            bg_color_pressed = "#205090"
+            border_color_hover = "#aaaabb"
+        elif type == "warning":
+            bg_color_enabled = "#d0d040"
+            bg_color_hover = "#f0f020"
+            bg_color_pressed = "#d0d040"
+            border_color_hover = "#f5f6f9"
+            border_color_pressed = "#666666"
+            color_enabled = "#222222"
+            color_pressed = "#666666"
+        elif type == "error":
+            bg_color_enabled = "#cc3030"
+            bg_color_hover = "#ff4040"
+            bg_color_pressed = "#cc3030"
+            border_color_hover = "#dce1ec"
+            color_enabled = "#222222"
+            color_pressed = "#aaaaaa"
+        _customStyle = style.format(_color_enabled=color_enabled,
+                                    _color_disabled=color_disabled,
+                                    _color_pressed=color_pressed,
+                                    _border_color_enabled=border_color_enabled,
+                                    _border_color_disabled=border_color_disabled,
+                                    _border_color_hover=border_color_hover,
+                                    _border_color_pressed=border_color_pressed,
+                                    _background_color_enabled=bg_color_enabled,
+                                    _background_color_disabled=bg_color_disabled,
+                                    _background_color_hover=bg_color_hover,
+                                    _background_color_pressed=bg_color_pressed,
+                                    _border_width=borderWidth,
+                                    _radius=radius,
+                                    _font_size=fontSize)
+        self.setStyleSheet(_customStyle)

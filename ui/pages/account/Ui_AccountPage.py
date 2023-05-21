@@ -110,7 +110,7 @@ class Ui_AccountPage(object):
         self.ledit_ctime.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.gly_editplace.addWidget(self.ledit_ctime, 1, 1, 1, 1)
 
-        self.ledit_configCount = LineEdit(AccountPage)
+        self.ledit_configCount = LineEdit(AccountPage, color_enabled="#568af2")
         self.ledit_configCount.setReadOnly(True)
         self.ledit_configCount.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.gly_editplace.addWidget(self.ledit_configCount, 0, 3, 1, 1)
@@ -126,7 +126,7 @@ class Ui_AccountPage(object):
         self.lb_requestCount = QLabel(AccountPage)
         self.gly_editplace.addWidget(self.lb_requestCount, 0, 0, 1, 1)
 
-        self.ledit_requestCount = LineEdit(AccountPage)
+        self.ledit_requestCount = LineEdit(AccountPage, color_enabled="#568af2")
         self.ledit_requestCount.setReadOnly(True)
         self.ledit_requestCount.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.gly_editplace.addWidget(self.ledit_requestCount, 0, 1, 1, 1)

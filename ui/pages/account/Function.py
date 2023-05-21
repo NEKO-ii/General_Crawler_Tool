@@ -17,8 +17,6 @@ from .Ui_AccountPage import Ui_AccountPage
 class Func_AccountPage:
     ui: Ui_AccountPage
 
-    userinfo: dict
-
     def __init__(self, ui: Ui_AccountPage) -> None:
         self.ui = ui
         self.login = Login()
@@ -35,6 +33,16 @@ class Func_AccountPage:
     def _sigConnect(self) -> None:
         self.login.sig_loginSucceed.connect(self.solt_set_user_info)
         self.login.sig_passwordUpdated.connect(self.solt_password_updated)
+
+    # 方法定义
+    # ///////////////////////////////////////////////////////////////
+    def flushUserInfo(self) -> None:
+        self.ui.ledit_requestCount.setText(str(self.accountState._requestCount))
+        self.ui.ledit_configCount.setText(str(self.accountState._configSaveCount))
+        self.ui.ledit_ctime.setText(self.accountState._createTime)
+        self.ui.ledit_utime.setText(self.accountState._updateTime)
+        self.ui.ledit_email.setText(self.accountState._email)
+        self.ui.ledit_password.setText(self.accountState._password)
 
     # 按钮动作方法定义
     # ///////////////////////////////////////////////////////////////

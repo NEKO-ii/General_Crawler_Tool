@@ -80,8 +80,9 @@ class Func_MainWindow:
 
     def nav_cloud(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
-        self.ui.setPage(self.ui.mainPages_ui.page_3)
-        console_printer(MsgType.INFOMATION, "btn cloud clicked")
+        self.ui.mainPages_ui.cloudPage_inner.func.flushOverviewPage()
+        self.ui.setPage(self.ui.mainPages_ui.cloudPage)
+        # console_printer(MsgType.INFOMATION, "btn cloud clicked")
 
     def nav_parse(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
@@ -120,6 +121,7 @@ class Func_MainWindow:
         # login.exec()
         # console_printer(MsgType.INFOMATION, "btn top account clicked")
         self.ui.navigation.ui.c_selectOnlyOne(None)
+        self.ui.mainPages_ui.accountPage_inner.func.flushUserInfo()
         self.ui.setPage(self.ui.mainPages_ui.accountPage)
 
     # 起始页按钮

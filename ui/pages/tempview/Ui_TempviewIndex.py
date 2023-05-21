@@ -58,7 +58,7 @@ class Ui_TempviewIndex(object):
         self.label = QLabel(Ui_TempviewIndex)
         self.horizontalLayout.addWidget(self.label)
 
-        self.ledit_fileCount = LineEdit(Ui_TempviewIndex)
+        self.ledit_fileCount = LineEdit(Ui_TempviewIndex, color_enabled="#568af2")
         self.ledit_fileCount.setMaximumWidth(80)
         self.ledit_fileCount.setFocusPolicy(Qt.NoFocus)
         self.ledit_fileCount.setReadOnly(True)
@@ -67,7 +67,7 @@ class Ui_TempviewIndex(object):
         self.label_2 = QLabel(Ui_TempviewIndex)
         self.horizontalLayout.addWidget(self.label_2)
 
-        self.ledit_sizeCount = LineEdit(Ui_TempviewIndex)
+        self.ledit_sizeCount = LineEdit(Ui_TempviewIndex, color_enabled="#568af2")
         self.ledit_sizeCount.setMaximumWidth(80)
         self.ledit_sizeCount.setFocusPolicy(Qt.NoFocus)
         self.ledit_sizeCount.setReadOnly(True)
