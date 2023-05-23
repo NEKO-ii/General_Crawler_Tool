@@ -194,8 +194,7 @@ class File:
         for char in ['<', '>', ':', '"', '/', '\\', '|', '?', '*']:
             if fileName.find(char) != -1:
                 return False
-            else:
-                return True
+        return True
 
     @staticmethod
     def isExists(path) -> bool:

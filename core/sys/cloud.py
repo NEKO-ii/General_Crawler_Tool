@@ -15,49 +15,67 @@ def updateLocalAccountState() -> None:
 
 def login(username: str, password: str) -> dict:
     response = requests.post(F"http://localhost:23333/nekoverse/sys/login/{username}/{password}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def getUserInfo(userId: str) -> dict:
     response = requests.post(F"http://localhost:23333/nekoverse/sys/userinfo/{userId}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def signup(username: str, password: str, email: str) -> dict:
     response = requests.post(F"http://localhost:23333/nekoverse/sys/signup/{username}/{password}/{email}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def getHeadImage(userid: str, himgtype: str) -> dict:
     response = requests.post(F"http://localhost:23333/nekoverse/sys/getheadimage/{userid}/{himgtype}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def deleteAccount(userId: int) -> dict:
     response = requests.post(F"http://localhost:23333/nekoverse/sys/delaccount/{userId}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def isUserExists(method: str, value: str) -> dict:
     response = requests.get(F"http://localhost:23333/nekoverse/sys/isuserexists/{method}/{value}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def updatePassword(username: str, password: str) -> dict:
     response = requests.post(F"http://localhost:23333/nekoverse/sys/update/password/{username}/{password}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 # Configuration
 # ///////////////////////////////////////////////////////////////
 def uploadConfiguration(form: dict, files: dict) -> dict:
     response = requests.post("http://localhost:23333/nekoverse/conf/upload", data=form, files=files)
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def getConfigFileList(userId: int) -> dict:
     response = requests.post(F"http://localhost:23333/nekoverse/conf/getconffs/{userId}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def getConfigList(userId: int, isShared: int) -> dict:
@@ -71,19 +89,55 @@ def getConfigList(userId: int, isShared: int) -> dict:
         dict: 返回服务器响应
     """
     response = requests.post(F"http://localhost:23333/nekoverse/conf/getconfs/{userId}/{isShared}")
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
-def getConfig(configId: int) -> dict:
-    response = requests.get(F"http://localhost:23333/nekoverse/conf/get/{configId}")
-    return json.loads(response.text)
+def getConfigInfo(configId: int) -> dict:
+    response = requests.get(F"http://localhost:23333/nekoverse/conf/info/get/{configId}")
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
+
+
+def getConfigDoc(docfname: str) -> dict:
+    response = requests.get(F"http://localhost:23333/nekoverse/conf/doc/get/{docfname}")
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
+
+
+def getConfigContent(userId: int, conffname: str) -> dict:
+    response = requests.get(F"http://localhost:23333/nekoverse/conf/content/get/{userId}/{conffname}")
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def updateShareState(form: dict) -> dict:
     response = requests.post("http://localhost:23333/nekoverse/conf/set/sharestate", data=form)
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
+
+
+def updateConfig(form: dict) -> dict:
+    response = requests.post("http://localhost:23333/nekoverse/conf/update", data=form)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
 
 
 def deleteConfig(form: dict) -> dict:
     response = requests.post("http://localhost:23333/nekoverse/conf/delete", data=form)
-    return json.loads(response.text)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
+
+
+def downloadConfig(form: dict) -> dict:
+    response = requests.post("http://localhost:23333/nekoverse/conf/download", data=form)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata

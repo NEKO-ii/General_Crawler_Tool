@@ -61,6 +61,7 @@ class Ui_CloudOverview(object):
         self.verticalLayout.addLayout(self.hly_top)
 
         self.table_overview = TableWidget(CloudOverview, extendHeight=True)
+        self.table_overview.setEditTriggers(TableWidget.EditTrigger.NoEditTriggers)
         self.table_overview.c_setHeader(["配置名称", "文件名称", "位置", "上传时间", "更新时间", "状态", "域名", "注释", "操作", "id"], [6, 7])
         self.table_overview.setColumnHidden(9, True)
         self.table_overview.c_setColWidth([200, 200, 45, 152, 152, 45, None, None, 120])

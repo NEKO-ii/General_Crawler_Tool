@@ -52,12 +52,12 @@
       <widget class="QComboBox" name="combo_selectView">
        <item>
         <property name="text">
-         <string>配置内容</string>
+         <string>配置说明</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>配置说明</string>
+         <string>配置内容</string>
         </property>
        </item>
       </widget>
@@ -81,7 +81,7 @@
    <item>
     <widget class="QStackedWidget" name="view">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="view_json">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -106,10 +106,7 @@
       </layout>
      </widget>
      <widget class="QWidget" name="view_comment">
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -124,6 +121,151 @@
        </property>
        <item>
         <widget class="QTextEdit" name="tedit_comment"/>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="vly">
+         <item>
+          <layout class="QFormLayout" name="fly_comment">
+           <property name="horizontalSpacing">
+            <number>5</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>10</number>
+           </property>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lb_configName">
+             <property name="text">
+              <string>配置名称:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="ledit_configName"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="lb_fileName">
+             <property name="text">
+              <string>文件名称:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="ledit_fileName"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="lb_comment">
+             <property name="text">
+              <string>注释:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="ledit_comment"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="lb_host">
+             <property name="text">
+              <string>域名:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="ledit_host"/>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="lb_uploadTime">
+             <property name="text">
+              <string>上传时间:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="ledit_uploadTime"/>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="lb_updateTime">
+             <property name="text">
+              <string>更新时间:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLineEdit" name="ledit_updateTime"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="lb_configId">
+             <property name="text">
+              <string>配置编号:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="ledit_configId"/>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="lb_state">
+             <property name="text">
+              <string>状态:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <layout class="QHBoxLayout" name="hly_2">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="ledit_state"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_stateChange">
+               <property name="text">
+                <string>共享此配置</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="hly_3">
+           <item>
+            <spacer name="hs_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_check">
+             <property name="text">
+              <string>未检查</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="vs_1">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
