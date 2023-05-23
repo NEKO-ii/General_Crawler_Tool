@@ -62,6 +62,13 @@ def updatePassword(username: str, password: str) -> dict:
     return jsondata
 
 
+def uploadHeadImage(form: dict, files) -> dict:
+    response = requests.post("http://localhost:23333/nekoverse/sys/uploadheadimage", data=form, files=files)
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata
+
+
 # Configuration
 # ///////////////////////////////////////////////////////////////
 def uploadConfiguration(form: dict, files: dict) -> dict:

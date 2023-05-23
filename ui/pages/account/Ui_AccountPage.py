@@ -8,7 +8,7 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (Qt, QCoreApplication, QMetaObject, QSize)
+from PySide6.QtCore import (Qt, QCoreApplication, QMetaObject)
 from PySide6.QtGui import (QFont, QPixmap)
 from PySide6.QtWidgets import (QHBoxLayout, QLabel, QSizePolicy, QSpacerItem, QVBoxLayout, QGridLayout)
 from ui.widgets import PushButton, LineEdit
@@ -24,7 +24,6 @@ class Ui_AccountPage(object):
         if not AccountPage.objectName():
             AccountPage.setObjectName(u"AccountPage")
         self.verticalLayout = QVBoxLayout(AccountPage)
-        self.verticalLayout.setSpacing(20)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.hly_top = QHBoxLayout()
         self.hly_top.setContentsMargins(10, -1, -1, -1)
@@ -73,7 +72,7 @@ class Ui_AccountPage(object):
 
         self.vly_usrMsgView = QVBoxLayout()
         self.vly_usrMsgView.setSpacing(5)
-        self.vly_usrMsgView.setContentsMargins(10, 20, 10, 20)
+        self.vly_usrMsgView.setContentsMargins(10, 20, 10, 0)
 
         self.lb_username = QLabel(AccountPage)
         self.lb_username.setStyleSheet("font: 13pt; color: orange;")
@@ -155,6 +154,16 @@ class Ui_AccountPage(object):
 
         self.verticalLayout.addLayout(self.hly_accmsg)
 
+        self.hly = QHBoxLayout()
+        self.hly.setContentsMargins(19, -1, -1, -1)
+        self.btn_uploadHeadImage = PushButton(AccountPage)
+        self.hly.addWidget(self.btn_uploadHeadImage)
+        self.btn_uploadHeadImage.setEnabled(False)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.hly.addItem(self.horizontalSpacer_2)
+
+        self.verticalLayout.addLayout(self.hly)
         self.vs_1 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout.addItem(self.vs_1)
 
@@ -178,5 +187,6 @@ class Ui_AccountPage(object):
         self.lb_requestCount.setText(QCoreApplication.translate("AccountPage", u"\u8bf7\u6c42\u6b21\u6570:", None))
         self.lb_email_edit.setText(QCoreApplication.translate("AccountPage", u"\u7ed1\u5b9a\u90ae\u7bb1:", None))
         self.lb_password.setText(QCoreApplication.translate("AccountPage", u"\u767b\u9646\u5bc6\u7801:", None))
+        self.btn_uploadHeadImage.setText(QCoreApplication.translate("AccountPage", u"\u66f4\u6362\u5934\u50cf", None))
 
     # retranslateUi

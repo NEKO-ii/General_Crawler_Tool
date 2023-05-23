@@ -1,7 +1,7 @@
 # 用户界面操作逻辑模块
 # ///////////////////////////////////////////////////////////////
 from copy import deepcopy
-from core.sys.cloud import getHeadImage, deleteAccount
+from core.sys.cloud import getHeadImage, deleteAccount, updateLocalAccountState, uploadHeadImage
 from core.sys.file import File, SysPath
 from core.sys.globalv import Globalv, GlvKey
 from core.sys.accountstate import AccountState
@@ -10,6 +10,7 @@ from ui.dialog.Question import Question
 from ui.dialog.Notice import Notice
 from ui.func.iconsetter import IconSetter
 from ui.preload.imp_qt import QPainter, QPainterPath, QPixmap, Qt
+from PySide6.QtWidgets import QFileDialog
 
 from .Ui_AccountPage import Ui_AccountPage
 
@@ -29,6 +30,7 @@ class Func_AccountPage:
         self.ui.btn_delAccount.clicked.connect(self.solt_delAccount)
         self.ui.btn_logout.clicked.connect(self.solt_logout)
         self.ui.btn_updateAccount.clicked.connect(self.solt_updateAccount)
+        self.ui.btn_uploadHeadImage.clicked.connect(self.solt_uploadHeadImage)
 
     def _sigConnect(self) -> None:
         self.login.sig_loginSucceed.connect(self.solt_set_user_info)
@@ -59,6 +61,7 @@ class Func_AccountPage:
         self.ui.btn_updateAccount.hide()
         self.ui.btn_logout.hide()
         self.ui.btn_login.show()
+        self.ui.btn_uploadHeadImage.setEnabled(False)
         self.ui.lb_username.setText("未登录")
         self.ui.lb_username.setStyleSheet("font: 13pt; color: orange;")
         self.ui.lb_email.setText("--")
@@ -100,10 +103,24 @@ class Func_AccountPage:
         self.solt_logout()
         notice.exec("提示", "密码更新成功, 请重新登录")
 
+    def solt_uploadHeadImage(self) -> None:
+        path, type = QFileDialog.getOpenFileName(None, filter="Images (*.png *.xpm *.jpg)")
+        if path:
+            extname = path.rsplit(".", 1)[-1]
+            filename = F"himg_{str(self.accountState._userId).rjust(10,'0')}.{extname}"
+            form = {"fileName": filename, "extName": extname, "userId": self.accountState._userId}
+            files = {filename: open(path, "rb")}
+            resp = uploadHeadImage(form, files)
+            if resp["flag"]:
+                updateLocalAccountState()
+                self.solt_set_user_info()
+            else:
+                Notice().exec("错误", F"头像上传失败\n{resp['msg']}", "error")
+
     # 信号动作方法定义
     # ///////////////////////////////////////////////////////////////
-    def solt_set_user_info(self, data: dict) -> None:
-        self.accountState.update(data)
+    def solt_set_user_info(self, data: dict = None) -> None:
+        if data is not None: self.accountState.update(data)
         uid = str(self.accountState._userId).rjust(10, '0')
         self.ui.lb_username.setText(self.accountState._username)
         self.ui.lb_username.setStyleSheet("font: 13pt; color: green;")
@@ -113,6 +130,7 @@ class Func_AccountPage:
         self.ui.btn_delAccount.show()
         self.ui.btn_updateAccount.show()
         self.ui.btn_logout.show()
+        self.ui.btn_uploadHeadImage.setEnabled(True)
 
         self.ui.ledit_requestCount.setText(F"{self.accountState._requestCount} / 200")
         self.ui.ledit_configCount.setText(F"{self.accountState._configSaveCount} / 80")
@@ -121,25 +139,26 @@ class Func_AccountPage:
         self.ui.ledit_email.setText(self.accountState._email)
         self.ui.ledit_password.setText(self.accountState._password)
 
-        resp = getHeadImage(uid, self.accountState._headImageType)
-        if resp["flag"]:
-            bl = resp["data"]
-            imgbytes = bytes([b + 256 if b < 0 else b for b in bl])
-            himgname = resp["msg"]
-            path = File.path(SysPath.BASE, "ui\\resources\\head_images", himgname)
-            with open(path, "wb") as file:
-                file.write(imgbytes)
-            pix = QPixmap(path)
-            pix.scaled(self.ui.lb_image.size(), Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
-            width = self.ui.lb_image.size().width()
-            height = self.ui.lb_image.size().height()
-            image = QPixmap(width, height)
-            image.fill(Qt.transparent)
-            pp = QPainterPath()
-            pp.addEllipse(0, 0, width, height)
-            painter = QPainter(image)
-            painter.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
-            painter.setClipPath(pp)
-            painter.drawPixmap(0, 0, width, height, pix)
-            painter.end()
-            self.ui.lb_image.setPixmap(image)
+        if self.accountState._headImageType is not None and self.accountState._headImageType != "":
+            resp = getHeadImage(uid, self.accountState._headImageType)
+            if resp["flag"]:
+                bl = resp["data"]
+                imgbytes = bytes([b + 256 if b < 0 else b for b in bl])
+                himgname = resp["msg"]
+                path = File.path(SysPath.BASE, "ui\\resources\\head_images", himgname)
+                with open(path, "wb") as file:
+                    file.write(imgbytes)
+                pix = QPixmap(path)
+                pix.scaled(self.ui.lb_image.size(), Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                width = self.ui.lb_image.size().width()
+                height = self.ui.lb_image.size().height()
+                image = QPixmap(width, height)
+                image.fill(Qt.transparent)
+                pp = QPainterPath()
+                pp.addEllipse(0, 0, width, height)
+                painter = QPainter(image)
+                painter.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
+                painter.setClipPath(pp)
+                painter.drawPixmap(0, 0, width, height, pix)
+                painter.end()
+                self.ui.lb_image.setPixmap(image)
