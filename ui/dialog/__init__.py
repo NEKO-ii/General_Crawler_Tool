@@ -2,6 +2,7 @@ from .Dialog_ConfigMessageInput import Dialog_ConfigMessageInput
 from .Dialog_ScriptMessageInput import Dialog_ScriptMessageInput
 from .ConfigShareMsgInput import ConfigShareMsgInput
 from .Dialog_ScriptTest import Dialog_ScriptTest
+from .ConfigOnlineSearcher import ConfigOnlineSearcher
 from .Dialog_Select import Select
 from .Question import Question
 from .Notice import Notice

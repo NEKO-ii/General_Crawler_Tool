@@ -148,3 +148,10 @@ def downloadConfig(form: dict) -> dict:
     jsondata = json.loads(response.text)
     response.close()
     return jsondata
+
+
+def getSharedConfig(host: str) -> dict:
+    response = requests.post(F"http://localhost:23333/nekoverse/conf/get/shared/{host}")
+    jsondata = json.loads(response.text)
+    response.close()
+    return jsondata

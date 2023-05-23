@@ -15,6 +15,7 @@ from ui.preload.imp_qt import QObject, QThread, Signal
 from ui.dialog.Dialog_Select import Select
 from ui.dialog.Notice import Notice
 from .Ui_StartPage import Ui_StartPage
+from ui.dialog.ConfigOnlineSearcher import ConfigOnlineSearcher
 
 
 class Func_StartPage(QObject):
@@ -22,6 +23,7 @@ class Func_StartPage(QObject):
     sig_run = Signal()
 
     flag_configLoad: bool = False
+    tempConfigFilePath: str = None
 
     def __init__(self, ui: Ui_StartPage) -> None:
         super().__init__()
@@ -40,6 +42,8 @@ class Func_StartPage(QObject):
         self.ui.runPage_ui.btn_back.clicked.connect(self.btn_back)
         self.ui.runPage_ui.btn_run.clicked.connect(self.btn_run)
         self.ui.runPage_ui.btn_configSelector.clicked.connect(self.btn_config_select)
+        self.ui.runPage_ui.btn_searchOnline.clicked.connect(self.btn_config_search_online)
+        self.ui.runPage_ui.btn_remove.clicked.connect(self.solt_remove_config)
 
     def _signalConnect(self) -> None:
         self.runner.sig_msgAppend.connect(self.ui.runPage_ui.tedit_msgOutput.c_appendWithColor)
@@ -91,8 +95,23 @@ class Func_StartPage(QObject):
             self.flag_configLoad = False
             self.ui.runPage_ui.ledit_configShow.clear()
 
+    def btn_config_search_online(self) -> None:
+        searcher = ConfigOnlineSearcher()
+        searcher.sig_tempConfCreated.connect(self.solt_cloud_config_confirm)
+        searcher.exec()
+
+    def solt_remove_config(self) -> None:
+        self.ui.runPage_ui.ledit_configShow.clear()
+        self.flag_configLoad = False
+        if self.tempConfigFilePath: File.delete(self.tempConfigFilePath)
+
     # 信号事件定义
     # ///////////////////////////////////////////////////////////////
+    def solt_cloud_config_confirm(self, path, cname) -> None:
+        self.ui.runPage_ui.ledit_configShow.setText(cname)
+        self.runner.currentConfigPath = path
+        self.tempConfigFilePath = path
+        self.flag_configLoad = True
 
     def thread_sleep(self, time) -> None:
         self._thread.sleep(time)
@@ -109,6 +128,9 @@ class Func_StartPage(QObject):
             return
         self._thread.quit()
         self._thread.wait()
+        if self.tempConfigFilePath:
+            File.delete(self.tempConfigFilePath)
+            self.tempConfigFilePath = None
 
 
 class Runner(QObject):

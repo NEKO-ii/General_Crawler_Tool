@@ -40,8 +40,14 @@ class Ui_ProgramRunner(object):
         self.ledit_configShow.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.topLayout.addWidget(self.ledit_configShow)
 
+        self.btn_searchOnline = PushButton(ProgramRunner, type="primary")
+        self.topLayout.addWidget(self.btn_searchOnline)
+
         self.btn_configSelector = PushButton(ProgramRunner, type="primary")
         self.topLayout.addWidget(self.btn_configSelector)
+
+        self.btn_remove = PushButton(ProgramRunner, type="error")
+        self.topLayout.addWidget(self.btn_remove)
 
         self.btn_run = PushButton(ProgramRunner, type="success")
         self.topLayout.addWidget(self.btn_run)
@@ -62,6 +68,8 @@ class Ui_ProgramRunner(object):
         self.btn_back.setText(QCoreApplication.translate("ProgramRunner", u"\u8fd4\u56de", None))
         self.label.setText(QCoreApplication.translate("ProgramRunner", u"\u9009\u62e9\u914d\u7f6e", None))
         self.btn_run.setText(QCoreApplication.translate("ProgramRunner", u"\u8fd0\u884c", None))
-        self.btn_configSelector.setText(QCoreApplication.translate("ProgramRunner", u"\u9009\u62e9\u914d\u7f6e", None))
+        self.btn_configSelector.setText(QCoreApplication.translate("ProgramRunner", u"\u672c\u5730\u914d\u7f6e", None))
+        self.btn_searchOnline.setText(QCoreApplication.translate("ProgramRunner", u"\u4e91\u7aef\u641c\u7d22", None))
+        self.btn_remove.setText(QCoreApplication.translate("ProgramRunner", u"\u6e05\u9664\u914d\u7f6e", None))
 
     # retranslateUi
