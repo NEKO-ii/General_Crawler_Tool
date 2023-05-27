@@ -157,6 +157,8 @@ class Func_CloudPage:
         if docfname is not None and docfname != "":
             resp = getConfigDoc(docfname)
             self.ui.readPage_ui.tedit_doc.setText(resp["data"])
+        else:
+            self.ui.readPage_ui.tedit_doc.clear()
         conffname = data["fileName"]
         resp = getConfigContent(self.accountState._userId, conffname)
         self.ui.readPage_ui.tedit_json.setText(resp["data"])
@@ -351,6 +353,10 @@ class Func_CloudPage:
                     self.ui.readPage_ui.btn_stateChange.setType("error" if setShare else "success")
                     self.ui.readPage_ui.btn_stateChange.setText("取消共享" if setShare else "共享该配置")
                     self.ui.readPage_ui.btn_stateChange.setObjectName(F"{configId}@0" if setShare else F"{configId}@1")
+                    self.ui.readPage_ui.tedit_doc.setText(doc)
+                    resp = getConfigInfo(configId)
+                    if resp["flag"]:
+                        self.oldData = resp["data"]
             else:
                 notice = Notice()
                 notice.exec("错误", F"更新分享状态出错\n{resp['msg']}")
