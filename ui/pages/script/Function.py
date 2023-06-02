@@ -2,7 +2,7 @@
 # ///////////////////////////////////////////////////////////////
 from .Ui_ScriptPage import Ui_ScriptPage
 from core.sys.file import File, SysPath, DataType
-from ui.dialog import Question, Notice, Dialog_ScriptMessageInput, Dialog_ScriptTest
+from ui.dialog import Question, Notice, ScriptMessageInput, ScriptTest
 from core.static.define import Define
 from core.support.tools import Tools
 from core.support.coderunner import runpy, runjs
@@ -62,8 +62,8 @@ class Func_ScriptPage:
         """创建弹窗"""
         self.question = Question()
         self.notice = Notice()
-        self.inputer = Dialog_ScriptMessageInput()
-        self.stest = Dialog_ScriptTest()
+        self.inputer = ScriptMessageInput()
+        self.stest = ScriptTest()
 
     # 方法
     # ///////////////////////////////////////////////////////////////

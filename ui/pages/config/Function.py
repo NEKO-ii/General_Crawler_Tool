@@ -9,12 +9,12 @@ from core.sys.globalv import Globalv, GlvKey
 from core.sys.themes import Themes
 from core.sys.accountstate import AccountState
 from core.sys.cloud import uploadConfiguration, getConfigFileList, updateLocalAccountState
-from ui.dialog.Dialog_ConfigMessageInput import Dialog_ConfigMessageInput
+from ui.dialog.ConfigMessageInput import ConfigMessageInput
 from ui.dialog.Input import Inputer
 from ui.dialog.Message import Message
 from ui.dialog.Notice import Notice
 from ui.dialog.Question import Question
-from ui.dialog.Dialog_Select import Select
+from ui.dialog.Select import Select
 from ui.preload.imp_qt import QFileDialog, QUrl
 from ui.widgets.combo_box import ComboBox
 from ui.widgets.push_button import PushButton
@@ -105,7 +105,7 @@ class Func_ConfigPage:
 
     def _createDialog(self) -> None:
         """创建对话框"""
-        self.dialog_configSaveMsgInput = Dialog_ConfigMessageInput()
+        self.dialog_configSaveMsgInput = ConfigMessageInput()
         self.question = Question()
         self.notice = Notice()
         self.inputer = Inputer()

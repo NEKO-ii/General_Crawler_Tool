@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QDialog, QHBoxLayout, QLabel, QSizePolicy, QSpace
 from ui.widgets import LineEdit, TextEdit, PushButton
 
 
-class Dialog_ScriptTest(QDialog):
+class ScriptTest(QDialog):
     sig_btn_run_clicked = Signal(str, list)
     sig_stop = Signal()
 

@@ -12,7 +12,7 @@ from core.support.tools import Tools
 from core.support.coderunner import runjs, runpy
 from core.static.define import Define
 from ui.preload.imp_qt import QObject, QThread, Signal
-from ui.dialog.Dialog_Select import Select
+from ui.dialog.Select import Select
 from ui.dialog.Notice import Notice
 from .Ui_StartPage import Ui_StartPage
 from ui.dialog.ConfigOnlineSearcher import ConfigOnlineSearcher

@@ -7,7 +7,7 @@ from core.static.define import Define
 from ui.widgets import PushButton, LineEdit, TextEdit
 
 
-class Dialog_ScriptMessageInput(QDialog):
+class ScriptMessageInput(QDialog):
 
     fileType: str
     color: dict

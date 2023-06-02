@@ -15,7 +15,7 @@ from core.static.define import Define
 from ui.widgets import PushButton, LineEdit, TextEdit
 
 
-class Dialog_ConfigMessageInput(QDialog):
+class ConfigMessageInput(QDialog):
 
     configName: str = "新建配置"
     fileName: str = "new_config.json"
