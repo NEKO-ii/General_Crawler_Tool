@@ -29,7 +29,7 @@ class Func_MainWindow:
         self.btn_id_to_func["btn_nav_start"] = self.nav_start
         self.btn_id_to_func["btn_nav_config"] = self.nav_config
         self.btn_id_to_func["btn_nav_cloud"] = self.nav_cloud
-        self.btn_id_to_func["btn_nav_parse"] = self.nav_parse
+        self.btn_id_to_func["btn_nav_analysis"] = self.nav_analysis
         self.btn_id_to_func["btn_nav_script"] = self.nav_script
         self.btn_id_to_func["btn_nav_temp"] = self.nav_temp
         self.btn_id_to_func["btn_nav_help"] = self.nav_help
@@ -84,9 +84,10 @@ class Func_MainWindow:
         self.ui.setPage(self.ui.mainPages_ui.cloudPage)
         # console_printer(MsgType.INFOMATION, "btn cloud clicked")
 
-    def nav_parse(self) -> None:
+    def nav_analysis(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)
-        console_printer(MsgType.INFOMATION, "btn parse clicked")
+        self.ui.setPage(self.ui.mainPages_ui.analysisPage)
+        # console_printer(MsgType.INFOMATION, "btn parse clicked")
 
     def nav_script(self) -> None:
         self.ui.navigation.ui.c_selectOnlyOne(self.btn_id)

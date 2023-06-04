@@ -6,9 +6,9 @@ from core.sys.globalv import Globalv, GlvKey
 from core.sys.accountstate import AccountState
 
 # IP地址
-# host: str = "localhost"
+host: str = "localhost"
 # host: str = "124.238.94.67"
-host: str = "nekoverse.tpddns.cn"
+# host: str = "nekoverse.tpddns.cn"
 
 # Account
 # ///////////////////////////////////////////////////////////////

@@ -16,6 +16,8 @@ from core.sys.emails import Emails
 from core.sys.cloud import login, signup, isUserExists, updatePassword
 from core.sys.globalv import Globalv, GlvKey
 from core.sys.accountstate import AccountState
+from .Notice import Notice
+from re import match
 
 
 class Login(QDialog):
@@ -304,6 +306,18 @@ class Login(QDialog):
         self.btn_retrieve_rt.setText(QCoreApplication.translate("Login", u"\u786e\u8ba4", None))
         self.btn_sendvcode_rt.setText(QCoreApplication.translate("Login", u"\u53d1\u9001\u9a8c\u8bc1\u7801", None))
 
+    def checkEmailAddr(self, email) -> bool:
+        """检查邮件地址格式是否合法
+
+        Args:
+            email (str): 邮件地址
+
+        Returns:
+            bool: 返回布尔值
+        """
+        pattern = r'^([a-zA-Z0-9._+-]+)@([a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+)$'
+        return match(pattern, email) is not None
+
     # 槽函数
     # ///////////////////////////////////////////////////////////////
     def solt_login(self) -> None:
@@ -340,18 +354,58 @@ class Login(QDialog):
         elif objname == "svcrt":
             self.ledit_vcode_rt.setText(code)
 
-    def solt_check_signup_form(self) -> None:
-        print("check")
-
-    def solt_signup(self) -> None:
+    def solt_check_signup_form(self) -> bool:
         username = self.ledit_username_su.text().strip()
         password = self.ledit_password_su.text().strip()
         email = self.ledit_email_su.text().strip()
-        resp = signup(username, password, email)
-        flag = resp["flag"]
-        msg = resp["msg"]
-        self.accept()
-        # TODO: 注册时查询已有账户避免重复
+        vcode = self.ledit_vcode_su.text().strip()
+        flag = True
+        if username == "":
+            flag = False
+            self.lable_check_su.setText("用户名不能为空")
+        if flag:
+            if password == "":
+                flag = False
+                self.lable_check_su.setText("密码不能为空")
+            elif len(password) < 6:
+                flag = False
+                self.lable_check_su.setText("密码长度最小为6")
+            elif password.find(" ") != -1:
+                flag = False
+                self.lable_check_su.setText("密码不能包含空格")
+        if flag:
+            if email == "":
+                flag = False
+                self.lable_check_su.setText("邮箱不能为空")
+            elif self.checkEmailAddr(email) is False:
+                flag = False
+                self.lable_check_su.setText("邮箱地址错误")
+        if flag:
+            if vcode == "":
+                flag = False
+                self.lable_check_su.setText("请输入验证码")
+        if flag:
+            if isUserExists("username", username)["flag"]:
+                flag = False
+                self.lable_check_su.setText("用户名已被注册")
+
+        if flag:
+            self.lable_check_su.setStyleSheet("color: green;")
+            self.lable_check_su.setText("数据可用")
+        else:
+            self.lable_check_su.setStyleSheet("color: red;")
+
+    def solt_signup(self) -> None:
+        if self.solt_check_signup_form():
+            username = self.ledit_username_su.text().strip()
+            password = self.ledit_password_su.text().strip()
+            email = self.ledit_email_su.text().strip()
+            resp = signup(username, password, email)
+            flag = resp["flag"]
+            if flag:
+                self.accept()
+            else:
+                Notice().exec("错误", F"账户注册失败\n{resp['msg']}")
 
     def solt_check_retrieve_form(self) -> bool:
         flag: bool = False

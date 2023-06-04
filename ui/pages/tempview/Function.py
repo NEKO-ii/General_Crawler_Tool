@@ -2,7 +2,9 @@ from .Ui_TempviewPage import Ui_TempviewPage
 from core.sys.file import File, SysPath, DataType
 from ui.dialog import Notice, Question
 from PySide6.QtCore import QObject, Signal, QThread, QFile, QIODevice
+from PySide6.QtWidgets import QFileDialog
 from core.static.define import Define
+from shutil import copyfile
 
 
 class Func_TempviewPage(QObject):
@@ -65,7 +67,20 @@ class Func_TempviewPage(QObject):
 
     def solt_export(self) -> None:
         # TODO: 临时数据文件导出功能
-        pass
+        if self.currentFilePath is not None:
+            filter: str = ""
+            if self.currentComboIndex == 0:
+                filter = "文本文件(*.txt);;网页文件(*.html)"
+            elif self.currentComboIndex == 1:
+                filter = "文本文件(*.txt);;Excel文件(*.xlsx)"
+            path, _ = QFileDialog.getSaveFileName(None, "选择保存路径", filter=filter)
+            ftype = path.rsplit(".", 1)[-1].lower()
+            if ftype in ["txt", "html"]:
+                copyfile(self.currentFilePath, path)
+            else:
+                File.createExcelFile(path, {"data": eval(File.read(self.currentFilePath))})
+        else:
+            Notice().exec("提示", "未选择任何临时数据")
 
     def solt_delete(self) -> None:
         if self.currentTableRow:
@@ -85,16 +100,6 @@ class Func_TempviewPage(QObject):
 
     def solt_flush(self) -> None:
         self.solt_change_datasource(self.ui.indexPage_ui.combo_chooseView.currentIndex())
-
-    def solt_update_current_data(self) -> None:
-        self.currentTableRow = []
-        self.currentFilePath = None
-        current = self.ui.indexPage_ui.table_overview.selectedItems()
-        if current:
-            for item in current:
-                if item.row() not in self.currentTableRow: self.currentTableRow.append(item.row())
-            self.currentFilePath = File.path(SysPath.TEMP, self.INDEX_TO_FILE_DIR_PATH[self.currentComboIndex], current[0].text())
-        self.currentTableRow.sort(reverse=True)
 
     def solt_readpage_setmsg(self) -> None:
         data = self.ui.indexPage_ui.table_overview.c_getData(onlySelectedRows=True)[0]
@@ -142,6 +147,16 @@ class Func_TempviewPage(QObject):
         self.newtask.deleteLater()
         self.fileReadThread.quit()
         self.flag_threadRunning = False
+
+    def solt_update_current_data(self) -> None:
+        self.currentTableRow = []
+        self.currentFilePath = None
+        current = self.ui.indexPage_ui.table_overview.selectedItems()
+        if current:
+            for item in current:
+                if item.row() not in self.currentTableRow: self.currentTableRow.append(item.row())
+            self.currentFilePath = File.path(SysPath.TEMP, self.INDEX_TO_FILE_DIR_PATH[self.currentComboIndex], current[0].text())
+        self.currentTableRow.sort(reverse=True)
 
 
 class FileReadTask(QObject):

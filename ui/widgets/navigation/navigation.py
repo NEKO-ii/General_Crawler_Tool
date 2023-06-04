@@ -36,8 +36,8 @@ class Navigation:
         "show_top": True,
         "is_active": False
     }, {
-        "btn_icon": "icon_parse.svg",
-        "btn_id": "btn_nav_parse",
+        "btn_icon": "icon_analysis.svg",
+        "btn_id": "btn_nav_analysis",
         "btn_text": "数据分析",
         "btn_tooltip": "数据分析",
         "show_top": True,

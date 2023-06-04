@@ -2,12 +2,13 @@
 # ///////////////////////////////////////////////////////////////
 from .Ui_ScriptPage import Ui_ScriptPage
 from core.sys.file import File, SysPath, DataType
-from ui.dialog import Question, Notice, ScriptMessageInput, ScriptTest
+from ui.dialog import Question, Notice, ScriptMessageInput, ScriptTest, Message
 from core.static.define import Define
 from core.support.tools import Tools
 from core.support.coderunner import runpy, runjs
-from ui.preload.imp_qt import QObject, Signal, QThread
+from ui.preload.imp_qt import QObject, Signal, QThread, QFileDialog
 from json import dumps
+from shutil import copyfile
 
 
 class Func_ScriptPage:
@@ -64,6 +65,7 @@ class Func_ScriptPage:
         self.notice = Notice()
         self.inputer = ScriptMessageInput()
         self.stest = ScriptTest()
+        self.message = Message()
 
     # 方法
     # ///////////////////////////////////////////////////////////////
@@ -94,8 +96,28 @@ class Func_ScriptPage:
         self.ui.pages.setCurrentWidget(self.ui.editor)
 
     def btn_import_script(self) -> None:
-        # TODO: 实现导入功能
-        pass
+        paths, _ = QFileDialog.getOpenFileNames(None, "选择需要上传的脚本文件", filter="脚本文件(*.py *.js)")
+        appendCache = []
+        count = 0
+        for path in paths:
+            toPath = File.path(SysPath.SCRIPT, File.getBasenameFromPath(path))
+            if File.isFileExists(toPath):
+                self.message.appendMsg(F"系统本地脚本目录已存在同名文件{toPath}", "error")
+            else:
+                copyfile(path, toPath)
+                count += 1
+                self.message.appendMsg(F"文件导入成功{toPath}", "success")
+                ftype = path.rsplit(".", 1)[-1].upper()
+                time = Tools.datetime()
+                ts = Tools.timestamp()
+                appendCache.append([F"脚本{ts}", ftype, toPath, time, "来自用户导入"])
+        if appendCache != []:
+            self.ui.overview_ui.table_overview.flag_initComplete = False
+            self.ui.overview_ui.table_overview.c_addRows(appendCache)
+            self.ui.overview_ui.table_overview.flag_initComplete = True
+            File.write(File.path(SysPath.CACHE, "custom_script.dat"), "\n".join([str(item) for item in appendCache]) + "\n", mode="a")
+        if not self.message.isEmptyMsg():
+            self.message.exec()
 
     def btn_edit_script(self) -> None:
         self.editPageMode = "edit"
@@ -303,6 +325,7 @@ class Func_ScriptPage:
             self.ui.overview_ui.table_overview.c_setAllHidden(False)
         else:
             self.ui.overview_ui.table_overview.c_search(text)
+
 
 # TODO: 代码着色功能
 

@@ -18,6 +18,7 @@ from ui.dialog.Select import Select
 from ui.preload.imp_qt import QFileDialog, QUrl
 from ui.widgets.combo_box import ComboBox
 from ui.widgets.push_button import PushButton
+from shutil import copyfile
 
 from .Ui_ConfigurationPage import Ui_ConfigurationPage
 
@@ -218,7 +219,27 @@ class Func_ConfigPage:
 
     def btn_import_config(self) -> None:
         """导入配置"""
-        console_printer(MsgType.INFOMATION, "btn import config clicked")
+        paths, _ = QFileDialog.getOpenFileNames(None, "选择需要上传的配置文件", filter="JSON文件(*.json)")
+        appendCache = []
+        count = 0
+        for path in paths:
+            toPath = File.path(SysPath.CONFIGURATION, File.getBasenameFromPath(path))
+            if File.isFileExists(toPath):
+                self.message.appendMsg(F"系统本地配置目录已存在同名文件{toPath}", "error")
+            else:
+                copyfile(path, toPath)
+                count += 1
+                self.message.appendMsg(F"文件导入成功{toPath}", "success")
+                time = Tools.datetime()
+                ts = Tools.timestamp()
+                appendCache.append([F"配置{ts}", toPath, time, Define.LocalConfigState.U, "来自用户导入"])
+        if appendCache != []:
+            self.ui.overviewPage_ui.table_overview.flag_initComplete = False
+            self.ui.overviewPage_ui.table_overview.c_addRows(appendCache)
+            self.ui.overviewPage_ui.table_overview.flag_initComplete = True
+            File.write(File.path(SysPath.CACHE, "local_configuration.dat"), "\n".join([str(item) for item in appendCache]) + "\n", mode="a")
+        if not self.message.isEmptyMsg():
+            self.message.exec()
 
     def btn_edit_config(self) -> None:
         """编辑配置"""
@@ -291,6 +312,7 @@ class Func_ConfigPage:
                             build[fname] = {"confName": row[0], "comment": row[2]}
                     if files:
                         form["confInfo"] = dumps(build)
+                        print(form["confInfo"])
                         resp = uploadConfiguration(form, files)
                         if resp["flag"]:
                             count = files.keys().__len__()
@@ -357,7 +379,7 @@ class Func_ConfigPage:
                     File.writeWithComment(path, data, bottom_comment=Define.FILE_JSON_BOTTOM_COMMENT["configuration"])
                     self.ui.overviewPage_ui.table_overview.c_addRow([self.dialog_configSaveMsgInput.configName, path, None, Define.LocalConfigState.U, self.dialog_configSaveMsgInput.comment])
                     self.notice.exec("提示", "保存成功", msgType="success")
-                    self.ui.overviewPage_ui.table_overview.item(self.overviewTableEditRowIndex, 3).setText(self.last_checkFlag)
+                    # self.ui.overviewPage_ui.table_overview.item(self.overviewTableEditRowIndex, 3).setText(self.last_checkFlag)
                     self.ui.pages.setCurrentWidget(self.ui.overviewPage)
             elif self.editPageMode == "edit":
                 data = self._editPageFormDataGet()

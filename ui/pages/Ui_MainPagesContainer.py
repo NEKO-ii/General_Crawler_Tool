@@ -6,7 +6,7 @@ from .script import ScriptPage
 from .tempview import TempviewPage
 from .account import AccountPage
 from .cloud import CloudPage
-from .ui_test_page3 import Ui_test_page3
+from .analysis import AnalysisPage
 
 
 class Ui_MainPagesContainer:
@@ -48,10 +48,9 @@ class Ui_MainPagesContainer:
         self.cloudPage_inner = CloudPage(self.cloudPage)
         self.pages.addWidget(self.cloudPage)
 
-        self.page_3 = QWidget()
-        self.test_page3 = Ui_test_page3()
-        self.test_page3.setupUi(self.page_3)
-        self.pages.addWidget(self.page_3)
+        self.analysisPage = QWidget(self.pages)
+        self.analysisPage_inner = AnalysisPage(self.analysisPage)
+        self.pages.addWidget(self.analysisPage)
 
         # ///////////////////////////////////////////////////////////////
 

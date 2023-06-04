@@ -47,7 +47,6 @@ a = Analysis(
         'ui\\func\\iconsetter.py',
         'ui\\pages\\__init__.py',
         'ui\\pages\\Ui_MainPagesContainer.py',
-        'ui\\pages\\ui_test_page3.py',
         'ui\\pages\\account\\__init__.py',
         'ui\\pages\\account\\AccountPage.py',
         'ui\\pages\\account\\Function.py',

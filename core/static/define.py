@@ -28,7 +28,7 @@ class Define:
     # 软件信息
     # ///////////////////////////////////////////////////////////////
     APP_NAME: str = "General Crawler Tool"
-    VERSION: str = "V0.6.2 DEV"
+    VERSION: str = "V0.6.3 DEV"
     COPYRIGHT: str = "Copyright (c) 2022 NEKO-ii"
 
     # 全局变量
