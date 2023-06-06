@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingPage</class>
+ <widget class="QWidget" name="SettingPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>928</width>
+    <height>489</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="hly_top">
+     <item>
+      <spacer name="hs_1">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_8">
+       <property name="text">
+        <string>恢复默认</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_7">
+       <property name="text">
+        <string>应用</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="hly_L1">
+     <item>
+      <layout class="QGridLayout" name="gly_1">
+       <property name="verticalSpacing">
+        <number>6</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="check_sleep">
+         <property name="text">
+          <string>启用请求间隔</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="lb_1">
+         <property name="text">
+          <string>间隔时间</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QSpinBox" name="spin_sleepTime"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="check_parseMsgOut">
+         <property name="text">
+          <string>启用数据处理消息输出</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="lb_2">
+         <property name="text">
+          <string>消息模式</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QComboBox" name="combo_parseOutMsgType">
+         <item>
+          <property name="text">
+           <string>仅输出错误消息</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>输出错误与警告</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>输出全部消息</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="check_asyn">
+         <property name="text">
+          <string>启用异步请求</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="lb_3">
+         <property name="text">
+          <string>最大协程数量</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QSpinBox" name="spin_asynCount"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="hs_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gly_L2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lb_4">
+       <property name="text">
+        <string>文件导入路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="ledit_importPath"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="btn_importPathSet">
+       <property name="text">
+        <string>选择路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lb_5">
+       <property name="text">
+        <string>文件导出路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="ledit_exportPath"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="btn_exportPathSet">
+       <property name="text">
+        <string>选择路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lb_6">
+       <property name="text">
+        <string>配置文件路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="ledit_configPath"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="btn_configPathSet">
+       <property name="text">
+        <string>选择路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lb_7">
+       <property name="text">
+        <string>脚本文件路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="ledit_scriptPath"/>
+     </item>
+     <item row="3" column="2">
+      <widget class="QPushButton" name="btn_scriptPathSet">
+       <property name="text">
+        <string>选择路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="lb_8">
+       <property name="text">
+        <string>临时文件路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="ledit_tempPath"/>
+     </item>
+     <item row="4" column="2">
+      <widget class="QPushButton" name="btn_tempPathSet">
+       <property name="text">
+        <string>选择路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lb_9">
+       <property name="text">
+        <string>日志文件路径</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="ledit_logPath"/>
+     </item>
+     <item row="5" column="2">
+      <widget class="QPushButton" name="btn_logPathSet">
+       <property name="text">
+        <string>选择路径</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="hly_L3">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QCheckBox" name="check_logEnable">
+         <property name="text">
+          <string>启用日志记录</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="check_hideTitleBar">
+         <property name="text">
+          <string>隐藏系统导航栏</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="hs_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="hly_L4">
+     <item>
+      <layout class="QGridLayout" name="gly_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="lb_10">
+         <property name="text">
+          <string>字体</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lb_11">
+         <property name="text">
+          <string>菜单字号</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lb_12">
+         <property name="text">
+          <string>输入框字号</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="lb_13">
+         <property name="text">
+          <string>系统主题</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="spin_fontsize_menu"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="spin_fontsize_editor"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="combo_theme">
+         <item>
+          <property name="text">
+           <string>暗色</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFontComboBox" name="combo_font"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="hs_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="vs_bottom">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

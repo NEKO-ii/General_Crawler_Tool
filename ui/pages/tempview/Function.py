@@ -74,11 +74,12 @@ class Func_TempviewPage(QObject):
             elif self.currentComboIndex == 1:
                 filter = "文本文件(*.txt);;Excel文件(*.xlsx)"
             path, _ = QFileDialog.getSaveFileName(None, "选择保存路径", filter=filter)
-            ftype = path.rsplit(".", 1)[-1].lower()
-            if ftype in ["txt", "html"]:
-                copyfile(self.currentFilePath, path)
-            else:
-                File.createExcelFile(path, {"data": eval(File.read(self.currentFilePath))})
+            if path:
+                ftype = path.rsplit(".", 1)[-1].lower()
+                if ftype in ["txt", "html"]:
+                    copyfile(self.currentFilePath, path)
+                else:
+                    File.createExcelFile(path, {"data": eval(File.read(self.currentFilePath))})
         else:
             Notice().exec("提示", "未选择任何临时数据")
 

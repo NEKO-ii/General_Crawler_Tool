@@ -37,7 +37,7 @@ class Ui_AnalysisPage(object):
         self.ledit_filePath.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.hly_top.addWidget(self.ledit_filePath)
 
-        self.hs1 = QSpacerItem(508, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.hs1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.hly_top.addItem(self.hs1)
 
         self.btn_run = PushButton(AnalysisPage, type="success")
@@ -47,13 +47,11 @@ class Ui_AnalysisPage(object):
 
         self.group_settings = GroupBox(AnalysisPage)
         sizePolicy_1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy_1.setHorizontalStretch(0)
         sizePolicy_1.setVerticalStretch(1)
         sizePolicy_1.setHeightForWidth(self.group_settings.sizePolicy().hasHeightForWidth())
         self.group_settings.setSizePolicy(sizePolicy_1)
 
         self.hly2 = QHBoxLayout(self.group_settings)
-        self.hly2.setContentsMargins(-1, 9, -1, -1)
         self.vly2 = QVBoxLayout()
         self.gridLayout = QGridLayout()
         self.label = QLabel(self.group_settings)
@@ -93,7 +91,6 @@ class Ui_AnalysisPage(object):
 
         self.group_pic = GroupBox(AnalysisPage)
         sizePolicy_2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy_2.setHorizontalStretch(0)
         sizePolicy_2.setVerticalStretch(1)
         sizePolicy_2.setHeightForWidth(self.group_pic.sizePolicy().hasHeightForWidth())
         self.group_pic.setSizePolicy(sizePolicy_2)
@@ -109,15 +106,15 @@ class Ui_AnalysisPage(object):
     # setupUi
 
     def retranslateUi(self):
-        self.btn_selectFile.setText(QCoreApplication.translate("Form", u"\u9009\u62e9\u6587\u4ef6", None))
-        self.btn_selectTD.setText(QCoreApplication.translate("Form", u"\u4f7f\u7528\u4e34\u65f6\u6570\u636e", None))
-        self.btn_clearData.setText(QCoreApplication.translate("Form", u"\u6e05\u9664\u6570\u636e", None))
-        self.btn_run.setText(QCoreApplication.translate("Form", u"\u5f00\u59cb\u5206\u6790", None))
-        self.group_settings.setTitle(QCoreApplication.translate("Form", u"\u76f8\u5173\u6027\u5206\u6790", None))
-        self.label.setText(QCoreApplication.translate("Form", u"X\u8f74\u6570\u636e\u5217\u7d22\u5f15", None))
-        self.check_x.setText(QCoreApplication.translate("Form", u"\u542b\u6709\u6587\u5b57", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"Y\u8f74\u6570\u636e\u5217\u7d22\u5f15", None))
-        self.check_y.setText(QCoreApplication.translate("Form", u"\u542b\u6709\u6587\u5b57", None))
-        self.group_pic.setTitle(QCoreApplication.translate("Form", u"\u56fe\u8868", None))
+        self.btn_selectFile.setText(QCoreApplication.translate("AnalysisPage", u"\u9009\u62e9\u6587\u4ef6", None))
+        self.btn_selectTD.setText(QCoreApplication.translate("AnalysisPage", u"\u4f7f\u7528\u4e34\u65f6\u6570\u636e", None))
+        self.btn_clearData.setText(QCoreApplication.translate("AnalysisPage", u"\u6e05\u9664\u6570\u636e", None))
+        self.btn_run.setText(QCoreApplication.translate("AnalysisPage", u"\u5f00\u59cb\u5206\u6790", None))
+        self.group_settings.setTitle(QCoreApplication.translate("AnalysisPage", u"\u76f8\u5173\u6027\u5206\u6790", None))
+        self.label.setText(QCoreApplication.translate("AnalysisPage", u"X\u8f74\u6570\u636e\u5217\u7d22\u5f15", None))
+        self.check_x.setText(QCoreApplication.translate("AnalysisPage", u"\u542b\u6709\u6587\u5b57", None))
+        self.label_2.setText(QCoreApplication.translate("AnalysisPage", u"Y\u8f74\u6570\u636e\u5217\u7d22\u5f15", None))
+        self.check_y.setText(QCoreApplication.translate("AnalysisPage", u"\u542b\u6709\u6587\u5b57", None))
+        self.group_pic.setTitle(QCoreApplication.translate("AnalysisPage", u"\u56fe\u8868", None))
 
     # retranslateUi
